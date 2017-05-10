@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
 
-namespace Bubbles.Bot.Utils
+namespace Bubbles.Bot.Services
 {
-    public class CardFinder
+    public class NextScubaCardService
     {
 
         public async Task<string> GetNextCardText(Activity activity)

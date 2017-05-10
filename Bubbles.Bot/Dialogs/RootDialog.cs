@@ -6,7 +6,8 @@ using System.Web.Hosting;
 using System.IO;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Bubbles.Bot.Utils;
+using Bubbles.Bot.Services;
+using System.Threading;
 
 namespace Bubbles.Bot.Dialogs
 {
@@ -22,14 +23,36 @@ namespace Bubbles.Bot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
-            var nextMessage = await GetNextMessage(context, activity);
-            await context.PostAsync(nextMessage);
+
+            if (!string.IsNullOrEmpty(activity.Text) && activity.Text.ToLower().Contains("weather"))
+            {
+                // await Conversation.SendAsync(activity, () => new Dialogs.WeatherDialog());
+                var weatherDialog = new Dialogs.WeatherDialog();
+                await context.Forward(weatherDialog, AfterWeatherDialog, activity, CancellationToken.None);
+            }
+            else
+            {
+                var nextMessage = await GetNextMessage(context, activity);
+                await context.PostAsync(nextMessage);
+                context.Wait(MessageReceivedAsync);
+            }            
+        }
+
+        private async Task AfterWeatherDialog(IDialogContext context, IAwaitable<object> result)
+        {
+            //var messageHandled = await result;
+            //if (!messageHandled)
+            //{
+            //    await context.PostAsync("Sorry, I wasn't able to find the weather for you.");
+            //}
+
             context.Wait(MessageReceivedAsync);
+
         }
 
         private async Task<IMessageActivity> GetNextMessage(IDialogContext context, Activity activity)
         {
-            var cardText = await new CardFinder().GetNextCardText(activity);
+            var cardText = await new NextScubaCardService().GetNextCardText(activity);
             return GetReply(activity, cardText);
         }
 
