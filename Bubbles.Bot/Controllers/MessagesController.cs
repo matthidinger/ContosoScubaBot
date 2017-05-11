@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
+using Bubbles.Bot.Dialogs;
 
 namespace Bubbles.Bot
 {
@@ -16,7 +17,7 @@ namespace Bubbles.Bot
         /// </summary>
         public async Task<HttpResponseMessage> Post([FromBody]Activity activity)
         {
-            if (activity.Type == ActivityTypes.Message)
+            if (activity.GetActivityType() == ActivityTypes.Message)
             {
                 await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
             }
@@ -35,7 +36,7 @@ namespace Bubbles.Bot
                 // Implement user deletion here
                 // If we handle user deletion, return a real message
             }
-            else if (message.Type == ActivityTypes.ConversationUpdate)
+            else if (message.GetActivityType() == ActivityTypes.ConversationUpdate)
             {
                 // Handle conversation state changes, like members being added and removed
                 // Use Activity.MembersAdded and Activity.MembersRemoved and Activity.Action for info
