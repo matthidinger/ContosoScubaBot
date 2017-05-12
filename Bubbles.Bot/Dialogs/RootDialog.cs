@@ -43,6 +43,12 @@ namespace Bubbles.Bot.Dialogs
                 await context.PostAsync(nextMessage);
                 context.Wait(MessageReceivedAsync);
             }
+            else if (!string.IsNullOrEmpty(text) &&  text.Contains("meal"))
+            {
+                var nextMessage = await GetCard(context, activity, "ScubaReservation");
+                await context.PostAsync(nextMessage);
+                context.Wait(MessageReceivedAsync);
+            }
             else
             { 
                 if(text=="hi"||text=="hello")
