@@ -51,7 +51,7 @@ namespace Bubbles.Bot
                         // if the bot is added, then 
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
-                            var reply = ((Activity)iConversationUpdated).CreateReply($"Hi! I'm Bubbles! You can ask me any scuba questions!");                            
+                            var reply = ((Activity)iConversationUpdated).CreateReply($"Hi! I'm Contoso Dive Finder! You can ask me any scuba questions!");                            
                             await connector.Conversations.ReplyToActivityAsync(reply);
                         }
                     }
