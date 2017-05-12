@@ -9,7 +9,7 @@
                 "body": [
                     {
                         "type": "TextBlock",
-                        "text": "Great, we'll keep that in mind when getting your lunch!  That's all the info we needed, we'll see you soon!",
+                        "text": "Great, we'll keep that in mind when getting your lunch!  That's all the info we needed, we'll see you soon! Here is a forecast of the weather for your trip:",
                         "wrap": true
                     }
                 ]
