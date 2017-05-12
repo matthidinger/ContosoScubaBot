@@ -67,7 +67,7 @@ namespace Bubbles.Bot.Services
             return returnValue;
         }
 
-        async Task<string> GetCardText(CardTransitionInfo transitionInfo)
+        public async Task<string> GetCardText(CardTransitionInfo transitionInfo)
         {
             var path = HostingEnvironment.MapPath($"/Cards/{transitionInfo.NextCardName}.json");
             if (!File.Exists(path))
@@ -84,7 +84,7 @@ namespace Bubbles.Bot.Services
             }
         }
 
-        class CardTransitionInfo
+        public class CardTransitionInfo
         {
             public string NextCardName { get; set; }
             public string ReplaceText { get; set; }

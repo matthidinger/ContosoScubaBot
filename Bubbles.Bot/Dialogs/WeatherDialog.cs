@@ -35,31 +35,36 @@ namespace Bubbles.Bot.Dialogs
         [LuisIntent("WeatherInPlace")]
         public async Task WeatherInPlaceActionHandlerAsync(IDialogContext context, object actionResult)
         {
-            var message = context.MakeMessage();
-            var weatherInfo = (AdaptiveCards.AdaptiveCard)actionResult;
-            if (weatherInfo == null)
+            IMessageActivity message = null;
+            var weatherCard = (AdaptiveCards.AdaptiveCard)actionResult;
+            if (weatherCard == null)
             {
+                message = context.MakeMessage();
                 message.Text = $"I couldn't find the weather for '{context.Activity.AsMessageActivity().Text}'.  Are you sure that's a real city?";
             }
             else
             {
-              //  var result = weatherInfo.ToString();// JsonConvert.SerializeObject(weatherInfo);
-
-                if (message.Attachments == null)
-                    message.Attachments = new List<Attachment>();
-
-                var attachment = new Attachment()
-                {
-                    Content = weatherInfo,
-                    ContentType = "application/vnd.microsoft.card.adaptive",
-                    Name = $"Weather card"
-                };
-                message.Attachments.Add(attachment);
+                message = GetMessage(context, weatherCard, "Weather card");
             }
 
             await context.PostAsync(message);
         }
 
+        private IMessageActivity GetMessage(IDialogContext context, AdaptiveCards.AdaptiveCard card, string cardName)
+        {
+            var message = context.MakeMessage();
+            if (message.Attachments == null)
+                message.Attachments = new List<Attachment>();
+
+            var attachment = new Attachment()
+            {
+                Content = card,
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Name = $"Weather card"
+            };
+            message.Attachments.Add(attachment);
+            return message;
+        }
 
         //[LuisIntent("ScubaKnowledge")]
         //public async Task ScubaKnowledgeIntentActionResultHandlerAsync(IDialogContext context, object actionResult)

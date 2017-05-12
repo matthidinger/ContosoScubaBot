@@ -30,8 +30,14 @@ namespace Bubbles.Bot.Dialogs
                 var weatherDialog = new Dialogs.WeatherDialog();
                 await context.Forward(weatherDialog, AfterWeatherDialog, activity, CancellationToken.None);
             }
-            else
+            else if (!string.IsNullOrEmpty(activity.Text) && activity.Text.ToLower().Contains("wildlife"))
             {
+                var nextMessage = await GetCard(context, activity, "ImageSet-JoeB");
+                await context.PostAsync(nextMessage);
+                context.Wait(MessageReceivedAsync);
+            }
+            else
+            { 
                 var nextMessage = await GetNextMessage(context, activity);
                 await context.PostAsync(nextMessage);
                 context.Wait(MessageReceivedAsync);
@@ -48,6 +54,14 @@ namespace Bubbles.Bot.Dialogs
 
             context.Wait(MessageReceivedAsync);
 
+        }
+
+        private async Task<IMessageActivity> GetCard(IDialogContext context, Activity activity, string cardName)
+        {
+            var transitionInfo = new NextScubaCardService.CardTransitionInfo();
+            transitionInfo.NextCardName = cardName;
+            var cardText = await new NextScubaCardService().GetCardText(transitionInfo);
+            return GetReply(activity, cardText);
         }
 
         private async Task<IMessageActivity> GetNextMessage(IDialogContext context, Activity activity)
