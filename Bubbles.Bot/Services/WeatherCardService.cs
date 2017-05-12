@@ -127,7 +127,8 @@ namespace Bubbles.Bot.Services
                 Size = size,
                 //Weight = TextWeight.Bolder,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                IsSubtle = isSubTitle
+                IsSubtle = isSubTitle,
+                Separation = SeparationStyle.None
             });
         }
     }

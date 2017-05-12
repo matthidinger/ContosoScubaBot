@@ -38,7 +38,7 @@
                   },
                   {
                     "type": "Column",
-                    "size": "3",
+                    "size": "4",
                     "items": [
                       {
                         "type": "TextBlock",
@@ -50,7 +50,9 @@
                         "type": "TextBlock",
                         "text": "Venture off from the sandy beach and explore the nature that lies next to Seattle",
                         "wrap": true,
-                        "separation": "none"
+                        "separation": "none",
+                        "size":  "small" 
+
                       }
                     ]
                   }

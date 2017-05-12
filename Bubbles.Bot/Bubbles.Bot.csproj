@@ -132,6 +132,7 @@
     <Content Include="Assets\4.jpg" />
     <Content Include="Assets\5.jpg" />
     <Content Include="Assets\6.jpg" />
+    <Content Include="Assets\dangerous.png" />
     <Content Include="Assets\octo_calendar.png" />
     <Content Include="Cards\8-BF.JSON" />
     <None Include="Cards\7-BF.JSON" />
@@ -175,6 +176,7 @@
     <Content Include="Cards\5-BF.JSON" />
     <Content Include="Cards\6-BF.JSON" />
     <Content Include="Cards\ImageSet-JoeB.JSON" />
+    <Content Include="Cards\Danger-BF.JSON" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
