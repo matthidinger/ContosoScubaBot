@@ -31,15 +31,15 @@
             "images": [
               {
                 "type": "Image",
-                "url": "http://connectorsdemo.azurewebsites.net/assets/steak.jpg"
+                "url": "http://contososcubabot.azurewebsites.net/assets/steak.jpg"
               },
               {
                 "type": "Image",
-                "url": "http://connectorsdemo.azurewebsites.net/assets/chicken.jpg"
+                "url": "http://contososcubabot.azurewebsites.net/assets/chicken.jpg"
               },
               {
                 "type": "Image",
-                "url": "http://connectorsdemo.azurewebsites.net/images/stofu.jpg"
+                "url": "http://contososcubabot.azurewebsites.net/images/stofu.jpg"
               }
             ]
           }
