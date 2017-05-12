@@ -132,10 +132,14 @@
     <Content Include="Assets\4.jpg" />
     <Content Include="Assets\5.jpg" />
     <Content Include="Assets\6.jpg" />
+    <Content Include="Assets\chicken.jpg" />
     <Content Include="Assets\dangerous.png" />
     <Content Include="Assets\octo_calendar.png" />
+    <Content Include="Assets\steak.jpg" />
+    <Content Include="Assets\tofu.jpg" />
     <Content Include="Cards\8-BF.JSON" />
     <None Include="Cards\7-BF.JSON" />
+    <None Include="Cards\ScubaReservation.JSON" />
     <Content Include="css\botchat-fullwindow.css" />
     <Content Include="css\botchat.css" />
     <Content Include="scripts\swc.js" />
