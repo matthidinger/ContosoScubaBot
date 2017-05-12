@@ -31792,15 +31792,18 @@ var Image = (function (_super) {
         var element = null;
         if (!Utils.isNullOrEmpty(this.url)) {
             element = document.createElement("div");
+            element.classList.add("ac-image");
             element.style.display = "flex";
             element.style.alignItems = "flex-start";
+            if (this.selectAction != null) {
+                element.classList.add("ac-selectable");
+            }
             element.onclick = function (e) {
-                if (_this.selectAction != null) {
-                    raiseExecuteActionEvent(_this.selectAction);
+                if (_this.selectAction) {
+                    _this.selectAction.execute();
                     e.cancelBubble = true;
                 }
             };
-            element.classList.add("ac-image");
             switch (this.horizontalAlignment) {
                 case "center":
                     element.style.justifyContent = "center";
@@ -31811,9 +31814,6 @@ var Image = (function (_super) {
                 default:
                     element.style.justifyContent = "flex-start";
                     break;
-            }
-            if (this.selectAction != null) {
-                element.classList.add("ac-selectable");
             }
             var imageElement = document.createElement("img");
             imageElement.style.width = "100%";
@@ -31906,8 +31906,8 @@ var ImageSet = (function (_super) {
             var jsonImages = json["images"];
             for (var i = 0; i < jsonImages.length; i++) {
                 var image = new Image();
+                image.parse(jsonImages[i]);
                 image.size = this.imageSize;
-                image.url = jsonImages[i]["url"];
                 this.addImage(image);
             }
         }
@@ -32452,6 +32452,9 @@ var ExternalAction = (function (_super) {
     function ExternalAction() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
+    ExternalAction.prototype.execute = function () {
+        raiseExecuteActionEvent(this);
+    };
     return ExternalAction;
 }(Action));
 exports.ExternalAction = ExternalAction;
@@ -32632,6 +32635,9 @@ var ShowCardAction = (function (_super) {
         _super.prototype.setParent.call(this, value);
         invokeSetParent(this.card, value);
     };
+    ShowCardAction.prototype.execute = function () {
+        raiseShowPopupCardEvent(this);
+    };
     ShowCardAction.prototype.getJsonTypeName = function () {
         return "Action.ShowCard";
     };
@@ -32695,12 +32701,11 @@ var ActionCollection = (function () {
                 this._actionButtons[i].state = ActionButtonState.Normal;
             }
             this.hideActionCardPane();
-            raiseExecuteActionEvent(actionButton.action);
+            actionButton.action.execute();
         }
         else {
             if (hostConfig.actions.showCard.actionMode == "popup") {
-                var actionShowCard = actionButton.action;
-                raiseShowPopupCardEvent(actionShowCard);
+                actionButton.action.execute();
             }
             else if (actionButton.action === this._expandedAction) {
                 for (var i = 0; i < this._actionButtons.length; i++) {
@@ -32926,6 +32931,11 @@ var ContainerBase = (function (_super) {
         var _this = this;
         this._element = document.createElement("div");
         this._element.className = "ac-container";
+        if (this.backgroundImage) {
+            this._element.style.backgroundImage = "url('" + this.backgroundImage + "')";
+            this._element.style.backgroundRepeat = "no-repeat";
+            this._element.style.backgroundSize = "cover";
+        }
         var backgroundColor = this.getBackgroundColor();
         if (backgroundColor) {
             this._element.style.backgroundColor = Utils.stringToCssColor(backgroundColor);
@@ -32939,7 +32949,7 @@ var ContainerBase = (function (_super) {
         this._element.style.paddingLeft = this.padding.left + "px";
         this._element.onclick = function (e) {
             if (_this.selectAction != null) {
-                raiseExecuteActionEvent(_this.selectAction);
+                _this.selectAction.execute();
                 e.cancelBubble = true;
             }
         };
@@ -32997,6 +33007,7 @@ var ContainerBase = (function (_super) {
     ContainerBase.prototype.parse = function (json, itemsCollectionPropertyName) {
         if (itemsCollectionPropertyName === void 0) { itemsCollectionPropertyName = "items"; }
         _super.prototype.parse.call(this, json);
+        this.backgroundImage = json["backgroundImage"];
         if (json[itemsCollectionPropertyName] != null) {
             var items = json[itemsCollectionPropertyName];
             for (var i = 0; i < items.length; i++) {
@@ -33266,6 +33277,13 @@ var ColumnSet = (function (_super) {
         else {
             throw new Error("This column already belongs to another ColumnSet.");
         }
+    };
+    ColumnSet.prototype.getAllInputs = function () {
+        var result = [];
+        for (var i = 0; i < this._columns.length; i++) {
+            result = result.concat(this._columns[i].getAllInputs());
+        }
+        return result;
     };
     ColumnSet.prototype.renderSpeech = function () {
         if (this.speak != null) {

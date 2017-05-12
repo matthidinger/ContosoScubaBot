@@ -1,13 +1,10 @@
 {
   "type": "message",
-  "text": "Ah Ruben, you are for scuba?",
-  "attachmentLayout": "carousel",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
-        "backgroundImage": "http://adaptivecards.io/content/BainbridgeIsland.jpg",
         "body": [
           {
             "type": "TextBlock",
