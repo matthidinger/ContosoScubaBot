@@ -90,7 +90,14 @@ namespace Bubbles.Bot.Services
                 Tuple<string,string> switchStep =null;
                 if (!missingValue)
                 {
-                    switchStep = new Tuple<string, string>( value.First.Path,value.Value<string>(value.First.Path));
+                    if (value.First.Path.ToLower().Contains("date"))
+                    {
+                        switchStep = new Tuple<string, string>(value.First.Path, value.Value<DateTime>(value.First.Path).ToString());
+                    }
+                    else
+                    {
+                        switchStep = new Tuple<string, string>(value.First.Path, value.Value<string>(value.First.Path));
+                    }
                 }
                 else
                 {
