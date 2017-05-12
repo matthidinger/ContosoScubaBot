@@ -14,14 +14,12 @@
             "text": "Matt, you will be surprised how much amazingness you may see in Cabo San Lucas.",
             "size": "normal",
             "wrap": true,
-            "weight": "lighter"
           },
           {
             "type": "TextBlock",
-            "text": "Clcik on each image to 'dive deep'!",
+            "text": "Click on each image to *dive deep*!",
             "size": "normal",
             "wrap": true,
-            "weight": "lighter"
           },
           {
             "type": "ImageSet",

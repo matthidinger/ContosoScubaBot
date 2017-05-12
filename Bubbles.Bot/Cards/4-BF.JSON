@@ -18,7 +18,7 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "Excellent, 5 of your best buds!",
+                    "text": "Excellent, {{number_of_people}} of your best buds!",
                     "separation": "default"
                   },
                   {

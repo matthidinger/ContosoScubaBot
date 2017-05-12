@@ -29,14 +29,13 @@ namespace Bubbles.Bot.Services
             {
                 if (value.First == null)
                 {
-                    returnValue.NextCardName = "4-bf";
-                    returnValue.ReplaceText = "{{number_of_people}}";
-                    returnValue.ReplaceWithText = "5";
+                  
                 }
                 else
                 {
                     switch (value.First.Path)
                     {
+
                         case "school":
                             returnValue.NextCardName = "2-bf";
                             returnValue.ReplaceText = "{{school_from_last_response}}";
@@ -48,6 +47,13 @@ namespace Bubbles.Bot.Services
                             returnValue.ReplaceText = "{{previous_destination}}";
                             returnValue.ReplaceWithText = value.Value<string>("destination");
                             break;
+
+                        case "numberOfPeople":
+                            returnValue.NextCardName = "4-bf";
+                            returnValue.ReplaceText = "{{number_of_people}}";
+                            returnValue.ReplaceWithText = value.Value<string>("numberOfPeople");
+                            break;
+
 
                         case "date":
                             returnValue.NextCardName = "5-bf";
