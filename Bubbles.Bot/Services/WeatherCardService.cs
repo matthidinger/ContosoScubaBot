@@ -10,6 +10,29 @@ namespace Bubbles.Bot.Services
 {
     public class WeatherService
     {
+        public AdaptiveCard GetFakeAPIXUWeatherCard(string place, string date)
+        {
+            WeatherModel model = new Repository().GetWeatherData(ConfigurationManager.AppSettings["APIXUKey"], GetBy.CityName, place, Days.Five);
+
+            var card = new AdaptiveCard();
+            if (model != null)
+            {
+                if (model.current != null)
+                {
+                    card.Speak = $"<s>Here's the weather for your trip on {date}</s>";
+                }
+
+                if (model.forecast != null && model.forecast.forecastday != null)
+                {
+                    AddCurrentWeather(model, card, date);
+                    AddForecast(place, model, card);
+
+                    return card;
+                }
+            }
+            return null;
+        }
+
         public AdaptiveCard GetAPIXUWeatherCard(string place)
         {
             WeatherModel model = new Repository().GetWeatherData(ConfigurationManager.AppSettings["APIXUKey"], GetBy.CityName, place, Days.Five);
@@ -33,7 +56,7 @@ namespace Bubbles.Bot.Services
             return null;
         }
 
-        private static void AddCurrentWeather(WeatherModel model, AdaptiveCard card)
+        private static void AddCurrentWeather(WeatherModel model, AdaptiveCard card, string overrideDate = "")
         {
             var current = new ColumnSet();
             card.Body.Add(current);
@@ -50,7 +73,11 @@ namespace Bubbles.Bot.Services
             current.Columns.Add(currentColumn2);
             currentColumn2.Size = "65";
 
-            AddItem(currentColumn2, $"{model.location.name} ({DateTime.Parse(model.current.last_updated).DayOfWeek.ToString()})", TextSize.Large, false);
+            string date = DateTime.Parse(model.current.last_updated).DayOfWeek.ToString();
+            if (!string.IsNullOrEmpty(overrideDate))
+                date = overrideDate;
+
+            AddItem(currentColumn2, $"{model.location.name} ({date})", TextSize.Large, false);
             AddItem(currentColumn2, $"{model.current.temp_f.ToString().Split('.')[0]}° F", TextSize.Large);
             AddItem(currentColumn2, $"{model.current.condition.text}", TextSize.Medium);
             AddItem(currentColumn2, $"Winds {model.current.wind_mph} mph {model.current.wind_dir}", TextSize.Medium);

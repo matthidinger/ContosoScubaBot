@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Bubbles.Bot.Services;
 using System.Threading;
+using static Bubbles.Bot.Services.NextScubaCardService;
 
 namespace Bubbles.Bot.Dialogs
 {
@@ -23,14 +24,14 @@ namespace Bubbles.Bot.Dialogs
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             var activity = await result as Activity;
-
-            if (!string.IsNullOrEmpty(activity.Text) && activity.Text.ToLower().Contains("weather"))
+            string text = string.IsNullOrEmpty(activity.Text) ? string.Empty : activity.Text.ToLower();
+            if (!string.IsNullOrEmpty(text) && text.Contains("weather"))
             {
                 // await Conversation.SendAsync(activity, () => new Dialogs.WeatherDialog());
                 var weatherDialog = new Dialogs.WeatherDialog();
                 await context.Forward(weatherDialog, AfterWeatherDialog, activity, CancellationToken.None);
             }
-            else if (!string.IsNullOrEmpty(activity.Text) && activity.Text.ToLower().Contains("wildlife"))
+            else if (!string.IsNullOrEmpty(text) && text.Contains("wildlife"))
             {
                 var nextMessage = await GetCard(context, activity, "ImageSet-JoeB");
                 await context.PostAsync(nextMessage);
@@ -38,6 +39,10 @@ namespace Bubbles.Bot.Dialogs
             }
             else
             { 
+                if(text=="hi"||text=="hello")
+                {
+                    context.ConversationData.Clear();          
+                }
                 var nextMessage = await GetNextMessage(context, activity);
                 await context.PostAsync(nextMessage);
                 context.Wait(MessageReceivedAsync);
@@ -66,7 +71,7 @@ namespace Bubbles.Bot.Dialogs
 
         private async Task<IMessageActivity> GetNextMessage(IDialogContext context, Activity activity)
         {
-            var cardText = await new NextScubaCardService().GetNextCardText(activity);
+            var cardText = await new NextScubaCardService().GetNextCardText(context, activity);
             return GetReply(activity, cardText);
         }
 
