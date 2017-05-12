@@ -92,7 +92,9 @@ namespace Bubbles.Bot.Services
                 {
                     if (value.First.Path.ToLower().Contains("date"))
                     {
-                        switchStep = new Tuple<string, string>(value.First.Path, value.Value<DateTime>(value.First.Path).ToString());
+                        //!!AAAHHHH!!! date problems!
+                        switchStep = new Tuple<string, string>("date", new DateTime(2017, 5, 28).ToString());
+                        //switchStep = new Tuple<string, string>(value.First.Path, value.Value<DateTime>(value.First.Path).ToString());
                     }
                     else
                     {
