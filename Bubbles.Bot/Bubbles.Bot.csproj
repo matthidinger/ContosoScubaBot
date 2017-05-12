@@ -128,6 +128,10 @@
   <ItemGroup>
     <Content Include="css\botchat-fullwindow.css" />
     <Content Include="css\botchat.css" />
+    <Content Include="css\lwc-chat-skype.css" />
+    <Content Include="css\lwc-sdk.css" />
+    <Content Include="scripts\swc.js" />
+    <Content Include="skype.htm" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="libs\AdaptiveCards.dll" />

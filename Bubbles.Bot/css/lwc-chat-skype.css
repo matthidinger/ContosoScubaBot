@@ -1,0 +1,1836 @@
+﻿@charset "UTF-8";
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+    opacity: .7; }
+  20% {
+    transform: translateY(-6px);
+    opacity: 1; }
+  40% {
+    transform: translateY(0);
+    opacity: .7; }
+  to {
+    transform: translateY(0); } }
+
+@keyframes fade {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg); }
+  100% {
+    transform: rotate(360deg); } }
+
+@keyframes arrival {
+  0% {
+    transform: scale(0.9);
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    transform: scale(1); } }
+
+html.swc-chat, .swc-chat textarea, #main.frameless textarea {
+  font-family: "Segoe UI", "Segoe UI Local", "Segoe WP", "Segoe UI Web", "Segoe UI Arabic Web", "Segoe UI Cyrillic Web", "Segoe UI Greek Web", "Segoe UI Hebrew Web", Tahoma, "Helvetica Neue", Helvetica, "Meiryo UI", Meiryo, Arial Unicode MS, sans-serif; }
+
+html.swc-chat {
+  font-size: 15pt;
+  color: #2B2B30;
+  background: #FFFFFF;
+  border-radius: 6px; }
+
+html.swc-chat, html.swc-chat body, #main {
+  margin: 0;
+  overflow: visible;
+  border-radius: 10px;
+  height: 100%; }
+
+#main.frameless {
+  font-size: 15pt;
+  font-family: "Segoe UI", "Segoe UI Local", "Segoe WP", "Segoe UI Web", "Segoe UI Arabic Web", "Segoe UI Cyrillic Web", "Segoe UI Greek Web", "Segoe UI Hebrew Web", Tahoma, "Helvetica Neue", Helvetica, "Meiryo UI", Meiryo, Arial Unicode MS, sans-serif;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column; }
+
+.conversation {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  height: 100%;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  max-width: 100%;
+  background-color: #f2f2f2; }
+
+:root .swc contact-request {
+  height: 100%; }
+
+:root .swc dl-messages-list,
+:root .swc messages-list {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  display: block;
+  overflow-x: hidden;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  border-radius: 1px;
+  /*This fixes the bug in Chrome where the border-radius of its parent will be overwritten*/ }
+  :root .swc dl-messages-list.collapsed,
+  :root .swc messages-list.collapsed {
+    display: none; }
+  :root .swc dl-messages-list .messages,
+  :root .swc messages-list .messages {
+    box-sizing: border-box;
+    min-height: 100%;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+    -ms-flex-pack: end;
+    overflow: hidden; }
+    :root .swc dl-messages-list .messages .skypeLogo,
+    :root .swc messages-list .messages .skypeLogo {
+      height: 33px;
+      text-align: center; }
+  :root .swc dl-messages-list .down-arrow,
+  :root .swc messages-list .down-arrow {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 66px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(40px);
+    transition: all 0.44s cubic-bezier(0, 0, 0, 1); }
+    :root .swc dl-messages-list .down-arrow .down-btn,
+    :root .swc messages-list .down-arrow .down-btn {
+      border-radius: 16px;
+      color: #00AFF0;
+      padding: 8px 16px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      background: #f2f2f2;
+      font-size: 12px;
+      cursor: pointer;
+      border: 1px solid #00AFF0;
+      transition: box-shadow .25s ease; }
+      :root .swc dl-messages-list .down-arrow .down-btn:hover,
+      :root .swc messages-list .down-arrow .down-btn:hover {
+        box-shadow: 0 3px 10px 3px rgba(0, 0, 0, 0.1); }
+    :root .swc dl-messages-list .down-arrow.show-down-arrow,
+    :root .swc messages-list .down-arrow.show-down-arrow {
+      transform: translateY(0);
+      opacity: 1; }
+      :root .swc dl-messages-list .down-arrow.show-down-arrow > div,
+      :root .swc messages-list .down-arrow.show-down-arrow > div {
+        pointer-events: all; }
+  :root .swc dl-messages-list.no-header,
+  :root .swc messages-list.no-header {
+    border-top: none; }
+
+:root .swc dl-chat-input,
+:root .swc chat-input {
+  display: flex;
+  background-color: #FFFFFF;
+  min-height: 58px;
+  max-height: 58px;
+  position: relative;
+  padding: 0 12px; }
+  :root .swc dl-chat-input textarea,
+  :root .swc chat-input textarea {
+    flex: 1;
+    border: none;
+    margin-right: 12px;
+    padding: 0;
+    padding-top: 18px;
+    resize: none;
+    font-size: 14px;
+    outline: none;
+    overflow: auto;
+    color: #000000;
+    opacity: 0.75;
+    border-radius: 1px;
+    /* Fixes chrome bug */
+    align-self: stretch; }
+
+:root .swc ::-webkit-input-placeholder {
+  color: #667485; }
+
+:root .swc :-moz-placeholder {
+  color: #667485; }
+
+:root .swc ::-moz-placeholder {
+  color: #667485; }
+
+:root .swc :-ms-input-placeholder {
+  color: #667485; }
+
+:root .swc dl-chat-input.collapsed,
+:root .swc chat-input.collapsed {
+  display: none; }
+
+:root .swc dl-chat-input .textInputContainer,
+:root .swc chat-input .textInputContainer {
+  display: flex;
+  width: 100%;
+  align-items: center; }
+
+:root .swc dl-chat-input .send,
+:root .swc chat-input .send {
+  background-color: #00AFF0;
+  color: #FFFFFF;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  text-align: center;
+  border-radius: 50%;
+  border-width: 0px;
+  animation: fade .2s ease;
+  overflow: hidden; }
+  :root .swc dl-chat-input .send .icon-sen, :root .swc dl-chat-input .send .icon-file,
+  :root .swc chat-input .send .icon-sen,
+  :root .swc chat-input .send .icon-file {
+    left: -5px;
+    fill: #FFFFFF;
+    position: relative;
+    width: 14px;
+    left: 1px;
+    top: 1px; }
+  :root .swc dl-chat-input .send icon-file-img,
+  :root .swc chat-input .send icon-file-img {
+    fill: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    :root .swc dl-chat-input .send icon-file-img .icon-file,
+    :root .swc chat-input .send icon-file-img .icon-file {
+      fill: inherit;
+      width: auto;
+      height: 20px;
+      position: static; }
+  :root .swc dl-chat-input .send:hover,
+  :root .swc chat-input .send:hover {
+    opacity: 0.8; }
+  :root .swc dl-chat-input .send:disabled,
+  :root .swc chat-input .send:disabled {
+    background-color: #B8CBDB;
+    cursor: not-allowed; }
+  :root .swc dl-chat-input .send.file-picker,
+  :root .swc chat-input .send.file-picker {
+    fill: #00AFF0;
+    background: transparent; }
+    :root .swc dl-chat-input .send.file-picker:disabled,
+    :root .swc chat-input .send.file-picker:disabled {
+      fill: #B8CBDB; }
+
+:root .swc dl-chat-input input,
+:root .swc chat-input input {
+  display: none; }
+
+:root .swc dl-chat-input .action-btn,
+:root .swc chat-input .action-btn {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  color: #00AFF0;
+  cursor: pointer;
+  width: 30px;
+  height: 23px;
+  text-align: center;
+  margin: 45px 0px; }
+  :root .swc dl-chat-input .action-btn:hover,
+  :root .swc chat-input .action-btn:hover {
+    color: #077DB4; }
+
+:root .swc .msa-privacy {
+  background: #f2f2f2;
+  position: relative;
+  font-size: 12px;
+  padding: 8px 16px;
+  text-align: center; }
+  :root .swc .msa-privacy .text {
+    opacity: .7; }
+  :root .swc .msa-privacy:hover .text {
+    opacity: 1; }
+  :root .swc .msa-privacy a {
+    color: #385d6b;
+    font-weight: bold;
+    text-decoration: none; }
+  :root .swc .msa-privacy::after {
+    position: absolute;
+    z-index: 10;
+    right: 20px;
+    bottom: -10px;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #f2f2f2; }
+
+@keyframes fade {
+  from {
+    opacity: 0; }
+  to {
+    opacity: 1; } }
+
+:root .swc suggestion-list {
+  position: absolute;
+  left: -12px;
+  right: -12px;
+  bottom: 100%; }
+  :root .swc suggestion-list .list {
+    list-style: none;
+    padding: 0;
+    font-size: 15px;
+    border-top: solid 1px #d6e6ec;
+    border-bottom: solid 1px #d6e6ec;
+    margin: 0px;
+    background-color: #ffffff; }
+    :root .swc suggestion-list .list .item {
+      padding: 12px 12px;
+      cursor: pointer; }
+      :root .swc suggestion-list .list .item.selected {
+        background-color: #00aff0;
+        color: white; }
+
+:root .swc .controls {
+  margin-left: 30px;
+  display: flex; }
+  :root .swc .controls button {
+    width: 17px;
+    height: 18px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    padding: 0;
+    display: inline-flex;
+    margin: 0;
+    fill: #2B2B30;
+    margin-left: 10px; }
+    :root .swc .controls button:hover {
+      border-color: white; }
+    :root .swc .controls button .icon {
+      width: 23px; }
+    :root .swc .controls button icon-close {
+      width: 20px; }
+    :root .swc .controls button.collapse .mdash::after {
+      content: '\2012';
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 18px; }
+    :root .swc .controls button.collapse .mdash.collapsed::after {
+      content: '+';
+      font-weight: normal;
+      font-size: 16px;
+      line-height: 18px; }
+    :root .swc .controls button .minimize svg {
+      transform: rotate(90deg);
+      width: 12px; }
+
+:root .swc .swc-header {
+  padding: 0 12px;
+  flex-direction: row;
+  display: flex;
+  position: relative;
+  height: 75px;
+  align-items: center;
+  justify-content: space-between;
+  color: #2B2B30;
+  background-color: white; }
+  :root .swc .swc-header .preview {
+    position: absolute;
+    width: 58px;
+    font-size: 10px;
+    font-weight: 200;
+    background-color: rgba(0, 0, 0, 0.05);
+    top: 0;
+    right: 0;
+    padding-bottom: 2px;
+    text-align: center;
+    opacity: 0.5;
+    border-bottom-left-radius: 10px; }
+
+:root .swc .topic {
+  flex: 1;
+  padding: 0 12px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  flex-direction: column; }
+  :root .swc .topic .swc-title {
+    transition: font-size .5s ease;
+    font-weight: 700;
+    font-size: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; }
+  @media screen and (max-width: 330px) {
+    :root .swc .topic .swc-title {
+      font-size: 16px; } }
+  :root .swc .topic .terms {
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0.4;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-top: 3px; }
+    :root .swc .topic .terms a {
+      color: black;
+      text-decoration: none; }
+    :root .swc .topic .terms .termsOfUse {
+      margin-right: 12px; }
+
+:root .swc .headerAvatar {
+  width: 48px;
+  height: 48px;
+  background: #9EE1F9;
+  background-size: cover;
+  border-radius: 50%; }
+  :root .swc .headerAvatar .hexagon {
+    display: inherit;
+    width: inherit;
+    height: inherit;
+    fill: white; }
+
+:root .swc .message {
+  position: relative;
+  width: auto;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-left: 17px; }
+  :root .swc .message .timestamp {
+    display: none;
+    font-size: 11px;
+    white-space: nowrap;
+    color: #667486;
+    margin-top: 4px; }
+    :root .swc .message .timestamp.sending {
+      display: block; }
+  :root .swc .message .failedStatus {
+    display: block;
+    font-size: 11px;
+    white-space: nowrap;
+    color: #667486;
+    margin-top: 4px; }
+  :root .swc .message:nth-last-child(3) .timestamp {
+    display: block; }
+  :root .swc .message.new {
+    animation: arrival 500ms cubic-bezier(0, 0, 0, 1) both;
+    transform-origin: center bottom;
+    margin-right: 50px; }
+  :root .swc .message .content {
+    padding: 12px;
+    border-radius: 6px; }
+    :root .swc .message .content .replacedImg {
+      display: block;
+      width: 200px; }
+      :root .swc .message .content .replacedImg img {
+        width: 260px;
+        border-radius: 2px; }
+  :root .swc .message.me .timestamp {
+    text-align: right; }
+  :root .swc .message.system {
+    max-width: 100%; }
+    :root .swc .message.system .logo {
+      height: 32px;
+      margin-bottom: 6px; }
+
+:root .swc .message[data-messagetype="SystemMessage"] {
+  width: 100%;
+  max-width: 100%;
+  padding: 6px 0;
+  text-align: center; }
+  :root .swc .message[data-messagetype="SystemMessage"] .timestamp {
+    padding-top: 5px; }
+  :root .swc .message[data-messagetype="SystemMessage"].new {
+    transform-origin: center top;
+    margin-left: auto;
+    margin-right: auto; }
+
+:root .swc .message[data-messagetype="UserMessage"],
+:root .swc .message[data-messagetype="LwcFile"],
+:root .swc .message[data-messagetype="LwcImage"] {
+  margin-top: 16px;
+  margin-right: auto; }
+  :root .swc .message[data-messagetype="UserMessage"] .lwx-message,
+  :root .swc .message[data-messagetype="LwcFile"] .lwx-message,
+  :root .swc .message[data-messagetype="LwcImage"] .lwx-message {
+    display: flex;
+    align-items: center;
+    max-width: calc(100% - 40px); }
+    :root .swc .message[data-messagetype="UserMessage"] .lwx-message .translation-globe,
+    :root .swc .message[data-messagetype="LwcFile"] .lwx-message .translation-globe,
+    :root .swc .message[data-messagetype="LwcImage"] .lwx-message .translation-globe {
+      margin: 0 8px;
+      cursor: pointer; }
+  :root .swc .message[data-messagetype="UserMessage"] .content,
+  :root .swc .message[data-messagetype="LwcFile"] .content,
+  :root .swc .message[data-messagetype="LwcImage"] .content {
+    background-color: #fff;
+    max-width: 100%;
+    word-wrap: break-word; }
+  :root .swc .message[data-messagetype="UserMessage"].me + .me:not(.filemessage),
+  :root .swc .message[data-messagetype="UserMessage"].other + .other,
+  :root .swc .message[data-messagetype="LwcFile"].me + .me:not(.filemessage),
+  :root .swc .message[data-messagetype="LwcFile"].other + .other,
+  :root .swc .message[data-messagetype="LwcImage"].me + .me:not(.filemessage),
+  :root .swc .message[data-messagetype="LwcImage"].other + .other {
+    margin-top: 2px; }
+  :root .swc .message[data-messagetype="UserMessage"].other > div,
+  :root .swc .message[data-messagetype="LwcFile"].other > div,
+  :root .swc .message[data-messagetype="LwcImage"].other > div {
+    align-self: flex-start; }
+  :root .swc .message[data-messagetype="UserMessage"].me,
+  :root .swc .message[data-messagetype="LwcFile"].me,
+  :root .swc .message[data-messagetype="LwcImage"].me {
+    margin-left: -12px; }
+    :root .swc .message[data-messagetype="UserMessage"].me .lwx-message,
+    :root .swc .message[data-messagetype="LwcFile"].me .lwx-message,
+    :root .swc .message[data-messagetype="LwcImage"].me .lwx-message {
+      flex-direction: row-reverse; }
+    :root .swc .message[data-messagetype="UserMessage"].me > div,
+    :root .swc .message[data-messagetype="LwcFile"].me > div,
+    :root .swc .message[data-messagetype="LwcImage"].me > div {
+      align-self: flex-end; }
+    :root .swc .message[data-messagetype="UserMessage"].me .content,
+    :root .swc .message[data-messagetype="LwcFile"].me .content,
+    :root .swc .message[data-messagetype="LwcImage"].me .content {
+      background-color: #b1e5fa; }
+    :root .swc .message[data-messagetype="UserMessage"].me::before,
+    :root .swc .message[data-messagetype="LwcFile"].me::before,
+    :root .swc .message[data-messagetype="LwcImage"].me::before {
+      left: auto;
+      right: -4px;
+      border-left: 10px solid transparent;
+      border-right: none;
+      border-bottom: 10px solid #DBF4FD;
+      transform: rotate(-45deg); }
+    :root .swc .message[data-messagetype="UserMessage"].me.new,
+    :root .swc .message[data-messagetype="LwcFile"].me.new,
+    :root .swc .message[data-messagetype="LwcImage"].me.new {
+      transform-origin: center bottom; }
+  :root .swc .message[data-messagetype="UserMessage"] .author,
+  :root .swc .message[data-messagetype="LwcFile"] .author,
+  :root .swc .message[data-messagetype="LwcImage"] .author {
+    position: absolute;
+    top: -18px;
+    font-size: 12px;
+    left: 5px;
+    white-space: nowrap;
+    color: #667486; }
+
+@keyframes arrival {
+  0% {
+    transform: scale(0.9);
+    opacity: 0; }
+  50% {
+    opacity: 1; }
+  100% {
+    transform: scale(1); } }
+
+:root .swc .PictureSharing {
+  height: 200px; }
+  :root .swc .PictureSharing .thumbnailHolder {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    position: relative;
+    border-radius: 10px;
+    cursor: pointer; }
+    :root .swc .PictureSharing .thumbnailHolder .thumbnail {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-size: cover;
+      -ms-high-contrast-adjust: none; }
+
+:root .swc .swiftContainer {
+  max-width: 288px;
+  margin-top: 16px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  padding: 0px; }
+
+:root .swc .swift span.emoticon.main {
+  height: 60px;
+  width: 60px;
+  margin-top: 24px;
+  margin-bottom: 16px; }
+
+:root .swc .swift .unsupported, :root .swc .swift .card.signin {
+  background-color: #067CB4;
+  text-align: center;
+  font-size: 60px;
+  font-weight: 200; }
+  :root .swc .swift .unsupported .text, :root .swc .swift .card.signin .text {
+    margin-bottom: 32px; }
+
+:root .swc .swift .carousel {
+  overflow: hidden; }
+  :root .swc .swift .carousel .prev, :root .swc .swift .carousel .next {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    width: calc((100% - 288px) / 2);
+    -webkit-transition: width 0.3s ease-out;
+    -o-transition: width 0.3s ease-out;
+    transition: width 0.3s ease-out;
+    cursor: pointer; }
+    :root .swc .swift .carousel .prev:hover, :root .swc .swift .carousel .next:hover {
+      background: rgba(255, 255, 255, 0.5); }
+      :root .swc .swift .carousel .prev:hover .button, :root .swc .swift .carousel .next:hover .button {
+        background: #00B0F2; }
+    :root .swc .swift .carousel .prev .button, :root .swc .swift .carousel .next .button {
+      width: 28px;
+      height: 28px;
+      overflow: hidden;
+      font-size: 28px;
+      color: white;
+      background: #AFCFDB;
+      border-radius: 14px;
+      top: calc(50% - 14px);
+      position: absolute; }
+  :root .swc .swift .carousel .prev {
+    left: 0; }
+    :root .swc .swift .carousel .prev .button {
+      display: flex;
+      left: -8px; }
+      :root .swc .swift .carousel .prev .button .arrow {
+        width: 9px;
+        margin-left: 8px;
+        fill: white;
+        -webkit-transform: rotate(180deg);
+        -ms-transform: rotate(180deg);
+        -o-transform: rotate(180deg);
+        transform: rotate(180deg); }
+  :root .swc .swift .carousel .next {
+    right: 0; }
+    :root .swc .swift .carousel .next .button {
+      display: flex;
+      right: -8px; }
+      :root .swc .swift .carousel .next .button .arrow {
+        width: 9px;
+        margin-left: auto;
+        margin-right: auto;
+        fill: white; }
+  :root .swc .swift .carousel.first .carouselContainer {
+    transform: none;
+    display: block;
+    display: inline-flex;
+    display: -webkit-inline-flex; }
+  :root .swc .swift .carousel.first .prev {
+    display: none; }
+  :root .swc .swift .carousel.first .next {
+    width: calc(100% - 288px); }
+  :root .swc .swift .carousel.last .carouselContainer {
+    right: 0px; }
+  :root .swc .swift .carousel.last .prev {
+    width: calc(100% - 288px); }
+  :root .swc .swift .carousel.last .next {
+    display: none; }
+  :root .swc .swift .carousel.first.last .carouselContainer .card.hero .section .textContent {
+    height: auto; }
+  :root .swc .swift .carousel.multiple .carouselContainer .card {
+    padding: 8px;
+    flex: 1 0 auto; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.animation .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.audio .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.video .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.hero .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.hero .section,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .section,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.audio .section {
+      width: 270px; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.adaptive {
+      width: 272px; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.hero .section .image,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.audio .section .image,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.animation .section .image,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.video .section .image {
+      margin: 8px;
+      height: 145px; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.hero .section .textContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.audio .section .textContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.animation .section .textContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.video .section .textContent {
+      margin: 8px 16px; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.hero .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.animation .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.audio .cardContent,
+    :root .swc .swift .carousel.multiple .carouselContainer .card.video .cardContent {
+      background-color: white;
+      border-radius: 2%;
+      border: #CAE2EB solid 1px;
+      height: auto; }
+      :root .swc .swift .carousel.multiple .carouselContainer .card.hero .cardContent .buttons,
+      :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .cardContent .buttons,
+      :root .swc .swift .carousel.multiple .carouselContainer .card.animation .cardContent .buttons,
+      :root .swc .swift .carousel.multiple .carouselContainer .card.audio .cardContent .buttons,
+      :root .swc .swift .carousel.multiple .carouselContainer .card.video .cardContent .buttons {
+        margin-right: 8px;
+        margin-left: 8px;
+        margin-top: auto; }
+    :root .swc .swift .carousel.multiple .carouselContainer .card.animation .cardContent img, :root .swc .swift .carousel.multiple .carouselContainer .card.video .cardContent img {
+      position: relative; }
+  :root .swc .swift .carousel .carouselContainer {
+    position: relative;
+    white-space: nowrap;
+    font-size: 0;
+    -webkit-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex; }
+    :root .swc .swift .carousel .carouselContainer > * {
+      white-space: normal; }
+    :root .swc .swift .carousel .carouselContainer.multiLine {
+      display: table;
+      display: -webkit-inline-flex;
+      display: -moz-box;
+      display: -ms-flexbox; }
+      :root .swc .swift .carousel .carouselContainer.multiLine .card.hero {
+        display: table-cell;
+        display: -webkit-flex; }
+      :root .swc .swift .carousel .carouselContainer.multiLine .card.hero, :root .swc .swift .carousel .carouselContainer.multiLine .card.thumb, :root .swc .swift .carousel .carouselContainer.multiLine .card.audio, :root .swc .swift .carousel .carouselContainer.multiLine .card.video, :root .swc .swift .carousel .carouselContainer.multiLine .card.animation {
+        width: auto;
+        display: inline-flex;
+        flex: 1 0 auto; }
+      :root .swc .swift .carousel .carouselContainer.multiLine .card .buttons {
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column; }
+        :root .swc .swift .carousel .carouselContainer.multiLine .card .buttons .button {
+          -webkit-flex-basis: auto;
+          -moz-flex-basis: auto;
+          flex-basis: auto;
+          margin-right: 0; }
+    :root .swc .swift .carousel .carouselContainer .card:not(.adaptive) {
+      display: -ms-inline-flexbox;
+      display: -webkit-inline-flex;
+      display: inline-flex;
+      vertical-align: top; }
+      :root .swc .swift .carousel .carouselContainer .card:not(.adaptive).signin {
+        display: block;
+        -moz-margin-start: 10px; }
+      :root .swc .swift .carousel .carouselContainer .card:not(.adaptive):last-of-type {
+        margin-right: 0; }
+      :root .swc .swift .carousel .carouselContainer .card:not(.adaptive).hero .cardContent {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        width: 272px; }
+      :root .swc .swift .carousel .carouselContainer .card:not(.adaptive).hero .section {
+        flex-grow: 1;
+        justify-content: flex-end; }
+    :root .swc .swift .carousel .carouselContainer .card.adaptive {
+      font-size: 14px; }
+
+:root .swc .swift .card {
+  width: 272px;
+  padding-left: 8px;
+  padding-right: 8px;
+  background: #ffffff;
+  border-radius: 2%; }
+  :root .swc .swift .card.unsupported, :root .swc .swift .card.signin {
+    text-align: center; }
+    :root .swc .swift .card.unsupported .text, :root .swc .swift .card.signin .text {
+      margin-bottom: 32px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: normal; }
+    :root .swc .swift .card.unsupported .buttons, :root .swc .swift .card.signin .buttons {
+      margin-bottom: 8px; }
+  :root .swc .swift .card.receipt {
+    border-radius: 1%;
+    border: #CAE2EB solid 1px; }
+    :root .swc .swift .card.receipt h1 {
+      text-align: center; }
+    :root .swc .swift .card.receipt .buttons {
+      margin: 0 -8px;
+      padding: 8px 8px 0 8px;
+      border-top: #CAE2EB solid 1px; }
+    :root .swc .swift .card.receipt .section {
+      padding-bottom: 0; }
+      :root .swc .swift .card.receipt .section .textContent {
+        width: 133px;
+        height: auto;
+        margin-left: 0; }
+      :root .swc .swift .card.receipt .section .image {
+        flex-grow: 1;
+        width: 112px;
+        margin-right: 1px;
+        height: 112px;
+        border: 1px solid #CAE2EB; }
+    :root .swc .swift .card.receipt .button.fold {
+      height: 24px;
+      cursor: pointer;
+      margin-top: 7px;
+      border-bottom: #CAE2EB solid 1px;
+      margin-left: -8px;
+      margin-right: -8px; }
+      :root .swc .swift .card.receipt .button.fold > span {
+        color: #00AFF0;
+        text-align: center;
+        display: block;
+        font-size: 13px;
+        line-height: 13px;
+        top: 15%;
+        position: relative; }
+      :root .swc .swift .card.receipt .button.fold:focus {
+        outline: transparent solid 1px; }
+  :root .swc .swift .card.hero .section {
+    flex-direction: column-reverse; }
+    :root .swc .swift .card.hero .section .image {
+      height: 153px; }
+  :root .swc .swift .card.thumb .cardContent {
+    display: flex;
+    flex-direction: column;
+    width: 272px; }
+    :root .swc .swift .card.thumb .cardContent .section.tap, :root .swc .swift .card.thumb .cardContent .items .section.tap {
+      width: 272px; }
+    :root .swc .swift .card.thumb .cardContent .section > div, :root .swc .swift .card.thumb .cardContent .items .section > div {
+      height: 112px; }
+    :root .swc .swift .card.thumb .cardContent .section .textContent, :root .swc .swift .card.thumb .cardContent .items .section .textContent {
+      width: 136px;
+      height: auto; }
+    :root .swc .swift .card.thumb .cardContent .section .image, :root .swc .swift .card.thumb .cardContent .items .section .image {
+      flex-grow: 1;
+      width: 112px;
+      margin-right: 8px;
+      border: 2px solid #CAE2EB; }
+  :root .swc .swift .card .normal {
+    color: #33353A;
+    font-size: 13px;
+    line-height: normal;
+    top: 0; }
+  :root .swc .swift .card h1 {
+    font-weight: 600;
+    color: #33353A;
+    font-size: 15px;
+    line-height: normal;
+    top: 0;
+    max-height: 60px;
+    overflow: hidden;
+    margin: 16px 8px 8px 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap; }
+  :root .swc .swift .card .tap {
+    cursor: pointer; }
+  :root .swc .swift .card .section {
+    display: flex;
+    padding-bottom: 8px; }
+    :root .swc .swift .card .section .textContent {
+      overflow: hidden;
+      margin: 8px;
+      max-height: 175px; }
+      :root .swc .swift .card .section .textContent a {
+        color: #00AFF0;
+        text-decoration: none; }
+      :root .swc .swift .card .section .textContent h1 {
+        margin: 0;
+        text-overflow: initial;
+        white-space: initial;
+        max-height: 45px; }
+      :root .swc .swift .card .section .textContent h2, :root .swc .swift .card .section .textContent h3 {
+        color: #596676;
+        font-weight: normal;
+        overflow: hidden;
+        line-height: normal;
+        top: 0;
+        margin: 0px 0;
+        max-height: 38px; }
+      :root .swc .swift .card .section .textContent h2 {
+        font-size: 13px;
+        white-space: nowrap;
+        text-overflow: ellipsis; }
+      :root .swc .swift .card .section .textContent h3 {
+        font-size: 11px; }
+      :root .swc .swift .card .section .textContent .price {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block; }
+      :root .swc .swift .card .section .textContent p {
+        max-height: 40px;
+        overflow: hidden;
+        line-height: 1.4;
+        margin: 0; }
+      :root .swc .swift .card .section .textContent .expandedText {
+        max-height: 76px; }
+    :root .swc .swift .card .section .image {
+      overflow: hidden;
+      margin: 8px 0; }
+      :root .swc .swift .card .section .image img {
+        position: relative;
+        margin-left: 50%; }
+  :root .swc .swift .card .buttons {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    padding-bottom: 10px; }
+    :root .swc .swift .card .buttons.multiLine {
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column; }
+      :root .swc .swift .card .buttons.multiLine .button {
+        -webkit-flex-basis: auto;
+        -moz-flex-basis: auto;
+        flex-basis: auto;
+        margin-right: 0; }
+    :root .swc .swift .card .buttons .button {
+      background: white;
+      height: 24px;
+      border-color: #CAE2EB;
+      border-style: solid;
+      border-radius: 14px;
+      border-width: 2px;
+      margin-bottom: 8px;
+      margin-right: 8px;
+      cursor: pointer;
+      -webkit-flex-basis: 0;
+      -moz-flex-basis: 0;
+      flex-basis: 0;
+      -webkit-flex-grow: 1;
+      -moz-flex-grow: 1;
+      flex-grow: 1; }
+      :root .swc .swift .card .buttons .button:last-of-type {
+        margin-right: 0; }
+      :root .swc .swift .card .buttons .button > span {
+        color: #00AFF0;
+        text-align: center;
+        display: block;
+        font-size: 13px;
+        line-height: 16px;
+        top: 50%;
+        margin-top: -8px;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: calc(100% - 5px);
+        margin-left: 3px; }
+  :root .swc .swift .card .facts {
+    padding: 8px;
+    border-bottom: #CAE2EB solid 1px; }
+    :root .swc .swift .card .facts .fact {
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-justify-content: space-between;
+      justify-content: space-between;
+      -ms-flex-pack: justify;
+      -webkit-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+      -ms-flex-wrap: none;
+      padding: 6px 0; }
+      :root .swc .swift .card .facts .fact > span {
+        overflow: hidden;
+        width: 50%;
+        text-overflow: ellipsis;
+        white-space: nowrap; }
+      :root .swc .swift .card .facts .fact .value {
+        text-align: right; }
+  :root .swc .swift .card .items > * {
+    border-bottom: #CAE2EB solid 1px; }
+  :root .swc .swift .card .items .item {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -ms-flex-wrap: none;
+    padding: 8px; }
+    :root .swc .swift .card .items .item > span {
+      overflow: hidden;
+      width: 50%;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+    :root .swc .swift .card .items .item .swc-title {
+      color: #33353A;
+      font-size: 15px;
+      font-weight: 600; }
+    :root .swc .swift .card .items .item .price {
+      text-align: right; }
+    :root .swc .swift .card .items .item:last-child {
+      margin-right: -8px;
+      margin-left: -8px;
+      padding-right: 16px;
+      padding-left: 16px; }
+  :root .swc .swift .card .summary .line {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: justify;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -ms-flex-wrap: none;
+    padding: 8px;
+    border-bottom: #CAE2EB solid 1px; }
+    :root .swc .swift .card .summary .line > span {
+      overflow: hidden;
+      width: 50%;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+    :root .swc .swift .card .summary .line .value {
+      color: #00AFF0;
+      text-align: right; }
+    :root .swc .swift .card .summary .line:last-child {
+      border-bottom: 0; }
+  :root .swc .swift .card.audio .cardContent .section .textContent, :root .swc .swift .card.video .cardContent .section .textContent, :root .swc .swift .card.animation .cardContent .section .textContent {
+    max-width: 256px; }
+  :root .swc .swift .card.audio .cardContent .videoCard,
+  :root .swc .swift .card.audio .cardContent .animationCard, :root .swc .swift .card.video .cardContent .videoCard,
+  :root .swc .swift .card.video .cardContent .animationCard, :root .swc .swift .card.animation .cardContent .videoCard,
+  :root .swc .swift .card.animation .cardContent .animationCard {
+    padding: 8px;
+    height: 153px;
+    overflow: hidden; }
+  :root .swc .swift .card.audio .cardContent .audioCard.thumbnail, :root .swc .swift .card.video .cardContent .audioCard.thumbnail, :root .swc .swift .card.animation .cardContent .audioCard.thumbnail {
+    padding: 8px;
+    height: 153px;
+    overflow: hidden; }
+  :root .swc .swift .card.audio .cardContent.portrait .videoCard, :root .swc .swift .card.video .cardContent.portrait .videoCard, :root .swc .swift .card.animation .cardContent.portrait .videoCard {
+    height: 153px; }
+  :root .swc .swift .card.audio.audio .cardContent, :root .swc .swift .card.video.audio .cardContent, :root .swc .swift .card.animation.audio .cardContent {
+    padding-top: 8px; }
+
+:root .swc .swift .lwx-message:not(.carousel) .card.audio .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.video .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.animation .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.hero .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.thumb .cardContent {
+  padding-top: 8px; }
+
+:root .swc .swift .lwx-message:not(.carousel) .card.receipt {
+  padding-top: 1px; }
+
+:root .swc .swift .lwx-message:not(.carousel) .card.adaptive {
+  padding-top: 8px; }
+
+@media only screen and (max-width: 356px) {
+  :root .swc .swiftContainer {
+    width: 204px;
+    max-width: 204px; }
+  :root .swc .swift .carousel .prev, :root .swc .swift .carousel .next {
+    width: calc((100% - 188px) / 2); }
+  :root .swc .swift .carousel.first .next {
+    width: calc((100% - 188px) / 2); }
+  :root .swc .swift .carousel.last .prev {
+    width: calc((100% - 188px) / 2); }
+  :root .swc .swift .carousel .carouselContainer .card.animation .cardContent,
+  :root .swc .swift .carousel .carouselContainer .card.audio .cardContent,
+  :root .swc .swift .carousel .carouselContainer .card.video .cardContent,
+  :root .swc .swift .carousel .carouselContainer .card.hero .cardContent,
+  :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent,
+  :root .swc .swift .carousel .carouselContainer .card.hero .section,
+  :root .swc .swift .carousel .carouselContainer .card.thumb .section,
+  :root .swc .swift .carousel .carouselContainer .card.audio .section {
+    width: 188px; }
+  :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .section > div, :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .items .section > div {
+    height: 76px; }
+  :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .section .textContent, :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .items .section .textContent {
+    width: 84px; }
+  :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .section .image, :root .swc .swift .carousel .carouselContainer .card.thumb .cardContent .items .section .image {
+    width: 76px; }
+  :root .swc .swift .carousel .carouselContainer .card.adaptive {
+    width: 188px; }
+  :root .swc .swift .carousel.multiple .carouselContainer .card.animation .cardContent,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.audio .cardContent,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.video .cardContent,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.hero .cardContent,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .cardContent,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.hero .section,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.thumb .section,
+  :root .swc .swift .carousel.multiple .carouselContainer .card.audio .section, :root .swc .swift .carousel.multiple .carouselContainer .card.adaptive {
+    width: 186px; }
+  :root .swc .swift .carousel.multiple .carouselContainer .card.hero .section .image {
+    height: 105px; }
+  :root .swc .swift .card {
+    width: 188px; }
+    :root .swc .swift .card > div {
+      width: 100%; }
+    :root .swc .swift .card .section .textContent {
+      max-height: 175px; }
+    :root .swc .swift .card.hero .section .image {
+      height: 105px; }
+    :root .swc .swift .card.thumb .cardContent {
+      width: 188px; }
+      :root .swc .swift .card.thumb .cardContent .section.tap, :root .swc .swift .card.thumb .cardContent .items .section.tap {
+        width: 188px; }
+      :root .swc .swift .card.thumb .cardContent .section > div, :root .swc .swift .card.thumb .cardContent .items .section > div {
+        height: 76px; }
+      :root .swc .swift .card.thumb .cardContent .section .image, :root .swc .swift .card.thumb .cardContent .items .section .image {
+        width: 76px;
+        height: 76px; }
+    :root .swc .swift .card.receipt .section .textContent {
+      width: 84px; }
+      :root .swc .swift .card.receipt .section .textContent .price {
+        width: 100%;
+        text-align: left; }
+    :root .swc .swift .card.receipt .section .image {
+      width: 76px;
+      height: 76px; }
+    :root .swc .swift .card.receipt :not(.section) .swc-title {
+      width: 66%; }
+    :root .swc .swift .card.receipt :not(.section) .price {
+      width: 34%; }
+    :root .swc .swift .card.audio .cardContent .animationCard, :root .swc .swift .card.audio .cardContent .videoCard, :root .swc .swift .card.video .cardContent .animationCard, :root .swc .swift .card.video .cardContent .videoCard, :root .swc .swift .card.animation .cardContent .animationCard, :root .swc .swift .card.animation .cardContent .videoCard {
+      height: 105px;
+      overflow: hidden; }
+    :root .swc .swift .card.audio .cardContent.portrait .videoCard, :root .swc .swift .card.video .cardContent.portrait .videoCard, :root .swc .swift .card.animation .cardContent.portrait .videoCard {
+      height: 105px; }
+    :root .swc .swift .card.audio .cardContent .section .textContent, :root .swc .swift .card.video .cardContent .section .textContent, :root .swc .swift .card.animation .cardContent .section .textContent {
+      max-width: 155px; }
+    :root .swc .swift .card.audio .cardContent {
+      padding-top: 8px; }
+  :root .swc .swift .lwx-message:not(.carousel) .card.video .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.animation .cardContent {
+    padding-top: 8px; }
+  :root .swc .swift .lwx-message:not(.carousel) .card.hero .cardContent, :root .swc .swift .lwx-message:not(.carousel) .card.thumb .cardContent {
+    padding-top: 0; } }
+
+:root .swc .audioPlayer, :root .swc .videoPlayer, :root .swc .gifPlayer {
+  background: #3c3d3e;
+  position: relative;
+  width: 100%;
+  height: 100%; }
+  :root .swc .audioPlayer .button, :root .swc .videoPlayer .button, :root .swc .gifPlayer .button {
+    width: 35px;
+    height: 35px;
+    margin-top: -10px;
+    margin-left: -5px;
+    border: none;
+    background: transparent;
+    fill: #CAE2EB;
+    padding: 0;
+    border-radius: 5px; }
+    :root .swc .audioPlayer .button:hover, :root .swc .audioPlayer .button:active, :root .swc .audioPlayer .button:focus, :root .swc .videoPlayer .button:hover, :root .swc .videoPlayer .button:active, :root .swc .videoPlayer .button:focus, :root .swc .gifPlayer .button:hover, :root .swc .gifPlayer .button:active, :root .swc .gifPlayer .button:focus {
+      background: rgba(0, 0, 0, 0.2); }
+  :root .swc .audioPlayer .error, :root .swc .audioPlayer .loader, :root .swc .videoPlayer .error, :root .swc .videoPlayer .loader, :root .swc .gifPlayer .error, :root .swc .gifPlayer .loader {
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    position: absolute; }
+  :root .swc .audioPlayer .loader, :root .swc .videoPlayer .loader, :root .swc .gifPlayer .loader {
+    width: 40px;
+    height: 40px;
+    border: 5px solid #f2f2f2;
+    border-top: 5px solid #C4DAE3;
+    border-radius: 50%;
+    animation: spin 2s linear infinite; }
+  :root .swc .audioPlayer .error, :root .swc .videoPlayer .error, :root .swc .gifPlayer .error {
+    width: 50px;
+    height: 50px;
+    fill: #CAE2EB; }
+  :root .swc .audioPlayer .icon-media, :root .swc .videoPlayer .icon-media, :root .swc .gifPlayer .icon-media {
+    fill: #CAE2EB;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    padding: 5px 5px 0 7px; }
+  :root .swc .audioPlayer .player,
+  :root .swc .audioPlayer .controlsOverlay, :root .swc .videoPlayer .player,
+  :root .swc .videoPlayer .controlsOverlay, :root .swc .gifPlayer .player,
+  :root .swc .gifPlayer .controlsOverlay {
+    width: 100%;
+    height: 100%; }
+  :root .swc .audioPlayer .controlsOverlay, :root .swc .videoPlayer .controlsOverlay, :root .swc .gifPlayer .controlsOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+  :root .swc .audioPlayer .playerControls, :root .swc .videoPlayer .playerControls, :root .swc .gifPlayer .playerControls {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    height: 14px;
+    margin: 0 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 15px;
+    z-index: 2; }
+  :root .swc .audioPlayer .togglePlay, :root .swc .videoPlayer .togglePlay, :root .swc .gifPlayer .togglePlay {
+    margin-right: 5px; }
+
+:root .swc .videoPlayer .currentTime,
+:root .swc .videoPlayer .totalTime, :root .swc .audioPlayer .currentTime,
+:root .swc .audioPlayer .totalTime {
+  font-size: 14px;
+  color: #CAE2EB;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default; }
+
+:root .swc .videoPlayer .totalProgress, :root .swc .videoPlayer .handle, :root .swc .audioPlayer .totalProgress, :root .swc .audioPlayer .handle {
+  curson: pointer; }
+
+:root .swc .videoPlayer .totalProgress, :root .swc .audioPlayer .totalProgress {
+  height: 2px;
+  margin-top: 6px;
+  background: #CAE2EB; }
+
+:root .swc .videoPlayer .progress, :root .swc .audioPlayer .progress {
+  width: 0%;
+  height: 2px;
+  position: absolute;
+  top: 6px;
+  background: #CAE2EB; }
+
+:root .swc .videoPlayer .handle, :root .swc .audioPlayer .handle {
+  width: 12px;
+  height: 12px;
+  margin: -5px -5px 0 0;
+  border-radius: 50%;
+  background: #CAE2EB;
+  float: right; }
+
+:root .swc .audio-message {
+  margin-top: 0; }
+  :root .swc .audio-message:not(.thumbnail) .currentTime,
+  :root .swc .audio-message:not(.thumbnail) .totalTime,
+  :root .swc .audio-message:not(.thumbnail) .totalProgress,
+  :root .swc .audio-message:not(.thumbnail) .progress,
+  :root .swc .audio-message:not(.thumbnail) .handle {
+    color: #CAE2EB; }
+  :root .swc .audio-message:not(.thumbnail) .handle, :root .swc .audio-message:not(.thumbnail) .progress, :root .swc .audio-message:not(.thumbnail) .totalProgress {
+    background: #CAE2EB; }
+  :root .swc .audio-message:not(.thumbnail) .button {
+    fill: #CAE2EB;
+    margin-top: -12px;
+    width: 30px;
+    height: 30px; }
+  :root .swc .audio-message:not(.thumbnail) .error {
+    fill: #CAE2EB; }
+  :root .swc .audio-message:not(.thumbnail) .loader, :root .swc .audio-message:not(.thumbnail) .error {
+    top: 5px; }
+  :root .swc .audio-message:not(.thumbnail) .playerControls {
+    bottom: -45px; }
+    :root .swc .audio-message:not(.thumbnail) .playerControls .icon-media {
+      fill: #CAE2EB;
+      padding: 5px; }
+  :root .swc .audio-message .media-holder {
+    max-width: 272px;
+    min-height: 60px;
+    border: #CAE2EB solid 1px;
+    border-radius: 5px; }
+  :root .swc .audio-message.thumbnail .media-holder {
+    border: none;
+    min-height: unset; }
+  :root .swc .audio-message .timers {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 14px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+    z-index: 2; }
+  :root .swc .audio-message .timeline {
+    height: 100%;
+    margin: 0 5px;
+    position: absolute;
+    left: 40px;
+    right: 0px; }
+
+:root .swc .audio-message .coverHolder, :root .swc .gifPlayer .coverHolder {
+  text-align: center; }
+
+:root .swc .videoPlayer .controlsOverlay {
+  background-color: rgba(0, 0, 0, 0.65) 100%;
+  /* Fallback Color */
+  background-image: -webkit-gradient(linear, left top, left bottom, from(transparent 0%), to(rgba(0, 0, 0, 0.65) 100%));
+  /* Saf4+, Chrome */
+  background-image: -webkit-linear-gradient(top, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  /* Chrome 10+, Saf5.1+, iOS 5+ */
+  background-image: -moz-linear-gradient(top, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  /* FF3.6 */
+  background-image: -ms-linear-gradient(top, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  /* IE10 */
+  background-image: -o-linear-gradient(top, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  /* Opera 11.10+ */
+  background-image: linear-gradient(top, transparent 0%, transparent 50%, rgba(0, 0, 0, 0.65) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient GradientType=0, StartColorStr=transparent 0%, EndColorStr=rgba(0, 0, 0, 0.65) 100%; }
+
+:root .swc .videoPlayer .player {
+  cursor: pointer; }
+
+:root .swc .videoPlayer .fullsreenInfo {
+  margin: 20px 0 0 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-height: 200px;
+  width: 100%;
+  height: 100%; }
+
+:root .swc .videoPlayer .fullsreenInfo h1, :root .swc .videoPlayer .fullsreenInfo h2 {
+  color: #FFF;
+  margin: 5px 0 0; }
+
+:root .swc .videoPlayer .fullsreenInfo h2 {
+  font-size: 13px;
+  font-weight: normal;
+  max-height: 38px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: normal;
+  top: 0;
+  white-space: nowrap; }
+
+:root .swc .videoPlayer .timeline {
+  width: 100%;
+  height: 100%;
+  margin: 0 14px;
+  position: relative; }
+
+:root .swc .videoPlayer .toggleFullscreen {
+  margin-left: 5px; }
+
+:root .swc .gifPlayer {
+  display: block;
+  background: #3c3d3e;
+  overflow: hidden;
+  height: 153px;
+  text-align: center; }
+  :root .swc .gifPlayer img {
+    position: relative; }
+
+@media only screen and (max-width: 356px) {
+  :root .swc .audioPlayer .error, :root .swc .videoPlayer .error, :root .swc .gifPlayer .error {
+    width: 30px;
+    height: 30px;
+    top: calc(50% - 15px);
+    left: calc(50% - 15px); }
+  :root .swc .audioPlayer .loader, :root .swc .videoPlayer .loader, :root .swc .gifPlayer .loader {
+    width: 26px;
+    height: 26px;
+    top: calc(50% - 13px);
+    left: calc(50% - 13px);
+    border: 3px solid #f2f2f2;
+    border-top: 3px solid #C4DAE3; }
+  :root .swc .audio-message .media-holder {
+    max-width: 188px;
+    min-height: 40px; }
+  :root .swc .audio-message.thumbnail .media-holder {
+    min-height: unset; }
+  :root .swc .audio-message.thumbnail .playerControls {
+    bottom: 14px; }
+  :root .swc .audio-message.thumbnail .timers {
+    bottom: 15px; }
+  :root .swc .audio-message:not(.thumbnail) .playerControls {
+    bottom: -35px; }
+    :root .swc .audio-message:not(.thumbnail) .playerControls .icon-media {
+      padding: 5px 5px 0 7px;
+      margin-top: -5px; }
+  :root .swc .audioPlayer .currentTime,
+  :root .swc .audioPlayer .totalTime, :root .swc .videoPlayer .currentTime,
+  :root .swc .videoPlayer .totalTime {
+    font-size: 11px; }
+  :root .swc .gifPlayer {
+    height: 105px; } }
+
+:root .swc .filemessage {
+  display: flex; }
+  :root .swc .filemessage.me {
+    text-align: right; }
+    :root .swc .filemessage.me .bubble {
+      right: 0; }
+      :root .swc .filemessage.me .bubble:before {
+        left: auto;
+        transform: rotate(-135deg);
+        right: -4px; }
+    :root .swc .filemessage.me .meta {
+      left: 0;
+      right: 72px; }
+  :root .swc .filemessage .bubble {
+    background-color: #077db4;
+    color: white;
+    font-size: 36px;
+    padding: 6px;
+    height: 48px;
+    width: 48px;
+    border-radius: 6px;
+    /*.icon {
+                padding: 6px;
+                cursor: pointer;
+
+                &:before {
+                    content: '\E416';
+                    border: solid 2px white;
+                    margin: 0 -2px;
+                    border-radius: 50%;
+                }
+            }
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                border-bottom: 10px solid #077db4;
+                border-right: 10px solid transparent;
+                transform: rotate(45deg);
+                left: -4px;
+                top: 16px;
+            }
+
+            &.done .icon {
+                padding: 0;
+
+                &:before {
+                    border: 0;
+                    font-size: 48px;
+                    content: '\E306';
+                    margin: 0;
+                }
+            }
+
+            &.pptx, &.ppt{
+                background-color: #DE5B17;
+                &.done .icon::before { content: '\E317'; }
+                &:before { border-bottom: 10px solid #DE5B17 }
+            }
+
+            &.docx, &.doc{
+                background-color: #292E83;
+                &.done .icon::before { content: '\E315'; }
+                &:before { border-bottom: 10px solid #292E83 }
+            }
+
+            &.xlsm, &.xlsx, &.xls{
+                background-color: #00753C;
+                &.done .icon::before { content: '\E316'; }
+                &:before { border-bottom: 10px solid #00753C }
+            }
+
+            &.ics , &.ical , &.ifb , &.icalendar{
+                background-color: #468EE5;
+                &.done .icon::before { content: '\E504'; }
+                &:before { border-bottom: 10px solid #468EE5 }
+            }*/ }
+    :root .swc .filemessage .bubble .download {
+      background-color: transparent;
+      color: #FFFFFF;
+      cursor: pointer;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      text-align: center;
+      border-radius: 50%;
+      border-width: 0px;
+      outline: none; }
+      :root .swc .filemessage .bubble .download icon-download {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 12px;
+        box-sizing: border-box;
+        width: inherit;
+        height: inherit; }
+        :root .swc .filemessage .bubble .download icon-download .icon-download {
+          fill: #FFFFFF;
+          width: 100%;
+          height: 100%; }
+  :root .swc .filemessage .meta {
+    width: calc(100% - 72px);
+    position: absolute;
+    left: 72px;
+    right: 0;
+    top: 14px; }
+    :root .swc .filemessage .meta .name, :root .swc .filemessage .meta .size {
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    :root .swc .filemessage .meta .size {
+      font-size: 12px; }
+  :root .swc .filemessage .author {
+    position: absolute;
+    top: -16px;
+    font-size: 12px;
+    left: 4px;
+    white-space: nowrap;
+    color: #667486; }
+
+:root .swc .contactRequest {
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 16px auto;
+  height: auto; }
+
+:root .swc .chat-button {
+  background-color: red;
+  opacity: 0.5; }
+
+:root .swc .button-icon {
+  display: none; }
+
+:root .swc .button-text {
+  font-size: 14pt;
+  font-family: Arial; }
+
+:root .swc lwc-signin {
+  height: 100%; }
+
+:root .swc .sign-in-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: white;
+  color: rgba(0, 0, 0, 0.8); }
+  :root .swc .sign-in-wrapper .sign-in-header {
+    height: 40px;
+    text-align: center;
+    margin-top: 24px; }
+  :root .swc .sign-in-wrapper .sign-in-content {
+    padding: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+
+:root .swc .sign-in-wave {
+  height: 40px;
+  width: 40px;
+  margin-bottom: 24px; }
+
+:root .swc .sign-in-button {
+  margin-top: 24px;
+  padding: 6px 24px;
+  color: white;
+  background: #00AAF0;
+  cursor: pointer;
+  border-radius: 40px;
+  display: inline-block;
+  font-family: "Segoe UI", "Segoe UI Local", "Segoe WP", "Segoe UI Web", "Segoe UI Arabic Web", "Segoe UI Cyrillic Web", "Segoe UI Greek Web", "Segoe UI Hebrew Web", Tahoma, "Helvetica Neue", Helvetica, "Meiryo UI", Meiryo, Arial Unicode MS, sans-serif;
+  font-size: 20px;
+  border-width: 0px; }
+  :root .swc .sign-in-button:hover {
+    background: #00BBF0; }
+
+:root .swc .sign-in-cancel {
+  margin-top: 12px;
+  color: #a9a9a9;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  font-family: "Segoe UI", "Segoe UI Local", "Segoe WP", "Segoe UI Web", "Segoe UI Arabic Web", "Segoe UI Cyrillic Web", "Segoe UI Greek Web", "Segoe UI Hebrew Web", Tahoma, "Helvetica Neue", Helvetica, "Meiryo UI", Meiryo, Arial Unicode MS, sans-serif; }
+  :root .swc .sign-in-cancel:hover {
+    text-decoration: underline; }
+
+:root .swc .branding {
+  margin: 8px 0;
+  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  font-size: 10px;
+  color: #a9a9a9; }
+  :root .swc .branding.isTyping .typingIndicator {
+    max-height: 50px;
+    transform: translateY(0);
+    opacity: 1; }
+  :root .swc .branding.isTyping .powered {
+    transform: translateY(40px);
+    pointer-events: none;
+    opacity: 0; }
+  :root .swc .branding .typingIndicator {
+    display: flex;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all .5s ease;
+    position: absolute;
+    display: flex;
+    align-items: center; }
+    :root .swc .branding .typingIndicator .bubble {
+      height: 6px;
+      width: 6px;
+      border-radius: 6px;
+      margin-right: 2px;
+      background: #00AFF0;
+      animation: bounce 2s ease infinite; }
+    :root .swc .branding .typingIndicator :nth-child(2) {
+      animation-delay: .166s; }
+    :root .swc .branding .typingIndicator :nth-child(3) {
+      animation-delay: .333s;
+      margin-right: 8px; }
+  :root .swc .branding .powered {
+    display: flex;
+    color: #a9a9a9;
+    text-decoration: none;
+    transition: all .5s ease; }
+    :root .swc .branding .powered .logo {
+      margin-left: 4px; }
+      :root .swc .branding .powered .logo svg {
+        height: 16px;
+        width: 36px; }
+  :root .swc .branding .translate {
+    display: flex;
+    align-items: center;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all .5s ease; }
+    :root .swc .branding .translate .translation-globe {
+      margin: 0 4px;
+      height: 12px; }
+    :root .swc .branding .translate strong {
+      text-decoration: underline; }
+  :root .swc .branding .isTranslating {
+    transform: translateY(0);
+    opacity: 1; }
+  :root .swc .branding.emptyBottomMargin {
+    margin-bottom: 0; }
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+    opacity: .7; }
+  20% {
+    transform: translateY(-6px);
+    opacity: 1; }
+  40% {
+    transform: translateY(0);
+    opacity: .7; }
+  to {
+    transform: translateY(0); } }
+
+:root .swc .welcome {
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  margin: 16px auto;
+  height: auto;
+  text-align: center; }
+  :root .swc .welcome button {
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    text-decoration: underline;
+    font-weight: bold;
+    color: #33353a;
+    text-align: center;
+    font-size: 14px;
+    padding: 0px; }
+  :root .swc .welcome .nameClicked {
+    font-weight: normal;
+    cursor: auto;
+    text-decoration: none; }
+  :root .swc .welcome .callToAction {
+    text-align: center; }
+  :root .swc .welcome .signin, :root .swc .welcome .sayhi {
+    opacity: .7;
+    transition: opacity .5s ease; }
+    :root .swc .welcome .signin:hover, :root .swc .welcome .sayhi:hover {
+      opacity: 1; }
+  :root .swc .welcome skype-logo {
+    display: block;
+    margin-bottom: 6px; }
+    :root .swc .welcome skype-logo svg {
+      height: 32px;
+      width: 80px; }
+  :root .swc .welcome icon-skype {
+    display: block;
+    margin: 0 0 10px 0;
+    width: 42px;
+    fill: #00AFF0; }
+    :root .swc .welcome icon-skype .icon-skype {
+      height: 50px; }
+
+:root .swc .suggested-actions {
+  transform: translateY(36px);
+  max-height: 0;
+  opacity: 0;
+  position: relative;
+  align-items: center;
+  transition: all .25s ease;
+  display: flex;
+  justify-content: space-between; }
+  :root .swc .suggested-actions .navBtnWrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0 4px; }
+    :root .swc .suggested-actions .navBtnWrapper.disabled > div {
+      max-width: 0px;
+      min-width: 0px;
+      transform: scale(0);
+      opacity: 0;
+      pointer-events: none; }
+    :root .swc .suggested-actions .navBtnWrapper > div {
+      user-select: none;
+      border: 1px solid #d8d8d8;
+      max-width: 34px;
+      min-width: 34px;
+      transform: scale(1);
+      opacity: 1;
+      pointer-events: all;
+      transition: all .25s ease;
+      height: 34px;
+      cursor: pointer;
+      border-radius: 26px;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      :root .swc .suggested-actions .navBtnWrapper > div.left {
+        transform: rotateZ(180deg); }
+      :root .swc .suggested-actions .navBtnWrapper > div > icon-arrow {
+        display: flex;
+        justify-content: center;
+        align-items: center; }
+        :root .swc .suggested-actions .navBtnWrapper > div > icon-arrow > svg {
+          max-height: 12px;
+          fill: #8e8e91; }
+      :root .swc .suggested-actions .navBtnWrapper > div:hover, :root .swc .suggested-actions .navBtnWrapper > div:active {
+        background-color: #fcfcfc; }
+  :root .swc .suggested-actions .actionItems {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+    flex: 1; }
+    :root .swc .suggested-actions .actionItems .actionItem {
+      border: 1px solid #d8d8d8;
+      border-radius: 26px;
+      background-color: #f2f2f2;
+      padding: 0 12px;
+      cursor: pointer;
+      height: 34px;
+      flex-direction: row;
+      display: flex;
+      align-items: center;
+      margin: 0 2px;
+      pointer-events: none; }
+      :root .swc .suggested-actions .actionItems .actionItem:hover, :root .swc .suggested-actions .actionItems .actionItem:active {
+        background-color: #fcfcfc; }
+      :root .swc .suggested-actions .actionItems .actionItem p {
+        font-size: 13px;
+        display: table-cell;
+        vertical-align: middle;
+        color: #8e8e91;
+        white-space: nowrap;
+        margin: 0; }
+      :root .swc .suggested-actions .actionItems .actionItem.image {
+        padding: 3px 8px; }
+      :root .swc .suggested-actions .actionItems .actionItem.isDirectline {
+        padding: 3px 12px; }
+      :root .swc .suggested-actions .actionItems .actionItem .icon {
+        fill: #8e8e91;
+        margin: 0 5px 0 0;
+        display: flex; }
+    :root .swc .suggested-actions .actionItems :first-child {
+      margin-left: 0; }
+    :root .swc .suggested-actions .actionItems :last-child {
+      margin-right: 0; }
+  :root .swc .suggested-actions.show-suggested-actions {
+    transform: translateY(0);
+    opacity: 1;
+    max-height: 36px;
+    margin: 8px 0; }
+    :root .swc .suggested-actions.show-suggested-actions .actionItems .actionItem {
+      pointer-events: all; }
+
+:root .swc .card.adaptive .container.selectable {
+  padding: 5px; }
+
+:root .swc .card.adaptive .container.selectable:hover {
+  background-color: rgba(0, 0, 0, 0.1); }
+
+:root .swc .card.adaptive .container.selectable:active {
+  background-color: rgba(0, 0, 0, 0.15); }
+
+:root .swc .card.adaptive .image.selectable {
+  cursor: pointer; }
+
+:root .swc .card.adaptive .image.person {
+  border-radius: 50%;
+  background-position: 50% 50%;
+  background-repeat: no-repeat; }
+
+:root .swc .card.adaptive .factNameContainer {
+  border-width: 0;
+  padding: 0;
+  border-style: none;
+  min-width: 100px;
+  vertical-align: top;
+  white-space: nowrap; }
+
+:root .swc .card.adaptive .factValueContainer {
+  border-width: 0;
+  padding: 0;
+  border-style: none;
+  vertical-align: top;
+  padding-left: 10px; }
+
+/*# sourceMappingURL=lwc-chat-skype.css.map*/
