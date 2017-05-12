@@ -67,7 +67,7 @@ namespace Bubbles.Bot.Services
 
             var currentImage = new Image();
             currentColumn.Items.Add(currentImage);
-            currentImage.Url = model.current.condition.icon;
+            currentImage.Url = GetIconUrl(model.current.condition.icon);
 
             var currentColumn2 = new Column();
             current.Columns.Add(currentColumn2);
@@ -106,10 +106,19 @@ namespace Bubbles.Bot.Services
         {
             var image = new Image();
             image.Size = ImageSize.Auto;
-            image.Url = day.day.condition.icon;
+            image.Url = GetIconUrl(day.day.condition.icon);
             column.Items.Add(image);
         }
 
+        private static string GetIconUrl(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+                return string.Empty;
+
+            if (url.StartsWith("http"))
+                return url;
+            return "https:" + url;
+        }
         private static void AddForcastColumn(ColumnSet forecast, Column column, string place)
         {
             forecast.Columns.Add(column);
