@@ -42,7 +42,7 @@
                 "items": [
                   {
                     "type": "Image",
-                    "url": "http://contososcubabot.azurewebsites.net/assets/dangerous.jpg",
+                    "url": "http://contososcubabot.azurewebsites.net/assets/dangerous.png",
                     "size": "small"
                   }
                 ]
