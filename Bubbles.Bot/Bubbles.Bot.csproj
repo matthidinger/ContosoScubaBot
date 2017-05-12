@@ -126,6 +126,15 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\1.jpg" />
+    <Content Include="Assets\2.jpg" />
+    <Content Include="Assets\3.jpg" />
+    <Content Include="Assets\4.jpg" />
+    <Content Include="Assets\5.jpg" />
+    <Content Include="Assets\6.jpg" />
+    <Content Include="Assets\octo_calendar.png" />
+    <Content Include="Cards\8-BF.JSON" />
+    <None Include="Cards\7-BF.JSON" />
     <Content Include="css\botchat-fullwindow.css" />
     <Content Include="css\botchat.css" />
     <Content Include="scripts\swc.js" />
@@ -137,7 +146,6 @@
     <Content Include="libs\APIXULib.dll" />
     <Content Include="libs\HtmlAgilityPack.NetCore.dll" />
     <Content Include="libs\Microsoft.MarkedNet.dll" />
-    <Content Include="Properties\PublishProfiles\BubblesBot - Web Deploy.pubxml.user" />
     <Content Include="scripts\botchat.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -166,7 +174,7 @@
     <Content Include="Cards\4-BF.JSON" />
     <Content Include="Cards\5-BF.JSON" />
     <Content Include="Cards\6-BF.JSON" />
-    <None Include="Properties\PublishProfiles\BubblesBot - Web Deploy.pubxml" />
+    <Content Include="Cards\ImageSet-JoeB.JSON" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -179,6 +187,9 @@
       <Project>{abdf486d-cbf1-43a7-9044-ca46b5ab2a88}</Project>
       <Name>Microsoft.Cognitive.LUIS.ActionBinding</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

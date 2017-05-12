@@ -1,6 +1,6 @@
 {
     "type": "message",
-    "text": "Ah Ruben, you are for scuba?",
+    "text": "Good afternoon! Please take a look at the great scuba schools nearby.",
     "attachmentLayout": "carousel",
     "attachments": [
         {
@@ -59,7 +59,7 @@
                 "actions": [
                     {
                         "type": "Action.Submit",
-                        "title": "I am for scuba!",
+                        "title": "This one",
                         "data": {
                             "school": "Fabrikam"
                         }
@@ -123,7 +123,7 @@
                 "actions": [
                     {
                         "type": "Action.Submit",
-                        "title": "I am for scuba!",
+                        "title": "This one",
                         "data": {
                             "school": "Margie's Travel"
                         }
@@ -187,7 +187,7 @@
                 "actions": [
                     {
                         "type": "Action.Submit",
-                        "title": "I am for scuba!",
+                        "title": "This one",
                         "data": {
                             "school": "Relecloud Diving"
                         }
@@ -251,7 +251,7 @@
                 "actions": [
                     {
                         "type": "Action.Submit",
-                        "title": "I am for scuba!",
+                        "title": "This one",
                         "data": {
                             "school": "Adventure Works"
                         }

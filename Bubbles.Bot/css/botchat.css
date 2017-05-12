@@ -293,7 +293,7 @@ body .wc-app, .wc-app button, .wc-app input, .wc-app textarea {
         margin-bottom: 8px;
     }
 
-    .wc-card p {
+    .wc-card > p  {
         padding-bottom: 10px;
     }
 
