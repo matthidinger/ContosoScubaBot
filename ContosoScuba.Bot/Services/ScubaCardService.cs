@@ -115,8 +115,7 @@ namespace ContosoScuba.Bot.Services
 
                     case "scheduledate":
                         returnValue.NextCardName = "5-LunchExpanded";
-                        string date = switchStep.Item2;
-                        userScubaData.Date = date;
+                        userScubaData.Date = switchStep.Item2;
                         break;
 
                     case "mealoptions":
