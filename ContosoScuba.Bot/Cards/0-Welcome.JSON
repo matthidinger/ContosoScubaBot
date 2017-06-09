@@ -1,0 +1,61 @@
+{
+  "type": "message",
+  "text": "Hi! I'm Contoso Dive Finder!\n\nI'll help you schedule a scuba getaway!",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "content": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "ColumnSet",
+            "columns": [
+              {
+                "type": "Column",
+                "size": "auto",
+                "items": [
+                  {
+                    "type": "Image",
+                    "size": "medium",
+                    "url": "http://localhost:3979/assets/Contoso_logo.jpg"
+                  }
+                ]
+              },
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Start with something like:",
+                    "size": "large",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "'Where can I go scuba diving?'",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "or",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "'Show me some local wildlife.'",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "You can also 'restart' anytime.",
+                    "separation": "none"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
