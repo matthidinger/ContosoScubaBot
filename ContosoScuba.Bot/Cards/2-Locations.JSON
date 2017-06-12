@@ -8,7 +8,7 @@
         "body": [
           {
             "type": "TextBlock",
-            "text": "At {{school_from_last_response}} you have the choice of three scenic scuba destinations. (choose one)",
+            "text": "At {{school}} you have the choice of three scenic scuba destinations. (choose one)",
             "wrap": true
           },
           {

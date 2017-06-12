@@ -60,7 +60,8 @@
         "actions": [
           {
             "type": "Action.Submit",
-            "title": "Next"
+            "title": "Next",
+            "data": { "date": "" }
           }
         ]
       }

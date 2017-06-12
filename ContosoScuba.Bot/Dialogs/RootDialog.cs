@@ -46,15 +46,13 @@ namespace ContosoScuba.Bot.Dialogs
             else if (text.Contains("danger"))
             {
                 nextMessage = await GetCard(activity, "Danger");
-            }
-            else if (text.Contains("meal"))
-            {
-                nextMessage = await GetCard(activity, "5-LunchExpanded");
-            }
+            }            
             else
             {
-                if (text == "hi" || text == "hello"
-                    || text == "reset" || text == "start over"
+                if (text == "hi" 
+                    || text == "hello"
+                    || text == "reset" 
+                    || text == "start over"
                     || text == "restart")
                 {
                     //clear conversation data, since the user has decided to restart
@@ -67,7 +65,7 @@ namespace ContosoScuba.Bot.Dialogs
 
         private async Task<IMessageActivity> GetCard(Activity activity, string cardName)
         {
-            var cardText = await new ScubaCardService().GetCardText(cardName);
+            var cardText = await ScubaCardService.GetCardText(cardName);
             return GetCardReply(activity, cardText);
         }
 

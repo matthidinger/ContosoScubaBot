@@ -39,7 +39,7 @@
               },
               {
                 "type": "Image",
-                "url": "http://contososcubabot.azurewebsites.net/images/tofu.jpg"
+                "url": "http://contososcuba.azurewebsites.net/images/tofu.jpg"
               }
             ]
           }
@@ -67,11 +67,11 @@
                   "choices": [
                     {
                       "title": "Peanut",
-                      "value": "beefpeanut"
+                      "value": "peanut"
                     },
                     {
                       "title": "Seafood",
-                      "value": "beefseafood"
+                      "value": "seafood"
                     }
                   ]
                 }
@@ -107,11 +107,11 @@
                   "choices": [
                     {
                       "title": "Peanut",
-                      "value": "chickenpeanut"
+                      "value": "peanut"
                     },
                     {
                       "title": "Seafood",
-                      "value": "chickenseafood"
+                      "value": "seafood"
                     }
                   ]
                 }
@@ -170,11 +170,11 @@
                   "choices": [
                     {
                       "title": "Peanut",
-                      "value": "vegpeanut"
+                      "value": "peanut"
                     },
                     {
                       "title": "Seafood",
-                      "value": "vegseafood"
+                      "value": "seafood"
                     }
                   ]
                 }

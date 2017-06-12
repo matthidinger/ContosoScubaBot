@@ -129,19 +129,25 @@
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="scripts\botchat.js" />
-    <Content Include="scripts\new-botchat.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="CardProviders\CardProvider.cs" />
+    <Compile Include="CardProviders\Weather.cs" />
+    <Compile Include="CardProviders\PersonalInfo.cs" />
+    <Compile Include="CardProviders\LunchExpanded.cs" />
+    <Compile Include="CardProviders\Date.cs" />
+    <Compile Include="CardProviders\People.cs" />
+    <Compile Include="CardProviders\Locations.cs" />
+    <Compile Include="CardProviders\Schools.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CardTransitionInfo.cs" />
     <Compile Include="Models\UserScubaData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ScubaCardService.cs" />
