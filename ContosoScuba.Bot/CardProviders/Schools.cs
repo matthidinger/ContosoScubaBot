@@ -15,6 +15,7 @@ namespace ContosoScuba.Bot.CardProviders
 
         public override Task<string> GetCardText(UserScubaData scubaData, JObject messageValue, string messageText)
         {
+            //todo: search for schools near the location entered by the user
             return base.GetCardText();
         }
     }

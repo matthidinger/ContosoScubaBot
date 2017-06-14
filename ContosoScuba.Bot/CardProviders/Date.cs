@@ -2,15 +2,14 @@
 using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace ContosoScuba.Bot.CardProviders
 {
     public class Date : CardProvider
     {
         public override string CardName => "4-Date";
-
-        protected override string ReplaceText { get { return "{{number_of_people}}"; } }
-
+        
         public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
         {
             if(value!=null)            
@@ -18,13 +17,16 @@ namespace ContosoScuba.Bot.CardProviders
             else
                 scubaData.NumberOfPeople = messageText;
 
-            return base.GetCardText(scubaData.NumberOfPeople);
+            var replaceInfo = new Dictionary<string, string>();
+            replaceInfo.Add("{{number_of_people}}", scubaData.NumberOfPeople);
+
+            return base.GetCardText(replaceInfo);
         }
 
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
             return scubaData!=null 
-                && !string.IsNullOrEmpty(scubaData.Location) 
+                && !string.IsNullOrEmpty(scubaData.Destination) 
                 && string.IsNullOrEmpty(scubaData.NumberOfPeople)
                 && (IsNumeric(messageText) || (value!=null && IsNumeric(value.Value<string>("numberOfPeople"))));              
         }

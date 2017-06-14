@@ -5,9 +5,9 @@ using Newtonsoft.Json.Linq;
 
 namespace ContosoScuba.Bot.CardProviders
 {
-    public class LunchExpanded : CardProvider
+    public class Lunch : CardProvider
     {
-        public override string CardName => "5-LunchExpanded";
+        public override string CardName => "5-Lunch";
         
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
@@ -26,7 +26,7 @@ namespace ContosoScuba.Bot.CardProviders
                 scubaData.Date = messageText;
             else
             {
-                //TODO: extract scheduleDate info from value (currently not being sent...not sure why??)
+                //todo: extract scheduleDate info from value (currently not being sent...not sure why??)
                 string date = value.Value<string>("scheduleDate");
                 if (string.IsNullOrEmpty(date))
                 {

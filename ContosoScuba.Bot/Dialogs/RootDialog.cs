@@ -21,7 +21,7 @@ namespace ContosoScuba.Bot.Dialogs
         {
             var activity = await result as Activity;
             string text = string.IsNullOrEmpty(activity.Text) ? string.Empty : activity.Text.ToLower();
-
+            
             IMessageActivity nextMessage = null;
 
             if (!string.IsNullOrEmpty(text))
@@ -73,7 +73,7 @@ namespace ContosoScuba.Bot.Dialogs
         {
             var cardText = await new ScubaCardService().GetNextCardText(context, activity);
             if (string.IsNullOrEmpty(cardText))
-                return activity.CreateReply("I'm sorry, I don't understand.  Please rephrase.");
+                return activity.CreateReply("I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond.");
 
             return GetCardReply(activity, cardText);
         }

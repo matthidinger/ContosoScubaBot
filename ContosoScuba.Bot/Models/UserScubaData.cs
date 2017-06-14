@@ -6,7 +6,7 @@ namespace ContosoScuba.Bot.Models
     public class UserScubaData
     {
         public string School { get; set; }
-        public string Location { get; set; }
+        public string Destination { get; set; }
         public string NumberOfPeople { get; set; }
         public string Date { get; set; }
         public MealOptions MealOptions { get; set; }

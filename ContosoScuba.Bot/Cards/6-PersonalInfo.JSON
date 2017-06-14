@@ -41,7 +41,7 @@
                   },
                   {
                     "type": "Input.Text",
-                    "id": "myName",
+                    "id": "firstlast",
                     "placeholder": "Last, First",
                     "style": "text",
                     "separataion": "none"
@@ -53,7 +53,7 @@
                   },
                   {
                     "type": "Input.Text",
-                    "id": "myEmail",
+                    "id": "email",
                     "placeholder": "youremail@example.com",
                     "style": "email",
                     "separataion": "none"
@@ -64,7 +64,7 @@
                   },
                   {
                     "type": "Input.Text",
-                    "id": "myTel",
+                    "id": "phone",
                     "placeholder": "xxx.xxx.xxxx",
                     "style": "tel"
                   }

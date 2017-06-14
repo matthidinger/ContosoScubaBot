@@ -1,19 +1,18 @@
 ﻿using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace ContosoScuba.Bot.CardProviders
 {
     public class Locations : CardProvider
     {
         public override string CardName => "2-Locations";
-
-        protected override string ReplaceText { get { return "{{school}}"; } }
-
+        
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
             return scubaData != null 
-                && string.IsNullOrEmpty(scubaData.Location) 
+                && string.IsNullOrEmpty(scubaData.Destination) 
                 && (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school"))));
         }
 
@@ -35,8 +34,12 @@ namespace ContosoScuba.Bot.CardProviders
                 scubaData.School = value.Value<string>("school");
             else
                 scubaData.School = messageText;
+
+            var replaceInfo = new Dictionary<string, string>();
+            replaceInfo.Add("{{school}}", scubaData.School);
             
-            return base.GetCardText(scubaData.School);
+            //todo: display actual locations near the school selected
+            return base.GetCardText(replaceInfo);
         }
     }
 }

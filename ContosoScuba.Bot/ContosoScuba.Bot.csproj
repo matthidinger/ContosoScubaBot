@@ -124,7 +124,7 @@
     <Content Include="Assets\tofu.jpg" />
     <Content Include="Cards\6-PersonalInfo.JSON" />
     <Content Include="Cards\0-Welcome.JSON" />
-    <None Include="Cards\5-LunchExpanded.JSON" />
+    <None Include="Cards\5-Lunch.JSON" />
     <Content Include="css\botchat.css" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
@@ -138,7 +138,7 @@
     <Compile Include="CardProviders\CardProvider.cs" />
     <Compile Include="CardProviders\Weather.cs" />
     <Compile Include="CardProviders\PersonalInfo.cs" />
-    <Compile Include="CardProviders\LunchExpanded.cs" />
+    <Compile Include="CardProviders\Lunch.cs" />
     <Compile Include="CardProviders\Date.cs" />
     <Compile Include="CardProviders\People.cs" />
     <Compile Include="CardProviders\Locations.cs" />
@@ -158,7 +158,6 @@
     <Content Include="Cards\2-Locations.JSON" />
     <Content Include="Cards\3-People.JSON" />
     <Content Include="Cards\4-Date.JSON" />
-    <Content Include="Cards\5-Lunch.JSON" />
     <Content Include="Cards\7-Weather.JSON" />
     <Content Include="Cards\Wildlife.JSON" />
     <Content Include="Cards\Danger.JSON" />
