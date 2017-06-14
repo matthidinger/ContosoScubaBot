@@ -124,7 +124,7 @@
     <Content Include="Assets\tofu.jpg" />
     <Content Include="Cards\6-PersonalInfo.JSON" />
     <Content Include="Cards\0-Welcome.JSON" />
-    <None Include="Cards\5-Lunch.JSON" />
+    <Content Include="Cards\5-Lunch.JSON" />
     <Content Include="css\botchat.css" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
