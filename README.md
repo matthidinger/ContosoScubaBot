@@ -17,7 +17,7 @@ A published example of the **Contoso Dive Finder** is: [ContosoScubaBot.AzureWeb
 * Add your bot's **MicrosoftAppId** and **MicrosoftAppPassword** to the Web.config's `<appSettings>` 
 * Publish your bot (make sure the messaging endpoint in the dev portal is set to the published url)
 
-# More Information
+## More Information
 
 - [AdaptiveCards.io](http://adaptivecards.io)
 - [Open Source Repository](https://github.com/Microsoft/AdaptiveCards)
