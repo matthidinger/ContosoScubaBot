@@ -26,7 +26,7 @@ namespace ContosoScuba.Bot.CardProviders
                 scubaData.Date = messageText;
             else
             {
-                //todo: extract scheduleDate info from value (currently not being sent...not sure why??)
+                //todo: extract scheduleDate info from value (currently not being sent...bug)
                 string date = value.Value<string>("scheduleDate");
                 if (string.IsNullOrEmpty(date))
                 {

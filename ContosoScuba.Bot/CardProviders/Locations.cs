@@ -38,7 +38,6 @@ namespace ContosoScuba.Bot.CardProviders
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{school}}", scubaData.School);
             
-            //todo: display actual locations near the school selected
             return base.GetCardText(replaceInfo);
         }
     }

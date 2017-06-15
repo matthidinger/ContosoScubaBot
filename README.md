@@ -1,20 +1,23 @@
-#Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# Contoso Dive Finder
 
-#Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Introduction 
 
-#Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Most chat bot platforms have a single input box through which users type messages in order to interact with a bot.  [**Adaptive Cards**](http://adaptivecards.io/) provide a new way to create custom and interactive cards, with rich visuals and controls, that adapt to the platform on which they are being displayed.  This **Contoso Dive Finder** example demonstrates incorporating Adaptive Cards into a bot built using the [**Microsoft Bot Builder .NET SDK**](https://github.com/Microsoft/BotBuilder).  
 
-#Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+![Walk THrough](WalkThrough.gif "Visual Walk Through")
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+## Getting Started
+
+A published example of the **Contoso Dive Finder** is: [ContosoScubaBot.AzureWebsites.net](https://contososcubabot.azurewebsites.net)  If you desire to run the sample yourself: 
+
+* Download the source
+* Restore Nuget Packages
+* Register a bot on [https://dev.botframework.com/](https://dev.botframework.com/)
+* Retrieve your bot's **Web Chat** channel secret from the dev portal and add it to the **default.htm** page
+* Add your bot's **MicrosoftAppId** and **MicrosoftAppPassword** to the Web.config's `<appSettings>` 
+* Publish your bot (make sure the messaging endpoint in the dev portal is set to the published url)
+
+# More Information
+
+- [AdaptiveCards.io](http://adaptivecards.io)
+- [Open Source Repository](https://github.com/Microsoft/AdaptiveCards)

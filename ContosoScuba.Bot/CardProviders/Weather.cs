@@ -21,7 +21,7 @@ namespace ContosoScuba.Bot.CardProviders
         public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
         {
             var info = new Models.PersonalInfo();
-            //todo: firstlast, email and phone are not sent by adaptive card
+            //todo: firstlast, email and phone are not currently sent by adaptive card (bug)
             info.Name = value.Value<string>("firstlast");
             info.Email = value.Value<string>("email");
             info.Phone = value.Value<string>("phone");
@@ -37,6 +37,10 @@ namespace ContosoScuba.Bot.CardProviders
             replaceInfo.Add("{{destination}}", scubaData.Destination);
             replaceInfo.Add("{{weekday}}", date.DayOfWeek.ToString());
             replaceInfo.Add("{{longdate}}", date.ToString("dddd, MMMM dd"));
+            replaceInfo.Add("{{day1}}", date.AddDays(1).DayOfWeek.ToString().Substring(0,3));
+            replaceInfo.Add("{{day2}}", date.AddDays(2).DayOfWeek.ToString().Substring(0, 3));
+            replaceInfo.Add("{{day3}}", date.AddDays(3).DayOfWeek.ToString().Substring(0, 3));
+            replaceInfo.Add("{{day4}}", date.AddDays(4).DayOfWeek.ToString().Substring(0, 3));
 
             return base.GetCardText(replaceInfo);
         }

@@ -122,9 +122,15 @@
     <Content Include="Assets\octo_calendar.png" />
     <Content Include="Assets\steak.jpg" />
     <Content Include="Assets\tofu.jpg" />
-    <Content Include="Cards\6-PersonalInfo.JSON" />
-    <Content Include="Cards\0-Welcome.JSON" />
-    <Content Include="Cards\5-Lunch.JSON" />
+    <Content Include="Cards\6-PersonalInfo.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\0-Welcome.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\5-Lunch.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="css\botchat.css" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
@@ -154,13 +160,27 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <Content Include="Cards\1-Schools.JSON" />
-    <Content Include="Cards\2-Locations.JSON" />
-    <Content Include="Cards\3-People.JSON" />
-    <Content Include="Cards\4-Date.JSON" />
-    <Content Include="Cards\7-Weather.JSON" />
-    <Content Include="Cards\Wildlife.JSON" />
-    <Content Include="Cards\Danger.JSON" />
+    <Content Include="Cards\1-Schools.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\2-Locations.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\3-People.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\4-Date.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\7-Weather.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\Wildlife.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Cards\Danger.JSON">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\ContosoScuba - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

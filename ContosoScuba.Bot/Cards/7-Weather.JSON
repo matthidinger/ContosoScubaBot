@@ -66,7 +66,7 @@
                   {
                     "type": "TextBlock",
                     "horizontalAlignment": "center",
-                    "text": "Fri"
+                    "text": "{{day1}}"
                   },
                   {
                     "type": "Image",
@@ -97,7 +97,7 @@
                   {
                     "type": "TextBlock",
                     "horizontalAlignment": "center",
-                    "text": "Sat"
+                    "text": "{{day2}}"
                   },
                   {
                     "type": "Image",
@@ -128,7 +128,7 @@
                   {
                     "type": "TextBlock",
                     "horizontalAlignment": "center",
-                    "text": "Sun"
+                    "text": "{{day3}}"
                   },
                   {
                     "type": "Image",
@@ -159,7 +159,7 @@
                   {
                     "type": "TextBlock",
                     "horizontalAlignment": "center",
-                    "text": "Mon"
+                    "text": "{{day4}}"
                   },
                   {
                     "type": "Image",
