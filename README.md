@@ -8,7 +8,7 @@ Most chat bot platforms have a single input box through which users type message
 
 ## Getting Started
 
-A published example of the **Contoso Dive Finder** is: [ContosoScubaBot.AzureWebsites.net](https://contososcubabot.azurewebsites.net)  If you desire to run the sample yourself: 
+A published example of the **Contoso Dive Finder** is: [ContosoScuba.AzureWebsites.net](https://contososcuba.azurewebsites.net)  If you desire to run the sample yourself: 
 
 * Download the source
 * Restore Nuget Packages
