@@ -21,7 +21,7 @@ If you desire to run the sample yourself:
 
 ## Creating Adaptive Cards
 
-Adaptive Cards not only visually conform to the layout and style of the platform they are displayed on, they are also easy for developers to work with.  Microsoft has engineered the library to be flexible, extentable, and to provide developers with multiple methods for construction and manipulation.  In this sample, we've chosen to load .json files containing Messages with nested cards.
+Adaptive Cards not only visually conform to the layout and style of the platform they are displayed on, they are also easy for developers to work with.  Microsoft has engineered the library to be flexible, extendable, and to provide developers with multiple methods for construction and manipulation.  In this sample, we've chosen to load .json files containing Messages with nested cards.
 
 ## Some Code
 
@@ -77,7 +77,7 @@ public static Activity GetCardReply(Activity activity, string cardText)
     return reply;
 }
 
-```cs
+```
 
 ## Welcome Card
 
@@ -147,7 +147,7 @@ With columns, image support, text manipulation properties and more: Adaptive Car
   ]
 }
 
-```json
+```
 
 ## More Information
 
