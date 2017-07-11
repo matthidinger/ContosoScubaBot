@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ContosoScuba.Bot.CardProviders
 {
@@ -36,6 +37,11 @@ namespace ContosoScuba.Bot.CardProviders
             double retNum;
             bool isNum = Double.TryParse(Convert.ToString(Expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
             return isNum;
+        }
+
+        public override ValidationResult IsValid()
+        {
+            var result = new ValidationResult()
         }
     }
 }

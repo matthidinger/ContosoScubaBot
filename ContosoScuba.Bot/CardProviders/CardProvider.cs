@@ -2,12 +2,15 @@
 using ContosoScuba.Bot.Services;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace ContosoScuba.Bot.CardProviders
 {
     public abstract class CardProvider 
     {
+        public abstract ValidationResult IsValid();
+
         public abstract string CardName { get; }
 
         public abstract bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText);

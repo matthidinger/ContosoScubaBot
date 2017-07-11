@@ -24,7 +24,14 @@ namespace ContosoScuba.Bot.Services
                 .ToList();
         });
         
-        public async Task<string> GetNextCardText(IDialogContext context, Activity activity)
+        //todo: move this to its own class
+        public class ScubaCardResult
+        {
+            public string ErrorMessage { get; set; }
+            public string CardText { get; set; }
+        }
+
+        public async Task<ScubaCardResult> GetNextCardText(IDialogContext context, Activity activity)
         {
             var botdata = context.PrivateConversationData;
             UserScubaData userScubaData = null;
@@ -37,14 +44,22 @@ namespace ContosoScuba.Bot.Services
             var cardProvider = _cardHandlers.Value.FirstOrDefault(c => c.ProvidesCard(userScubaData, jObjectValue, activity.Text));
             if (cardProvider != null)
             {
-                //for cards with single fields,
-                //users can enter chat text (OR interact with the card's controls)
-                string cardText = await cardProvider.GetCardText(userScubaData, jObjectValue, activity.Text);
-                if (userScubaData == null)
-                    userScubaData = new UserScubaData();
+                var validation = cardProvider.IsValid();
+                if (!string.IsNullOrEmpty(validation.ErrorMessage))
+                {
+                    return new ScubaCardResult() { ErrorMessage = "I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond." };
+                }
+                else
+                {
+                    //for cards with single fields,
+                    //users can enter chat text (OR interact with the card's controls)
+                    string cardText = await cardProvider.GetCardText(userScubaData, jObjectValue, activity.Text);
+                    if (userScubaData == null)
+                        userScubaData = new UserScubaData();
 
-                botdata.SetValue<UserScubaData>(ScubaDataKey, userScubaData);
-                return cardText;
+                    botdata.SetValue<UserScubaData>(ScubaDataKey, userScubaData);
+                    return new ScubaCardResult() { CardText = cardText };
+                }
             }
             return null;
         }

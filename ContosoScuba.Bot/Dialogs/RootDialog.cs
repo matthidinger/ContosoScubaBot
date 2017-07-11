@@ -71,11 +71,11 @@ namespace ContosoScuba.Bot.Dialogs
 
         private async Task<IMessageActivity> GetNextScubaMessage(IDialogContext context, Activity activity)
         {
-            var cardText = await new ScubaCardService().GetNextCardText(context, activity);
-            if (string.IsNullOrEmpty(cardText))
+            var resultInfo = await new ScubaCardService().GetNextCardText(context, activity);
+            if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
                 return activity.CreateReply("I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond.");
 
-            return GetCardReply(activity, cardText);
+            return GetCardReply(activity, resultInfo.CardText);
         }
 
         public static Activity GetCardReply(Activity activity, string cardText)
