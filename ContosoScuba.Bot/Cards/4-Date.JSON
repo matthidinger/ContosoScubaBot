@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "speak": "Excellent, {{number_of_people}} of your best buds! What date would you want to go?",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",

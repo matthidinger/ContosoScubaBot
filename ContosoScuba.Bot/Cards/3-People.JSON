@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "speak": "How many people will be joining you?  There is a minimum of 3 and a maximum of 6.",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",

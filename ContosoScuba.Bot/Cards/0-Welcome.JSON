@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "speak": "Hi! I'm Contoso Dive Finder!I'll help you schedule a scuba getaway!",
   "text": "Hi! I'm Contoso Dive Finder!\n\nI'll help you schedule a scuba getaway!",
   "attachments": [
     {
