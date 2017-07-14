@@ -45,11 +45,11 @@
                 user: { id: model.userId, name: model.userName },
                 bot: { id: model.botId, name: model.botName },
                 resize: 'window'
-                //,
-                //speechOptions: {
-                //    speechRecognizer: new BotChat.SpeechRecognition.CognitiveServicesSpeechRecognizer(),
-                //    speechSynthesizer: new BotChat.SpeechSynthesis.BrowserSpeechSynthesizer()
-                //}
+                ,
+                speechOptions: {
+                    speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
+                    speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
+                }
             }, document.getElementById("botchatPane"));
         };
     </script>

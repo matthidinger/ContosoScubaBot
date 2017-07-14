@@ -1,6 +1,6 @@
 ﻿{
   "type": "message",
-  "speak": "Tell us about yourself.  We need you name Last and first, your email address, and your phone number",
+  "speak": "Tell us about yourself.  We need your name Last and first, your email address, and your phone number",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
