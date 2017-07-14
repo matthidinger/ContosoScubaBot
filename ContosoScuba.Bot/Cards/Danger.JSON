@@ -1,0 +1,62 @@
+﻿{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "body": [
+          {
+            "speak": "Matt, danger level is high in this area. Why don't you try Ontario Lake instead?",
+            "type": "ColumnSet",
+            "columns": [
+              {
+                "type": "Column",
+                "size": 4,
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Dangerous level: High",
+                    "weight": "bolder",
+                    "size": "large",
+                    "color": "attention"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Even though the gold graphite shark is the most friendly kind, other sharks could be really dangerous!",
+                    "wrap": true
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "How about I find you a different location close by?",
+                    "isSubtle": true,
+                    "wrap": true
+                  }
+                ]
+              },
+              {
+                "type": "Column",
+                "size": 1,
+                "items": [
+                  {
+                    "type": "Image",
+                    "url": "http://contososcubabot.azurewebsites.net/assets/dangerous.png",
+                    "size": "small"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Find Now"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Contoso Dive Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .ac-container.ac-selectable:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        } 
+    </style>
+
+    <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
+    <!--<link href="./css/botchat.css" rel="stylesheet" />-->
+    
+    <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
+    <!--<script src="./scripts/botchat.js"></script>-->
+
+    <script>
+
+        
+        window.onload = function () {
+            var model = {
+                "userId": "UserId",
+                "userName": "Diver",
+                "botId": "ContosoDivingBot",
+                "botName": "Contoso Diving",
+                "secret": "",
+                "directLineUrl": "https://webchat.botframework.com/v3/directline",
+                "webSocketEnabled": "false"
+            };
+
+            BotChat.App({
+                directLine: {
+                    secret: model.secret,
+                    token: model.token,
+                    domain: model.directLineUrl,
+                    webSocket: false
+                },
+                user: { id: model.userId, name: model.userName },
+                bot: { id: model.botId, name: model.botName },
+                resize: 'window'
+                //,
+                //speechOptions: {
+                //    speechRecognizer: new BotChat.SpeechRecognition.CognitiveServicesSpeechRecognizer(),
+                //    speechSynthesizer: new BotChat.SpeechSynthesis.BrowserSpeechSynthesizer()
+                //}
+            }, document.getElementById("botchatPane"));
+        };
+    </script>
+</head>
+<body style="font-family:'Segoe UI';">
+    <div style="width:100%;">
+        <h1 style="display:table; margin: 0 auto;">Contoso Diving!</h1>
+        <br />
+        <div style="display:table; margin: 0 auto;">
+            <div id="botchatPane" style="height:600px; width: 550px; position: relative; display: inline-block;"></div>
+        </div>
+        <!--<iframe style="min-width:450px;min-height:600px;" src='https://webchat.botframework.com/embed/BubblesBot?features=webchatpreview&s=[SecretHere]-'></iframe>-->
+
+    </div>
+</body>
+</html>
