@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
@@ -13,38 +14,41 @@ namespace ContosoScuba.Bot.CardProviders
         {
             return scubaData != null
                 && !string.IsNullOrEmpty(scubaData.NumberOfPeople)
-                && string.IsNullOrEmpty(scubaData.Date)
-                && (IsDate(messageText) || (value != null && value.First != null && value.First.Path == "date"));
-            
-            //todo: once date is being sent with the button click, validate that it is a real date
-                //&& (IsDate(messageText) || (value != null && IsDate(value.Value<string>("scheduleDate"))));
+                && string.IsNullOrEmpty(scubaData.Date);            
         }
 
-        public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
-            if (!string.IsNullOrEmpty(messageText))
-                scubaData.Date = messageText;
+            var date = value != null ? value.Value<string>("scheduleDate") : messageText;
+
+            var error = GetErrorMessage(date);
+            if (!string.IsNullOrEmpty(error))
+                return new ScubaCardResult() { ErrorMessage = error };
+
+            scubaData.Date = date;
+
+            return new ScubaCardResult() { CardText = await base.GetCardText() };
+        }
+
+        private string GetErrorMessage(string userInput)
+        {
+            if (string.IsNullOrEmpty(userInput))
+            {
+                return "Please enter a valid date";
+            }
+
+            DateTime dateHolder;
+            if (DateTime.TryParse(userInput, out dateHolder))
+            {
+                if (dateHolder > DateTime.Today)
+                    return string.Empty;
+
+                return "Please enter a valid date in the future";
+            }
             else
             {
-                //todo: extract scheduleDate info from value (currently not being sent...bug)
-                string date = value.Value<string>("scheduleDate");
-                if (string.IsNullOrEmpty(date))
-                {
-                    date = DateTime.Now.AddDays(14).Date.ToString();
-                }
-                scubaData.Date = date;
+                return "Please enter a valid date";
             }
-            return base.GetCardText();
         }
-        static bool IsDate(string date)
-        {
-            DateTime Temp;
-
-            if (DateTime.TryParse(date, out Temp) == true)
-                return true;
-            else
-                return false;
-        }
-        
     }
 }

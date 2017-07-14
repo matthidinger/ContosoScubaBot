@@ -11,34 +11,50 @@ namespace ContosoScuba.Bot.CardProviders
         
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
-            return scubaData != null 
-                && string.IsNullOrEmpty(scubaData.Destination) 
-                && (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school"))));
+            return (scubaData != null || (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school")))))
+                && (scubaData == null || string.IsNullOrEmpty(scubaData.School));
+        }
+        
+        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
+        {
+            var school = value != null ? value.Value<string>("school") : messageText;
+
+            var error = GetErrorMessage(school);
+            if (!string.IsNullOrEmpty(error))
+                return new ScubaCardResult() { ErrorMessage = error };
+            
+            scubaData.School = school;
+            
+            return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
         }
 
-        private bool IsSchool(string text)
+        private async Task<string> GetCardText(UserScubaData scubaData)
         {
-            if (string.IsNullOrEmpty(text))
-                return false;
-
-            var lowered = text.ToLower();
-            return (lowered.Contains("adventure")
-                    || lowered.Contains("relecloud")
-                    || lowered.Contains("margie")
-                    || lowered.Contains("fabrikam"));
-        }
-
-        public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
-        {
-            if (value != null)
-                scubaData.School = value.Value<string>("school");
-            else
-                scubaData.School = messageText;
-
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{school}}", scubaData.School);
-            
-            return base.GetCardText(replaceInfo);
+
+            return await base.GetCardText(replaceInfo);
+        }
+
+        private string GetErrorMessage(string userInput)
+        {
+            if (IsSchool(userInput))
+            {
+                return string.Empty;
+            }
+            return "Please enter Fabrikam, Margie\'s Travel, Relecloud Diving, or Adventure Works. You can also click the card button to make your selection.";
+        }
+
+        private bool IsSchool(string userInput)
+        {
+            if (string.IsNullOrEmpty(userInput))
+                return false;
+
+            var lowered = userInput.ToLower();
+            return (lowered.Contains("adventure")
+                || lowered.Contains("relecloud")
+                || lowered.Contains("margie")
+                || lowered.Contains("fabrikam"));
         }
     }
 }

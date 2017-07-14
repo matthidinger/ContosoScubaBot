@@ -12,20 +12,10 @@ namespace ContosoScuba.Bot.CardProviders
         {
             return scubaData != null
                 && !string.IsNullOrEmpty(scubaData.Date)
-                && scubaData.MealOptions == null
-                && (IsMealOptions(messageText) || (value != null && IsMealOptions(value.Value<string>("mealOptions"))));
+                && scubaData.MealOptions == null;
         }
 
-        private bool IsMealOptions(string mealOptions)
-        {
-            if (string.IsNullOrEmpty(mealOptions))
-                return false;
-
-            var lowered = mealOptions.ToLower();
-            return (lowered == "tofu" || lowered == "chicken" || lowered == "beef");
-        }
-
-        public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
             var mealOptions = new MealOptions();
             if (value != null)
@@ -38,13 +28,33 @@ namespace ContosoScuba.Bot.CardProviders
 
                 mealOptions.Alergy = value.Value<string>("Allergy");
             }
-            else
-            {
-                mealOptions.ProteinPreference = messageText;
-            }
+            else            
+                mealOptions.ProteinPreference = messageText;            
+
+            var error = GetErrorMessage(mealOptions.ProteinPreference);
+            if (!string.IsNullOrEmpty(error))
+                return new ScubaCardResult() { ErrorMessage = error };
+
             scubaData.MealOptions = mealOptions;
 
-            return base.GetCardText();
-        }        
+            return new ScubaCardResult() { CardText = await GetCardText() };
+        }
+
+        private string GetErrorMessage(string userInput)
+        {
+            if (string.IsNullOrEmpty(userInput))
+            {
+                return "Please enter Chicken, Beef, or Tofu.  You can also use the card to make your selection";
+            }
+            var lowered = userInput.ToLower();
+            if (lowered == "tofu" || lowered == "chicken" || lowered == "beef")
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return "Please enter Chicken, Beef, or Tofu.  You can also use the card to make your selection";
+            }
+        }
     }
 }

@@ -4,44 +4,55 @@ using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Bot.Connector;
 
 namespace ContosoScuba.Bot.CardProviders
 {
     public class Date : CardProvider
     {
         public override string CardName => "4-Date";
-        
-        public override Task<string> GetCardText(UserScubaData scubaData, JObject value, string messageText)
-        {
-            if(value!=null)            
-                scubaData.NumberOfPeople = value.Value<string>("numberOfPeople");            
-            else
-                scubaData.NumberOfPeople = messageText;
-
-            var replaceInfo = new Dictionary<string, string>();
-            replaceInfo.Add("{{number_of_people}}", scubaData.NumberOfPeople);
-
-            return base.GetCardText(replaceInfo);
-        }
 
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
-            return scubaData!=null 
-                && !string.IsNullOrEmpty(scubaData.Destination) 
-                && string.IsNullOrEmpty(scubaData.NumberOfPeople)
-                && (IsNumeric(messageText) || (value!=null && IsNumeric(value.Value<string>("numberOfPeople"))));              
+            return scubaData != null
+                && !string.IsNullOrEmpty(scubaData.Destination)
+                && string.IsNullOrEmpty(scubaData.NumberOfPeople);
         }
 
-        public static bool IsNumeric(string Expression)
+        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
+        {
+            var numberOfPeople = value != null ? value.Value<string>("numberOfPeople") : messageText;
+
+            var error = GetErrorMessage(numberOfPeople);
+            if (!string.IsNullOrEmpty(error))
+                return new ScubaCardResult() { ErrorMessage = error };
+
+            scubaData.NumberOfPeople = numberOfPeople;
+
+            return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
+        }
+
+        private async Task<string> GetCardText(UserScubaData scubaData)
+        {
+            var replaceInfo = new Dictionary<string, string>();
+            replaceInfo.Add("{{number_of_people}}", scubaData.NumberOfPeople);
+
+            return await base.GetCardText(replaceInfo);
+        }
+
+        private string GetErrorMessage(string userInput)
         {
             double retNum;
-            bool isNum = Double.TryParse(Convert.ToString(Expression), System.Globalization.NumberStyles.Any, System.Globalization.NumberFormatInfo.InvariantInfo, out retNum);
-            return isNum;
-        }
 
-        public override ValidationResult IsValid()
-        {
-            var result = new ValidationResult()
+            if ((Double.TryParse(Convert.ToString(userInput), System.Globalization.NumberStyles.Any,
+                    System.Globalization.NumberFormatInfo.InvariantInfo, out retNum))
+                && retNum <= 6
+                && retNum >= 3)
+            {
+                return string.Empty;
+            }
+
+            return "Please enter a number between 3 and 6";            
         }
     }
 }

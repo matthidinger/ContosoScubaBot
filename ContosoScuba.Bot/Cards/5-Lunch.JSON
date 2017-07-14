@@ -72,6 +72,10 @@
                     {
                       "title": "Seafood",
                       "value": "seafood"
+                    },
+                    {
+                      "title": "None",
+                      "value": "none"
                     }
                   ]
                 }

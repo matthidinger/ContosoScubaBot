@@ -11,6 +11,9 @@ namespace ContosoScuba.Bot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
+        private const string ERROR =
+            "I didn't understand please respond with \"Wildlife\", \"Danger\", or \"Scuba Diving\"";
+
         public Task StartAsync(IDialogContext context)
         {
             context.Wait(MessageReceivedAsync);
@@ -21,45 +24,45 @@ namespace ContosoScuba.Bot.Dialogs
         {
             var activity = await result as Activity;
             string text = string.IsNullOrEmpty(activity.Text) ? string.Empty : activity.Text.ToLower();
-            
+
             IMessageActivity nextMessage = null;
 
             if (!string.IsNullOrEmpty(text))
             {
-               nextMessage = await GetMessageFromText(context,activity, text);
+                nextMessage = await GetMessageFromText(context, activity, text);
             }
-            
-            if(nextMessage==null)
+
+            if (nextMessage == null)
                 nextMessage = await GetNextScubaMessage(context, activity);
-            
+
             await context.PostAsync(nextMessage);
             context.Wait(MessageReceivedAsync);
         }
 
         private async Task<IMessageActivity> GetMessageFromText(IDialogContext context, Activity activity, string text)
         {
-            IMessageActivity nextMessage =null;
+            IMessageActivity nextMessage = null;
+
+
             if (text.Contains("wildlife"))
             {
-                nextMessage = await GetCard(activity, "Wildlife");
+                return nextMessage = await GetCard(activity, "Wildlife");
             }
             else if (text.Contains("danger"))
             {
-                nextMessage = await GetCard(activity, "Danger");
-            }            
-            else
-            {
-                if (text == "hi" 
-                    || text == "hello"
-                    || text == "reset" 
-                    || text == "start over"
-                    || text == "restart")
-                {
-                    //clear conversation data, since the user has decided to restart
-                    context.PrivateConversationData.Clear();
-                    nextMessage = await GetCard(activity, "0-Welcome");
-                }
+                return nextMessage = await GetCard(activity, "Danger");
             }
+            else if (text == "hi"
+                     || text == "hello"
+                     || text == "reset"
+                     || text == "start over"
+                     || text == "restart")
+            {
+                //clear conversation data, since the user has decided to restart
+                context.PrivateConversationData.Clear();
+                nextMessage = await GetCard(activity, "0-Welcome");
+            }
+
             return nextMessage;
         }
 
@@ -73,7 +76,7 @@ namespace ContosoScuba.Bot.Dialogs
         {
             var resultInfo = await new ScubaCardService().GetNextCardText(context, activity);
             if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
-                return activity.CreateReply("I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond.");
+                return activity.CreateReply(resultInfo.ErrorMessage);
 
             return GetCardReply(activity, resultInfo.CardText);
         }
@@ -97,6 +100,5 @@ namespace ContosoScuba.Bot.Dialogs
 
             return reply;
         }
-        
     }
 }

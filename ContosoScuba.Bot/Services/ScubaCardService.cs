@@ -9,6 +9,8 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ContosoScuba.Bot.Services
 {
@@ -23,47 +25,36 @@ namespace ContosoScuba.Bot.Services
                 .Select(t => (CardProvider)Activator.CreateInstance(t))
                 .ToList();
         });
-        
-        //todo: move this to its own class
-        public class ScubaCardResult
-        {
-            public string ErrorMessage { get; set; }
-            public string CardText { get; set; }
-        }
 
         public async Task<ScubaCardResult> GetNextCardText(IDialogContext context, Activity activity)
         {
             var botdata = context.PrivateConversationData;
+
+            var userInput = activity.Text;
             UserScubaData userScubaData = null;
-            if (botdata.ContainsKey(ScubaDataKey))            
-                userScubaData = botdata.GetValue<UserScubaData>(ScubaDataKey);            
-            
-            string valuePath = string.Empty;
+            if (botdata.ContainsKey(ScubaDataKey))
+                userScubaData = botdata.GetValue<UserScubaData>(ScubaDataKey);
+
             var jObjectValue = activity.Value as Newtonsoft.Json.Linq.JObject;
-            
-            var cardProvider = _cardHandlers.Value.FirstOrDefault(c => c.ProvidesCard(userScubaData, jObjectValue, activity.Text));
+
+            var cardProvider = _cardHandlers.Value.FirstOrDefault(c => c.ProvidesCard(userScubaData, jObjectValue, userInput));
+
             if (cardProvider != null)
             {
-                var validation = cardProvider.IsValid();
-                if (!string.IsNullOrEmpty(validation.ErrorMessage))
-                {
-                    return new ScubaCardResult() { ErrorMessage = "I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond." };
-                }
-                else
-                {
-                    //for cards with single fields,
-                    //users can enter chat text (OR interact with the card's controls)
-                    string cardText = await cardProvider.GetCardText(userScubaData, jObjectValue, activity.Text);
-                    if (userScubaData == null)
-                        userScubaData = new UserScubaData();
+                //for cards with single fields,
+                //users can enter chat text (OR interact with the card's controls)
+                if (userScubaData == null)
+                    userScubaData = new UserScubaData();
 
+                var cardResult = await cardProvider.GetCardResult(userScubaData, jObjectValue, activity.Text);
+                if(string.IsNullOrEmpty(cardResult.ErrorMessage))
                     botdata.SetValue<UserScubaData>(ScubaDataKey, userScubaData);
-                    return new ScubaCardResult() { CardText = cardText };
-                }
+
+                return cardResult;
             }
-            return null;
+            return new ScubaCardResult() { ErrorMessage = "I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond." };
         }
-        
+
         public static async Task<string> GetCardText(string cardName)
         {
             var path = HostingEnvironment.MapPath($"/Cards/{cardName}.JSON");
@@ -72,8 +63,18 @@ namespace ContosoScuba.Bot.Services
 
             using (var f = File.OpenText(path))
             {
-                return await f.ReadToEndAsync();                
+                return await f.ReadToEndAsync();
             }
-        } 
+        }
+
+        //public bool IsValid(string cardNumber, string userInput, ValidationService validationService)
+        //{
+        //    return validationService.Validate(cardNumber, userInput);
+        //}
+
+        //public string SendErrorMessageText()
+        //{
+        //    return "This is an error message";
+        //}
     }
 }
