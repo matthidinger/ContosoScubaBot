@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "speak": "At {{school}} you have the choice of three scenic scuba destinations. Alki Beach, Golden Gardens Park, or Bainbridge Island",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",

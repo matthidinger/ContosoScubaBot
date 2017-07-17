@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "speach": "Before we finish up booking, your scuba class comes with a delicious lunch meal!  Please select Beef, Chicken, or Tofu for your protien",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
