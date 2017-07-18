@@ -118,7 +118,9 @@
     <Content Include="Assets\contoso_logo.jpg" />
     <Content Include="Assets\dangerous.png" />
     <Content Include="Assets\dolphin-203875_640.jpg" />
+    <Content Include="Assets\FabrikamLogo2.png" />
     <Content Include="Assets\loggerhead-turtle-123402_640.jpg" />
+    <Content Include="Assets\MargiesTravel2.png" />
     <Content Include="Assets\octo_calendar.png" />
     <Content Include="Assets\scuba-diver-1237237_640.jpg" />
     <Content Include="Assets\steak.jpg" />

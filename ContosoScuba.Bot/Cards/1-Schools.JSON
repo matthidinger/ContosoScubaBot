@@ -17,45 +17,69 @@
                 "size": "auto",
                 "items": [
                   {
-                    "type": "Image",
-                    "size": "medium",
-                    "url": "http://adaptivecards-staging.azurewebsites.net/content/FabrikamLogo.png"
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "size": "auto",
+                        "items": [
+                          {
+                            "type": "Image",
+                            "size": "large",
+                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/ContosoScuba.Bot/Assets/scuba-diver-1237237_640.jpg?raw=true"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Fabrikam",
+                            "size": "large",
+                            "weight": "bolder"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "4.1 stars",
+                            "separation": "none"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "13 miles away",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "217 W Pine St.",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Seattle, WA 98126",
+                    "separation": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
+                "size": "auto",
                 "items": [
                   {
-                    "type": "TextBlock",
-                    "text": "Fabrikam",
-                    "size": "large",
-                    "weight": "bolder"
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "4.1 stars",
-                    "separation": "none"
+                    "type": "Image",
+                    "size": "medium",
+                    "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/ContosoScuba.Bot/Assets/FabrikamLogo2.png?raw=true"
                   }
                 ]
+
               }
             ]
-          },
-          {
-            "type": "TextBlock",
-            "text": "13 miles away",
-            "weight": "bolder"
-          },
-          {
-            "type": "TextBlock",
-            "text": "217 W Pine St.",
-            "separation": "none"
-          },
-          {
-            "type": "TextBlock",
-            "text": "Seattle, WA 98126",
-            "separation": "none"
           }
+
         ],
         "actions": [
           {
@@ -81,45 +105,69 @@
                 "size": "auto",
                 "items": [
                   {
-                    "type": "Image",
-                    "size": "medium",
-                    "url": "http://adaptivecards-staging.azurewebsites.net/content/MargiesTravel.png"
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "size": "auto",
+                        "items": [
+                          {
+                            "type": "Image",
+                            "size": "large",
+                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/ContosoScuba.Bot/Assets/dolphin-203875_640.jpg?raw=true"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Margie's Travel",
+                            "size": "large",
+                            "weight": "bolder"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "4.4 stars",
+                            "separation": "none"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "42 miles away",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "1602 E Avenue Rd.",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Gig Harbor, WA 98335",
+                    "separation": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
+                "size": "auto",
                 "items": [
                   {
-                    "type": "TextBlock",
-                    "text": "Margie's Travel",
-                    "size": "large",
-                    "weight": "bolder"
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "4.4 stars",
-                    "separation": "none"
+                    "type": "Image",
+                    "size": "medium",
+                    "url": "http://adaptivecards-staging.azurewebsites.net/content/MargiesTravel2.png"
                   }
                 ]
+
               }
             ]
-          },
-          {
-            "type": "TextBlock",
-            "text": "42 miles away",
-            "weight": "bolder"
-          },
-          {
-            "type": "TextBlock",
-            "text": "1602 E Avenue Rd.",
-            "separation": "none"
-          },
-          {
-            "type": "TextBlock",
-            "text": "Gig Harbor, WA 98335",
-            "separation": "none"
           }
+
         ],
         "actions": [
           {
@@ -146,7 +194,7 @@
                 "items": [
                   {
                     "type": "Image",
-                    "size": "medium",
+                    "size": "large",
                     "url": "http://adaptivecards-staging.azurewebsites.net/content/Relecloud.png"
                   }
                 ]
@@ -200,6 +248,7 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
+
         "body": [
           {
             "type": "ColumnSet",
@@ -209,56 +258,81 @@
                 "size": "auto",
                 "items": [
                   {
-                    "type": "Image",
-                    "size": "medium",
-                    "url": "http://adaptivecards-staging.azurewebsites.net/content/AdventureWorksLogo.png"
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "size": "auto",
+                        "items": [
+                          {
+                            "type": "Image",
+                            "size": "large",
+                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/ContosoScuba.Bot/Assets/loggerhead-turtle-123402_640.jpg?raw=true"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Adventure Works",
+                            "size": "large",
+                            "weight": "bolder"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "3.2 stars",
+                            "separation": "none"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "7 miles away",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "510 N Yale Ave.",
+                    "separation": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Seattle, WA 98127",
+                    "separation": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
+                "size": "auto",
                 "items": [
                   {
-                    "type": "TextBlock",
-                    "text": "Adventure Works",
-                    "size": "large",
-                    "weight": "bolder"
-                  },
+                    "type": "Image",
+                    "size": "medium",
+                    "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/ContosoScuba.Bot/Assets/AdventureWorksLogo2.png?raw=true"
+                  }
+                ]
+
+              }
+            ]
+          }
+
+        ],
+
+                "actions": [
                   {
-                    "type": "TextBlock",
-                    "text": "3.2 stars",
-                    "separation": "none"
+                    "type": "Action.Submit",
+                    "title": "This one",
+                    "data": {
+                      "school": "Adventure Works"
+                    }
                   }
                 ]
               }
-            ]
-          },
-          {
-            "type": "TextBlock",
-            "text": "7 miles away",
-            "weight": "bolder"
-          },
-          {
-            "type": "TextBlock",
-            "text": "510 N Yale Ave.",
-            "separation": "none"
-          },
-          {
-            "type": "TextBlock",
-            "text": "Seattle, WA 98127",
-            "separation": "none"
-          }
-        ],
-        "actions": [
-          {
-            "type": "Action.Submit",
-            "title": "This one",
-            "data": {
-              "school": "Adventure Works"
-            }
           }
         ]
       }
-    }
-  ]
-}
