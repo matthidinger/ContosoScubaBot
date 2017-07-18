@@ -1,5 +1,6 @@
 {
   "type": "message",
+  "inputHint": "expectingInput",
   "speak": "Good afternoon! Please take a look at the great scuba schools nearby.  Fabrikam, Margie's Travel, Relecloud Diving, or Adventure Works",
   "text": "Good afternoon! Please take a look at the great scuba schools nearby.",
   "attachmentLayout": "carousel",
@@ -335,4 +336,4 @@
       }
     }
   ]
-      }
+}
