@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Connector;
 
 namespace ContosoScuba.Bot.CardProviders
 {
@@ -13,9 +14,9 @@ namespace ContosoScuba.Bot.CardProviders
             return scubaData == null;
         }
 
-        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject messageValue, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(Activity activity, UserScubaData scubaData, JObject messageValue, string messageText)
         {
-            return new ScubaCardResult() { CardText = await base.GetCardText() };
+            return new ScubaCardResult() { CardText = await base.GetCardText(activity) };
         }
     }
 }

@@ -41,12 +41,10 @@ namespace ContosoScuba.Bot.Services
 
             if (cardProvider != null)
             {
-                //for cards with single fields,
-                //users can enter chat text (OR interact with the card's controls)
                 if (userScubaData == null)
                     userScubaData = new UserScubaData();
-
-                var cardResult = await cardProvider.GetCardResult(userScubaData, jObjectValue, activity.Text);
+                
+                var cardResult = await cardProvider.GetCardResult(activity, userScubaData, jObjectValue, activity.Text);
                 if(string.IsNullOrEmpty(cardResult.ErrorMessage))
                     botdata.SetValue<UserScubaData>(ScubaDataKey, userScubaData);
 
@@ -55,9 +53,11 @@ namespace ContosoScuba.Bot.Services
             return new ScubaCardResult() { ErrorMessage = "I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond." };
         }
 
-        public static async Task<string> GetCardText(string cardName)
+        public static async Task<string> GetCardText(string cardName, string channelId)
         {
-            var path = HostingEnvironment.MapPath($"/Cards/{cardName}.JSON");
+            string folderName = "kikcards";// channelId == ChannelIds.Kik ? "kikcards" : "cards";
+
+            var path = HostingEnvironment.MapPath($"/{folderName}/{cardName}.JSON");
             if (!File.Exists(path))
                 return string.Empty;
 
@@ -65,16 +65,14 @@ namespace ContosoScuba.Bot.Services
             {
                 return await f.ReadToEndAsync();
             }
+        }  
+        
+        public static string ReplaceKickText(string cardText, Activity activity)
+        {
+            cardText = cardText.Replace("{{chatid}}", activity.Conversation.Id);
+            cardText = cardText.Replace("{{toname}}", activity.From.Name);
+
+            return cardText;
         }
-
-        //public bool IsValid(string cardNumber, string userInput, ValidationService validationService)
-        //{
-        //    return validationService.Validate(cardNumber, userInput);
-        //}
-
-        //public string SendErrorMessageText()
-        //{
-        //    return "This is an error message";
-        //}
     }
 }

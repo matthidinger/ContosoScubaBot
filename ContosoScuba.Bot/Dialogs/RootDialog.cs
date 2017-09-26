@@ -68,7 +68,7 @@ namespace ContosoScuba.Bot.Dialogs
 
         private async Task<IMessageActivity> GetCard(Activity activity, string cardName)
         {
-            var cardText = await ScubaCardService.GetCardText(cardName);
+            var cardText = await ScubaCardService.GetCardText(cardName, activity.ChannelId);
             return GetCardReply(activity, cardText);
         }
 

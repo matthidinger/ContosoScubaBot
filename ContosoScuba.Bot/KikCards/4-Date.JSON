@@ -1,0 +1,77 @@
+{
+  "type": "message",
+  "speak": "Excellent, {{number_of_people}} of your best buds! What date would you want to go?",
+  "channeldata": {
+    "messages": [
+      {
+        "card": {
+          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "body": [
+            {
+              "speak": "<s>What date did you want to go?</s>",
+              "type": "ColumnSet",
+              "columns": [
+                {
+                  "type": "Column",
+                  "size": 2,
+                  "items": [
+                    {
+                      "type": "TextBlock",
+                      "text": "Excellent, {{number_of_people}} of your best buds!",
+                      "separation": "default"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "What date would you like to go diving?",
+                      "separation": "default"
+                    },
+                    {
+                      "type": "TextBlock",
+                      "text": "(NOTE: Your party must arrive by 10:00 AM and should plan on diving until 4:00 PM)",
+                      "wrap": true,
+                      "size": "small"
+                    },
+                    {
+                      "type": "Input.Date",
+                      "id": "scheduleDate",
+                      "placeholder": "Enter a date",
+                      "speak": "What date would you like to go?",
+                      "min": "5/1/2017",
+                      "max": "9/1/2017",
+                      "value": "6/1/2017"
+                    }
+                  ]
+                },
+                {
+                  "type": "Column",
+                  "size": 1,
+                  "items": [
+                    {
+                      "type": "Image",
+                      "url": "http://contososcubabot.azurewebsites.net/assets/octo_calendar.png",
+                      "size": "auto"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "title": "Next",
+              "data": {
+                "date": ""
+              }
+            }
+          ]
+        },
+        "chatId": "{{chatid}}",
+        "type": "adaptive-card",
+        "to": "{{toname}}"
+      }
+    ]
+  }
+}

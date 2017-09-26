@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Connector;
 
 namespace ContosoScuba.Bot.CardProviders
 {
@@ -17,7 +18,7 @@ namespace ContosoScuba.Bot.CardProviders
                 && string.IsNullOrEmpty(scubaData.Date);            
         }
 
-        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(Activity activity, UserScubaData scubaData, JObject value, string messageText)
         {
             var date = value != null ? value.Value<string>("scheduleDate") : messageText;
 
@@ -27,7 +28,7 @@ namespace ContosoScuba.Bot.CardProviders
 
             scubaData.Date = date;
 
-            return new ScubaCardResult() { CardText = await base.GetCardText() };
+            return new ScubaCardResult() { CardText = await base.GetCardText(activity) };
         }
 
         private string GetErrorMessage(string userInput)

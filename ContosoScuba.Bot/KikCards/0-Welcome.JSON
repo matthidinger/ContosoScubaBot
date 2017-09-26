@@ -1,0 +1,73 @@
+{
+  "type": "message",
+  "speak": "Hi! I'm Contoso Dive Finder! I'll help you schedule a scuba getaway!",
+  "text": "Hi! I'm Contoso Dive Finder!\n\nI'll help you schedule a scuba getaway!",
+  "channeldata": {
+	  "messages": [
+		{
+		  "body": "Hi! I\u0027m Contoso Dive Finder!\n\nI\u0027ll help you schedule a scuba getaway!",
+		  "chatId": "{{chatid}}",
+		  "type": "text",
+		  "to": "{{toname}}"
+		},
+		{
+		  "card": {
+			"type": "AdaptiveCard",
+			"body": [
+			  {
+				"type": "ColumnSet",
+				"columns": [
+				  {
+					"type": "Column",
+					"size": "auto",
+					"items": [
+					  {
+						"type": "Image",
+						"size": "medium",
+						"url": "http://contososcuba.azurewebsites.net/assets/Contoso_logo.jpg"
+					  }
+					]
+				  },
+				  {
+					"type": "Column",
+					"items": [
+					  {
+						"type": "TextBlock",
+						"text": "Start with something like:",
+						"size": "large",
+						"weight": "bolder"
+					  },
+					  {
+						"type": "TextBlock",
+						"text": "\u0027Where can I go scuba diving?\u0027",
+						"separation": "none"
+					  },
+					  {
+						"type": "TextBlock",
+						"text": "or",
+						"separation": "none"
+					  },
+					  {
+						"type": "TextBlock",
+						"text": "\u0027Show me some local wildlife.\u0027",
+						"separation": "none"
+					  },
+					  {
+						"type": "TextBlock",
+						"text": "You can also \u0027restart\u0027 anytime.",
+						"separation": "none"
+					  }
+					]
+				  }
+				]
+			  }
+			]
+		  },
+		  "chatId": "{{chatid}}",
+		  "type": "adaptive-card",
+		  "to": "{{toname}}"
+		}
+	  ]
+	}
+
+}

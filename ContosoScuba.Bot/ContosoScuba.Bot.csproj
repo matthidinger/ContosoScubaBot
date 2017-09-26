@@ -184,6 +184,16 @@
     <Content Include="Cards\Danger.JSON">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="KikCards\0-Welcome.JSON" />
+    <Content Include="KikCards\1-Schools.JSON" />
+    <Content Include="KikCards\2-Locations.JSON" />
+    <Content Include="KikCards\3-People.JSON" />
+    <Content Include="KikCards\4-Date.JSON" />
+    <Content Include="KikCards\5-Lunch.JSON" />
+    <Content Include="KikCards\6-PersonalInfo.JSON" />
+    <Content Include="KikCards\7-Weather.JSON" />
+    <Content Include="KikCards\Danger.JSON" />
+    <Content Include="KikCards\Wildlife.JSON" />
     <None Include="Properties\PublishProfiles\ContosoScuba - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -2,6 +2,7 @@
 using ContosoScuba.Bot.Models;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using Microsoft.Bot.Connector;
 
 namespace ContosoScuba.Bot.CardProviders
 {
@@ -15,7 +16,7 @@ namespace ContosoScuba.Bot.CardProviders
                 && (scubaData == null || string.IsNullOrEmpty(scubaData.School));
         }
         
-        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(Activity activity, UserScubaData scubaData, JObject value, string messageText)
         {
             var school = value != null ? value.Value<string>("school") : messageText;
 
@@ -25,15 +26,15 @@ namespace ContosoScuba.Bot.CardProviders
             
             scubaData.School = school;
             
-            return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
+            return new ScubaCardResult() { CardText = await GetCardText(activity, scubaData) };
         }
 
-        private async Task<string> GetCardText(UserScubaData scubaData)
+        private async Task<string> GetCardText(Activity activity, UserScubaData scubaData)
         {
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{school}}", scubaData.School);
 
-            return await base.GetCardText(replaceInfo);
+            return await base.GetCardText(activity, replaceInfo);
         }
 
         private string GetErrorMessage(string userInput)

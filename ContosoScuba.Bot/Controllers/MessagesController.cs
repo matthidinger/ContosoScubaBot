@@ -47,7 +47,11 @@ namespace ContosoScuba.Bot
                     {
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
-                            var cardText = await ScubaCardService.GetCardText("0-Welcome");
+                            var cardText = await ScubaCardService.GetCardText("0-Welcome", message.ChannelId);
+
+                            if(message.ChannelId == ChannelIds.Kik)                            
+                                cardText = ScubaCardService.ReplaceKickText(cardText, message);
+                            
                             var reply = RootDialog.GetCardReply(message, cardText);
                             await connector.Conversations.ReplyToActivityAsync(reply);
                         }

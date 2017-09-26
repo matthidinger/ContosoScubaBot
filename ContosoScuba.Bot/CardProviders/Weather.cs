@@ -1,4 +1,5 @@
 ﻿using ContosoScuba.Bot.Models;
+using Microsoft.Bot.Connector;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace ContosoScuba.Bot.CardProviders
                 && scubaData.PersonalInfo == null;
         }
 
-        public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
+        public override async Task<ScubaCardResult> GetCardResult(Activity activity, UserScubaData scubaData, JObject value, string messageText)
         {
             var info = new Models.PersonalInfo();           
             info.Name = value.Value<string>("firstlast");
@@ -31,10 +32,10 @@ namespace ContosoScuba.Bot.CardProviders
 
             scubaData.PersonalInfo = info;
 
-            return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
+            return new ScubaCardResult() { CardText = await GetCardText(activity, scubaData) };
         }
 
-        private async Task<string> GetCardText(UserScubaData scubaData)
+        private async Task<string> GetCardText(Activity activity, UserScubaData scubaData)
         {
             DateTime date = Convert.ToDateTime(scubaData.Date);
 
@@ -54,7 +55,7 @@ namespace ContosoScuba.Bot.CardProviders
             replaceInfo.Add("{{day3}}", date.AddDays(3).DayOfWeek.ToString().Substring(0, 3));
             replaceInfo.Add("{{day4}}", date.AddDays(4).DayOfWeek.ToString().Substring(0, 3));
 
-            return await base.GetCardText(replaceInfo);
+            return await base.GetCardText(activity, replaceInfo);
         }
 
         private string GetErrorMessage(Models.PersonalInfo personalInfo)

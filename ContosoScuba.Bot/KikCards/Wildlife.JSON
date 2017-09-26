@@ -1,0 +1,97 @@
+﻿{
+  "type": "message",
+  "channeldata": {
+    "messages": [
+      {
+        "card": {
+          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "body": [
+            {
+              "type": "TextBlock",
+              "text": "You will be surprised how much amazingness you may see underwater.",
+              "size": "normal",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "Click on each image to *dive deep*!",
+              "size": "normal",
+              "wrap": true
+            },
+            {
+              "type": "ImageSet",
+              "imageSize": "medium",
+              "images": [
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/1.jpg",
+                  "selectAction": {
+                    "type": "Action.OpenUrl",
+                    "url": "https://www.bing.com/images/search?q=ocean+life"
+                  }
+                },
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/2.jpg",
+                  "selectAction": {
+                    "type": "Action.OpenUrl",
+                    "url": "https://www.bing.com/images/search?q=ocean+life"
+                  }
+                },
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/3.jpg",
+                  "selectAction": {
+                    "type": "Action.OpenUrl",
+                    "url": "https://www.bing.com/images/search?q=ocean+life"
+                  }
+                },
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/4.jpg",
+                  "selectAction": {
+                    "type": "Action.OpenUrl",
+                    "url": "https://www.bing.com/images/search?q=ocean+life"
+                  }
+                },
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/5.jpg",
+                  "selectAction": {
+                    "type": "Action.OpenUrl",
+                    "url": "https://www.bing.com/images/search?q=ocean+life"
+                  }
+                },
+                {
+                  "type": "Image",
+                  "url": "http://contososcubabot.azurewebsites.net/assets/6.jpg",
+                  "selectAction": {
+                    "type": "Action.ShowCard",
+                    "title": "ShowJoeBFunFact",
+                    "card": {
+                      "type": "AdaptiveCard",
+                      "body": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Ah, the elusive golden graphite shark, a rare but wonderful find in these parts!",
+                          "size": "normal",
+                          "wrap": true,
+                          "weight": "lighter"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "chatId": "7wgbefyw-some-chat-id-9ebiwue",
+        "type": "adaptive-card",
+        "to": "bryan"
+      }
+    ]
+  }
+}
