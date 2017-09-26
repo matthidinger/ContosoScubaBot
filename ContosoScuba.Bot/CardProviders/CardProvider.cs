@@ -23,7 +23,7 @@ namespace ContosoScuba.Bot.CardProviders
                 return string.Empty;
 
             if (activity.ChannelId == ChannelIds.Kik)            
-                ScubaCardService.ReplaceKickText(cardJson, activity);
+                cardJson = ScubaCardService.ReplaceKickText(cardJson, activity);
             
             if (replaceInfo == null)
                 return cardJson;

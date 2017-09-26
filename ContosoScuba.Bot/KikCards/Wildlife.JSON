@@ -88,9 +88,9 @@
             }
           ]
         },
-        "chatId": "7wgbefyw-some-chat-id-9ebiwue",
+        "chatId": "{{chatid}}",
         "type": "adaptive-card",
-        "to": "bryan"
+        "to": "{{toname}}"
       }
     ]
   }
