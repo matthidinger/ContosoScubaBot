@@ -55,7 +55,7 @@ namespace ContosoScuba.Bot.Services
 
         public static async Task<string> GetCardText(string cardName, string channelId)
         {
-            string folderName = "kikcards";// channelId == ChannelIds.Kik ? "kikcards" : "cards";
+            string folderName = channelId == ChannelIds.Kik ? "kikcards" : "cards";
 
             var path = HostingEnvironment.MapPath($"/{folderName}/{cardName}.JSON");
             if (!File.Exists(path))
