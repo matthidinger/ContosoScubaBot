@@ -97,7 +97,24 @@
         },
         "chatId": "{{chatid}}",
         "type": "adaptive-card",
-        "to": "{{toname}}"
+        "to": "{{toname}}",
+        "keyboards": [
+          {
+            "type": "suggested",
+            "responses": [
+              {
+                "type": "text",
+                "body": "Next",
+                "metadata": {
+                  "personalInfo": "",
+                  "firstlast": "Hidinger, Matt",
+                  "email": "Matt.Hidinger@Microsoft.com",
+                  "phone": "888.888.7000"
+                }
+              }
+            ]
+          }
+        ]
       }
     ]
   }
