@@ -203,7 +203,26 @@
         },
         "chatId": "{{chatid}}",
         "type": "adaptive-card",
-        "to": "{{toname}}"
+        "to": "{{toname}}",
+        "keyboards": [
+          {
+            "type": "suggested",
+            "responses": [
+              {
+                "type": "text",
+                "body": "Beef"
+              },
+              {
+                "type": "text",
+                "body": "Chicken"
+              },
+              {
+                "type": "text",
+                "body": "Tofu (Vegetarian)"
+              }
+            ]
+          }
+        ]
       }
     ]
   }

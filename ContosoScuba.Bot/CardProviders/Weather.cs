@@ -1,4 +1,5 @@
 ﻿using ContosoScuba.Bot.Models;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json.Linq;
 using System;
@@ -26,7 +27,7 @@ namespace ContosoScuba.Bot.CardProviders
             info.Email = value.Value<string>("email");
             info.Phone = value.Value<string>("phone");
 
-            var error = GetErrorMessage(info);
+            var error = GetErrorMessage(activity, info);
             if (!string.IsNullOrEmpty(error))
                 return new ScubaCardResult() { ErrorMessage = error };
 
@@ -58,21 +59,24 @@ namespace ContosoScuba.Bot.CardProviders
             return await base.GetCardText(activity, replaceInfo);
         }
 
-        private string GetErrorMessage(Models.PersonalInfo personalInfo)
+        private string GetErrorMessage(Activity activity, Models.PersonalInfo personalInfo)
         {
-            if (string.IsNullOrWhiteSpace(personalInfo.Name)
-                || string.IsNullOrWhiteSpace(personalInfo.Email)
-                || string.IsNullOrWhiteSpace(personalInfo.Phone))            
-                return "Please fill out all the fields";
-            
-            if (!Regex.IsMatch(personalInfo.Email, @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
-                                         + "@"
-                                         + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$"))            
-                return "Please enter a valid email address";
-            
-            if (!Regex.IsMatch(personalInfo.Phone, @"\(?\d{3}\)?[-\.]? *\d{3}[-\.]? *[-\.]?\d{4}"))            
-                return "Please enter a valid phone number";
-            
+            //kik is not setup to send json results, so ignore validation here
+            if (activity.ChannelId != ChannelIds.Kik)
+            {
+                if (string.IsNullOrWhiteSpace(personalInfo.Name)
+                    || string.IsNullOrWhiteSpace(personalInfo.Email)
+                    || string.IsNullOrWhiteSpace(personalInfo.Phone))
+                    return "Please fill out all the fields";
+
+                if (!Regex.IsMatch(personalInfo.Email, @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*"
+                                             + "@"
+                                             + @"((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$"))
+                    return "Please enter a valid email address";
+
+                if (!Regex.IsMatch(personalInfo.Phone, @"\(?\d{3}\)?[-\.]? *\d{3}[-\.]? *[-\.]?\d{4}"))
+                    return "Please enter a valid phone number";
+            }
             return string.Empty;
         }
     }
