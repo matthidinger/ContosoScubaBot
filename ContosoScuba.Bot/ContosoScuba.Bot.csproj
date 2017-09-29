@@ -114,17 +114,21 @@
     <Content Include="Assets\4.jpg" />
     <Content Include="Assets\5.jpg" />
     <Content Include="Assets\6.jpg" />
+    <Content Include="Assets\bares.png" />
     <Content Include="Assets\chicken.jpg" />
     <Content Include="Assets\clown-fish-2199907_640.jpg" />
     <Content Include="Assets\contoso_logo.jpg" />
     <Content Include="Assets\dangerous.png" />
     <Content Include="Assets\dolphin-203875_640.jpg" />
     <Content Include="Assets\FabrikamLogo2.png" />
+    <Content Include="Assets\lei.png" />
     <Content Include="Assets\loggerhead-turtle-123402_640.jpg" />
     <Content Include="Assets\MargiesTravel2.png" />
     <Content Include="Assets\octo_calendar.png" />
     <Content Include="Assets\scuba-diver-1237237_640.jpg" />
+    <Content Include="Assets\scubabackground.jpeg" />
     <Content Include="Assets\steak.jpg" />
+    <Content Include="Assets\thomas.png" />
     <Content Include="Assets\tofu.jpg" />
     <Content Include="Cards\6-PersonalInfo.JSON">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -135,6 +139,7 @@
     <Content Include="Cards\5-Lunch.JSON">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="default - Copy.htm" />
     <Content Include="default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">

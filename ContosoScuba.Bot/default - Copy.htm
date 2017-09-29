@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Contoso Dive Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .ac-container.ac-selectable:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        } 
+    </style>
+
+    <link href="https://cdn.botframework.com/botframework-webchat/latest/botchat.css" rel="stylesheet" />
+
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/botchat.js"></script>
+
+    <script>
+
+        
+        window.onload = function () {
+            var model = {
+                "userId": "UserId",
+                "userName": "Diver",
+                "botId": "ContosoDivingBot",
+                "botName": "Contoso Diving",
+                "secret": "bxDexhznq30.cwA.Gvo.8Tf09Qy9qVHXmnGQG265Pv4srHjDpeiYR9inPhKrubY",
+                //"secret": "X9QoFpMT4t4.cwA.8N8.yA0ssD65ZvDpdvNHK51oQikR-uBBZluNJJSUgE75YsE",
+                "directLineUrl": "https://webchat.botframework.com/v3/directline",
+                "webSocketEnabled": "false"
+            };
+
+            BotChat.App({
+                directLine: {
+                    secret: model.secret,
+                    token: model.token,
+                    domain: model.directLineUrl,
+                    webSocket: false
+                },
+                user: { id: model.userId, name: model.userName },
+                bot: { id: model.botId, name: model.botName },
+                resize: 'window'
+                ,
+                speechOptions: {
+                    speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
+                    speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
+                }
+            }, document.getElementById("botchatPane"));
+        };
+    </script>
+</head>
+<body style="font-family:'Segoe UI';">
+    <div style="width:100%;">
+        <h1 style="display:table; margin: 0 auto;">Contoso Diving!</h1>
+        <br />
+        <div style="display:table; margin: 0 auto;">
+            <div id="botchatPane" style="height:600px; width: 550px; position: relative; display: inline-block;"></div>
+        </div>
+    </div>
+</body>
+</html>
