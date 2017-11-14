@@ -15,7 +15,7 @@
             "items": [
               {
                 "type": "TextBlock",
-                "text": "Alki Beach - Accepted",
+                "text": "Alki Beach - Receipt",
                 "weight": "bolder",
                 "size": "large",
                 "wrap": true,
