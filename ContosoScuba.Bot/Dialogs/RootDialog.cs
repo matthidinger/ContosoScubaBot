@@ -48,6 +48,10 @@ namespace ContosoScuba.Bot.Dialogs
             {
                 return nextMessage = await GetCard(activity, "Wildlife");
             }
+            else if (text.Contains("receipt"))
+            {
+                return nextMessage = await GetCard(activity, "Receipt");
+            }
             else if (text.Contains("danger"))
             {
                 return nextMessage = await GetCard(activity, "Danger");
