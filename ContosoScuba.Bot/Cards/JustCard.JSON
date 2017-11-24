@@ -1,0 +1,51 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "backgroundImage": "http://adaptivecards.io/content/AlkiBeach.jpg",
+  "body": [
+    {
+      "type": "Container",
+      "seperation": "None",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Alki Beach - Receipt",
+          "weight": "bolder",
+          "size": "large",
+          "wrap": true,
+          "maxLines": 3
+        },
+        {
+          "type": "TextBlock",
+          "text": "Monday, November 20th",
+          "size": "normal",
+          "wrap": true,
+          "maxLines": 3
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Time",
+              "value": "10:00 AM"
+            },
+            {
+              "title": "Attendees",
+              "value": "4 people"
+            },
+            {
+              "title": "Diet",
+              "value": "2 dietary requests"
+            },
+            {
+              "title": "Experience",
+              "value": "3 experienced, 1 new"
+            }
+          ]
+        }
+
+      ]
+    }
+  ]
+}

@@ -5,6 +5,7 @@ using Microsoft.Bot.Connector;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using ContosoScuba.Bot.Services;
+using AdaptiveCards;
 
 namespace ContosoScuba.Bot.Dialogs
 {
@@ -14,10 +15,26 @@ namespace ContosoScuba.Bot.Dialogs
         private const string ERROR =
             "I didn't understand please respond with \"Wildlife\", \"Danger\", or \"Scuba Diving\"";
 
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
-            context.Wait(MessageReceivedAsync);
-            return Task.CompletedTask;
+            var replyMessage = context.MakeMessage();
+            var json = await ScubaCardService.GetCardText("JustCard");
+
+            AdaptiveCardParseResult cardParseResult = AdaptiveCard.FromJson(json);
+            
+            replyMessage.Attachments.Add(new Attachment()
+            {
+                Content = cardParseResult.Card,
+                ContentType = AdaptiveCard.ContentType,
+                Name = "Card"
+            });
+
+            await context.PostAsync(replyMessage);
+            return;
+
+
+            //context.Wait(MessageReceivedAsync);
+            //return Task.CompletedTask;
         }
 
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
