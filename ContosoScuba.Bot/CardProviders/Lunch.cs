@@ -15,7 +15,8 @@ namespace ContosoScuba.Bot.CardProviders
         {
             return scubaData != null
                 && !string.IsNullOrEmpty(scubaData.NumberOfPeople)
-                && string.IsNullOrEmpty(scubaData.Date);            
+                && string.IsNullOrEmpty(scubaData.Date) 
+                && (value == null || value["previousDate"] == null);            
         }
 
         public override async Task<ScubaCardResult> GetCardResult(Activity activity, UserScubaData scubaData, JObject value, string messageText)
