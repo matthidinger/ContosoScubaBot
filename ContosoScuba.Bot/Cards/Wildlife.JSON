@@ -1,4 +1,4 @@
-﻿{
+{
   "type": "message",
   "attachments": [
     {
@@ -63,27 +63,7 @@
                 "selectAction": {
                   "type": "Action.OpenUrl",
                   "url": "https://www.bing.com/images/search?q=ocean+life"
-                }
-              },
-              {
-                "type": "Image",
-                "url": "http://contososcubabot.azurewebsites.net/assets/6.jpg",
-                "selectAction": {
-                  "type": "Action.ShowCard",
-                  "title": "ShowJoeBFunFact",
-                  "card": {
-                    "type": "AdaptiveCard",
-                    "body": [
-                      {
-                        "type": "TextBlock",
-                        "text": "Ah, the elusive golden graphite shark, a rare but wonderful find in these parts!",
-                        "size": "normal",
-                        "wrap": true,
-                        "weight": "lighter"
-                      }
-                    ]
-                  }
-                }
+                }              
               }
             ]
           }
