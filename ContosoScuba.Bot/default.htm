@@ -28,7 +28,6 @@
                 "botId": "ContosoScuba",
                 "botName": "ContosoScuba",
                 "secret": "MPps1zHx--k.cwA.mdc.u5fIXqQpKi9usTUnIBSbXiQgcGLpc_VqzORhdm7s7RQ",
-                "directLineUrl": "https://webchat.botframework.com/v3/directline",
                 "webSocketEnabled": "false"
             };
 
@@ -37,6 +36,7 @@
                     secret: model.secret,
                     token: model.token,
                     domain: model.directLineUrl,
+
                     webSocket: false
                 },
                 user: { id: model.userId, name: model.userName },
