@@ -27,7 +27,7 @@
                           {
                             "type": "Image",
                             "size": "large",
-                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/dolphin-203875_640.jpg?raw=true"
+                            "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/dolphin-203875_640.jpg"
                           }
                         ]
                       },
@@ -73,7 +73,7 @@
                   {
                     "type": "Image",
                     "size": "medium",
-                    "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/MargiesTravel2.png?raw=true"
+                    "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/MargiesTravel2.png"
                   }
                 ]
 
@@ -115,7 +115,7 @@
                           {
                             "type": "Image",
                             "size": "large",
-                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/scuba-diver-1237237_640.jpg?raw=true"
+                            "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/scuba-diver-1237237_640.jpg"
                           }
                         ]
                       },
@@ -161,7 +161,7 @@
                   {
                     "type": "Image",
                     "size": "medium",
-                    "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/FabrikamLogo2.png?raw=true"
+                    "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/FabrikamLogo2.png"
                   }
                 ]
 
@@ -204,7 +204,7 @@
                           {
                             "type": "Image",
                             "size": "large",
-                            "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/loggerhead-turtle-123402_640.jpg?raw=true"
+                            "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/loggerhead-turtle-123402_640.jpg"
                           }
                         ]
                       },
@@ -250,7 +250,7 @@
                   {
                     "type": "Image",
                     "size": "medium",
-                    "url": "https://github.com/matthidinger/ContosoScubaBot/blob/master/wwwroot/Assets/AdventureWorksLogo2.png?raw=true"
+                    "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/AdventureWorksLogo2.png"
                   }
                 ]
 
