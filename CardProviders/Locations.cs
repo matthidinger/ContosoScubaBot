@@ -11,8 +11,8 @@ namespace ContosoScuba.Bot.CardProviders
         
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
-            return (scubaData != null || (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school")))))
-                && (scubaData == null || string.IsNullOrEmpty(scubaData.School));
+            return (scubaData.Started || (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school")))))
+                && (!scubaData.Started || string.IsNullOrEmpty(scubaData.School));
         }
         
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
@@ -24,7 +24,7 @@ namespace ContosoScuba.Bot.CardProviders
                 return new ScubaCardResult() { ErrorMessage = error };
             
             scubaData.School = school;
-            
+            scubaData.Started = true;
             return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
         }
 

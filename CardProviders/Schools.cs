@@ -10,7 +10,7 @@ namespace ContosoScuba.Bot.CardProviders
 
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
-            return scubaData == null;
+            return !scubaData.Started;
         }
 
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject messageValue, string messageText)
