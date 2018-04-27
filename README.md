@@ -2,22 +2,21 @@
 
 ## Introduction 
 
-Most chat bot platforms have a single input box through which users type messages in order to interact with a bot.  [**Adaptive Cards**](http://adaptivecards.io/) provide a new way to create custom and interactive cards, with rich visuals and controls, that adapt to the platform on which they are being displayed.  In order to demonstrate the richness of Adaptive Cards in this sample, we've created a bot for a fictitious company that provides a scuba diving search and reservation service.  **Contoso Dive Finder** demonstrates incorporating Adaptive Cards into a bot built using the [**Microsoft Bot Builder .NET SDK**](https://github.com/Microsoft/BotBuilder) and the [**Adaptive Cards nuget**](https://www.nuget.org/packages/Microsoft.AdaptiveCards) package.   
+Most chat bot platforms have a single input box through which users type messages in order to interact with a bot.  [**Adaptive Cards**](http://adaptivecards.io/) provide a new way to create custom and interactive cards, with rich visuals and controls, that adapt to the platform on which they are being displayed.  In order to demonstrate the richness of Adaptive Cards in this sample, we've created a bot for a fictitious company that provides a scuba diving search and reservation service.  **Contoso Dive Finder** demonstrates incorporating Adaptive Cards into a bot built using the [**Microsoft Bot Builder .NET SDK**](https://github.com/Microsoft/botbuilder-dotnet) and the [**Adaptive Cards nuget**](https://www.nuget.org/packages/AdaptiveCards) package.   
 
-![Walk THrough](WalkThrough.gif "Visual Walk Through")
+![Walk Through](WalkThrough.gif "Visual Walk Through")
 
 ## Getting Started
 
-A published example of the **Contoso Dive Finder** is: [ContosoScuba.AzureWebsites.net](https://contososcuba.azurewebsites.net)  
+A published example of the **Contoso Dive Finder** is: [ContosoScubaDemo.AzureWebsites.net](https://contososcubademo.azurewebsites.net/)  
 
 If you desire to run the sample yourself: 
 
 * Download the source
-* Restore Nuget Packages
-* Register a bot on [https://dev.botframework.com/](https://dev.botframework.com/)
-* Retrieve your bot's **Web Chat** channel secret from the dev portal and add it to the **default.htm** page
-* Add your bot's **MicrosoftAppId** and **MicrosoftAppPassword** to the Web.config's `<appSettings>` 
-* Publish your bot (make sure the messaging endpoint in the dev portal is set to the published url)
+* Create a Bot Registration in the [Azure Portal](https://portal.azure.com) (Instructions can be found here: [Quickstart Guide](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration))
+* Retrieve your bot's **Direct Line** channel secret from the direct line configuration page and add it to the **default.htm** page
+* Add your bot's **MicrosoftAppId** and **MicrosoftAppPassword** to the appsettings.json 
+* Publish your bot (make sure the messaging endpoint in bot settings is set to the published url: https://sitename.azurewebsites.net/api/messages)
 
 ## Creating Adaptive Cards
 
@@ -31,14 +30,7 @@ Loading a card is as simple as reading the .json file, and creating a reply with
 
  public static async Task<string> GetCardText(string cardName)
 {
-    var path = HostingEnvironment.MapPath($"/Cards/{cardName}.JSON");
-    if (!File.Exists(path))
-        return string.Empty;
-
-    using (var f = File.OpenText(path))
-    {
-        return await f.ReadToEndAsync();                
-    }
+    return await File.ReadAllTextAsync($@".\Cards/{cardName}.JSON");
 } 
 
 ```
@@ -48,13 +40,13 @@ The **ScubaCardService** source code is not shown here.  It is responsible for l
 ```cs
 
 
-private async Task<IMessageActivity> GetNextScubaMessage(IDialogContext context, Activity activity)
+private async Task<IMessageActivity> GetNextScubaMessage(ITurnContext context, Activity activity)
 {
-    var cardText = await new ScubaCardService().GetNextCardText(context, activity);
-    if (string.IsNullOrEmpty(cardText))
-        return activity.CreateReply("I'm sorry, I don't understand.  Please rephrase, or use the Adaptive Card to respond.");
+    var resultInfo = await new ScubaCardService().GetNextCardText(context, activity);
+    if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
+        return activity.CreateReply(resultInfo.ErrorMessage);
 
-    return GetCardReply(activity, cardText);
+    return GetCardReply(activity, resultInfo.CardText);
 }
 
 public static Activity GetCardReply(Activity activity, string cardText)
