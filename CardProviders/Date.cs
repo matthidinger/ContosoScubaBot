@@ -43,7 +43,9 @@ namespace ContosoScuba.Bot.CardProviders
 
         private async Task<string> GetCardText(UserScubaData scubaData, DateTime? previousDate = null)
         {
-            var cardText = await base.GetCardText(new Dictionary<string, string>());
+            var replaceInfo = new Dictionary<string, string>();
+            replaceInfo.Add("{{number_of_people}}", scubaData.NumberOfPeople);
+            var cardText = await base.GetCardText(replaceInfo);
 
             var useMonth = DateTime.Now;
             if (previousDate.HasValue)
