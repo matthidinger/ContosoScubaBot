@@ -34,13 +34,19 @@ namespace ContosoScuba.Bot
             }
             else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
             {
-                // On "conversationUpdate"-type activities this bot will send a greeting message to users joining the conversation.
-                var newUserName = context.Activity.MembersAdded.FirstOrDefault()?.Name;
-                if (!string.IsNullOrWhiteSpace(newUserName) && newUserName.ToLower().Contains("contoso"))
+                IConversationUpdateActivity iConversationUpdated = context.Activity as IConversationUpdateActivity;
+                if (iConversationUpdated != null)
                 {
-                    var cardText = await ScubaCardService.GetCardText("0-Welcome");
-                    var reply = GetCardReply(context.Activity, cardText);
-                    await context.SendActivity(reply);
+                    foreach (var member in iConversationUpdated.MembersAdded ?? System.Array.Empty<ChannelAccount>())
+                    {
+                        // if the bot is added, then show welcome message
+                        if (member.Id == iConversationUpdated.Recipient.Id)
+                        {
+                            var cardText = await ScubaCardService.GetCardText("0-Welcome");
+                            var reply = GetCardReply(context.Activity, cardText);
+                            await context.SendActivity(reply);
+                        }
+                    }
                 }
             }
         }
