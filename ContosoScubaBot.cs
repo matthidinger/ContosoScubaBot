@@ -36,7 +36,7 @@ namespace ContosoScuba.Bot
             {
                 // On "conversationUpdate"-type activities this bot will send a greeting message to users joining the conversation.
                 var newUserName = context.Activity.MembersAdded.FirstOrDefault()?.Name;
-                if (!string.IsNullOrWhiteSpace(newUserName) && !newUserName.ToLower().Contains("contoso"))
+                if (!string.IsNullOrWhiteSpace(newUserName) && newUserName.ToLower().Contains("contoso"))
                 {
                     var cardText = await ScubaCardService.GetCardText("0-Welcome");
                     var reply = GetCardReply(context.Activity, cardText);
