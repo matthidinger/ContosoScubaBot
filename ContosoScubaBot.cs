@@ -54,7 +54,24 @@ namespace ContosoScuba.Bot
         {
             var resultInfo = await new ScubaCardService().GetNextCardText(context, activity);
             if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
-                return activity.CreateReply(resultInfo.ErrorMessage);
+            {
+                var reply = activity.CreateReply(resultInfo.ErrorMessage);
+                if (activity.ChannelId == Microsoft.Bot.Builder.Prompts.Choices.Channel.Channels.Cortana)
+                {
+                    var backCard = new AdaptiveCards.AdaptiveCard();
+                    backCard.Actions.Add(new AdaptiveCards.AdaptiveSubmitAction()
+                    {
+                        Data = "Back",
+                        Title = "Back"
+                    });
+                    reply.Attachments.Add(new Attachment()
+                    {
+                        Content = backCard,
+                        ContentType = AdaptiveCards.AdaptiveCard.ContentType
+                    });
+                }
+                return reply;
+            }
 
             return GetCardReply(activity, resultInfo.CardText);
         }

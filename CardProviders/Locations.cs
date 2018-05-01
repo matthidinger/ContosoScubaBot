@@ -8,23 +8,22 @@ namespace ContosoScuba.Bot.CardProviders
     public class Locations : CardProvider
     {
         public override string CardName => "2-Locations";
-        
-        public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
-        {
-            return (scubaData.Started || (IsSchool(messageText) || (value != null && IsSchool(value.Value<string>("school")))))
-                && (!scubaData.Started || string.IsNullOrEmpty(scubaData.School));
-        }
+
+        public override int CardIndex => 2;
         
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
             var school = value != null ? value.Value<string>("school") : messageText;
 
-            var error = GetErrorMessage(school);
-            if (!string.IsNullOrEmpty(error))
-                return new ScubaCardResult() { ErrorMessage = error };
-            
-            scubaData.School = school;
-            scubaData.Started = true;
+            if (school.ToLower() != "back")
+            {
+                var error = GetErrorMessage(school);
+                if (!string.IsNullOrEmpty(error))
+                    return new ScubaCardResult() { ErrorMessage = error };
+
+                scubaData.School = school;
+                scubaData.CurrentCardIndex = CardIndex + 1;
+            }
             return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
         }
 

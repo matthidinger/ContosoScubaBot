@@ -21,6 +21,7 @@ namespace ContosoScuba.Bot.Services
             return Assembly.GetCallingAssembly().DefinedTypes
                 .Where(t => (typeof(CardProvider) != t && typeof(CardProvider).IsAssignableFrom(t) && !t.IsAbstract))
                 .Select(t => (CardProvider)Activator.CreateInstance(t))
+                .OrderBy(t=>t.CardIndex)
                 .ToList();
         });
 

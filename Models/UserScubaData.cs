@@ -10,11 +10,12 @@ namespace ContosoScuba.Bot.Models
         {
 
         }
-        public bool Started
+        public int CurrentCardIndex
         {
-            get { return ContainsKey(nameof(Started)) ? Convert.ToBoolean(base[nameof(Started)]) : false; }
-            set { base[nameof(Started)] = value.ToString(); }
+            get { return ContainsKey(nameof(CurrentCardIndex)) ? Convert.ToInt32(base[nameof(CurrentCardIndex)]) : 1; }
+            set { base[nameof(CurrentCardIndex)] = value.ToString(); }
         }
+
         public string School
         {
             get { return ContainsKey(nameof(School)) ? base[nameof(School)] as string : string.Empty; }
@@ -44,7 +45,7 @@ namespace ContosoScuba.Bot.Models
         {
             get { return ContainsKey(nameof(PersonalInfo)) ? base[nameof(PersonalInfo)] as PersonalInfo : null; }
             set { base[nameof(PersonalInfo)] = value; }
-        }        
+        }
 
     }
 

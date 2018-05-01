@@ -1,7 +1,62 @@
 {
   "type": "message",
-  "text": "Your meal preferences are recorded, and your trip is confirmed.\n\n{{name}}\n\n{{email}}\n\n{{phone}}\n\nWith {{school}} at {{destination}}\n\n Here is a weather forecast for your trip:",
+  "text": "Your meal preferences are recorded, and your trip is confirmed.\n\n{{name}}\n\n{{email}}",
+  "attachmentLayout": "caroursel",
   "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "backgroundImage": "http://adaptivecards.io/content/AlkiBeach.jpg",
+        "body": [
+          {
+            "type": "Container",
+            "seperation": "None",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "{{destination}} - Receipt",
+                "weight": "bolder",
+                "size": "large",
+                "wrap": true,
+                "maxLines": 3
+              },
+              {
+                "type": "TextBlock",
+                "text": "{{longdate}}",
+                "size": "normal",
+                "wrap": true,
+                "maxLines": 3
+              },
+              {
+                "type": "FactSet",
+                "facts": [
+                  {
+                    "title": "Time",
+                    "value": "10:00 AM"
+                  },
+                  {
+                    "title": "Attendees",
+                    "value": "{{number_of_people}} people"
+                  },
+                  {
+                    "title": "Diet",
+                    "value": "2 dietary requests"
+                  },
+                  {
+                    "title": "Phone",
+                    "value": "{{phone}}"
+                  }
+                ]
+              }
+
+            ]
+          }
+        ]
+      }
+    },
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
@@ -31,7 +86,7 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "**{{longdate}}**",
+                    "text": "Forecast: **{{longdate}}**",
                     "size": "large"
                   },
                   {

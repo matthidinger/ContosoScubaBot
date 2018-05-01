@@ -9,23 +9,21 @@ namespace ContosoScuba.Bot.CardProviders
     public class Lunch : CardProvider
     {
         public override string CardName => "5-Lunch";
-        
-        public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
-        {
-            return scubaData.Started
-                && !string.IsNullOrEmpty(scubaData.NumberOfPeople)
-                && string.IsNullOrEmpty(scubaData.Date);            
-        }
+        public override int CardIndex => 5;
 
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
             var date = value != null ? value.Value<string>("scheduleDate") : messageText;
 
-            var error = GetErrorMessage(date);
-            if (!string.IsNullOrEmpty(error))
-                return new ScubaCardResult() { ErrorMessage = error };
+            if (date.ToLower() != "back")
+            {
+                var error = GetErrorMessage(date);
+                if (!string.IsNullOrEmpty(error))
+                    return new ScubaCardResult() { ErrorMessage = error };
 
-            scubaData.Date = date;
+                scubaData.Date = date;
+                scubaData.CurrentCardIndex = CardIndex + 1;
+            }
 
             return new ScubaCardResult() { CardText = await base.GetCardText() };
         }

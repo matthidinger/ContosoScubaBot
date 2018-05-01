@@ -10,20 +10,19 @@ namespace ContosoScuba.Bot.CardProviders
     public class Weather : CardProvider
     {
         public override string CardName => "7-Weather";
-        
-        public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
-        {
-            return scubaData.Started
-                && scubaData.MealOptions != null
-                && scubaData.PersonalInfo == null;
-        }
 
+        public override int CardIndex => 7;
+        
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
-            var info = new Models.PersonalInfo();           
-            info.Name = value.Value<string>("firstlast");
-            info.Email = value.Value<string>("email");
-            info.Phone = value.Value<string>("phone");
+            var info = new Models.PersonalInfo();
+
+            if (value != null)
+            {
+                info.Name = GetValue(value, "firstlast");
+                info.Email = GetValue(value, "email");
+                info.Phone = GetValue(value, "phone");
+            }
 
             var error = GetErrorMessage(info);
             if (!string.IsNullOrEmpty(error))
@@ -32,6 +31,15 @@ namespace ContosoScuba.Bot.CardProviders
             scubaData.PersonalInfo = info;
 
             return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
+        }
+
+        private string GetValue(JObject value, string valueName)
+        {
+            JToken token;
+            if (value.TryGetValue(valueName, out token))
+                return token.Value<string>();
+
+            return string.Empty;
         }
 
         private async Task<string> GetCardText(UserScubaData scubaData)
@@ -53,6 +61,7 @@ namespace ContosoScuba.Bot.CardProviders
             replaceInfo.Add("{{day2}}", date.AddDays(2).DayOfWeek.ToString().Substring(0, 3));
             replaceInfo.Add("{{day3}}", date.AddDays(3).DayOfWeek.ToString().Substring(0, 3));
             replaceInfo.Add("{{day4}}", date.AddDays(4).DayOfWeek.ToString().Substring(0, 3));
+            replaceInfo.Add("{{number_of_people}}", scubaData.NumberOfPeople);
 
             return await base.GetCardText(replaceInfo);
         }

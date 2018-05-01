@@ -13,11 +13,12 @@ namespace ContosoScuba.Bot.CardProviders
     {
         public override string CardName => "4-Date";
 
+        public override int CardIndex => 4;
+
         public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
         {
-            return scubaData.Started
-                && ((!string.IsNullOrEmpty(scubaData.Destination)
-                && string.IsNullOrEmpty(scubaData.NumberOfPeople)) || value["PreviousDate"] != null);
+            return base.ProvidesCard(scubaData, value, messageText)
+                || (scubaData.CurrentCardIndex == CardIndex + 1 && (value != null && value["PreviousDate"] != null));
         }
 
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
@@ -29,14 +30,17 @@ namespace ContosoScuba.Bot.CardProviders
             }
             else
             {
-                var numberOfPeople = value != null ? value.Value<string>("numberOfPeople") : messageText;
+                if (messageText?.ToLower() != "back")
+                {
+                    var numberOfPeople = value != null ? value.Value<string>("numberOfPeople") : messageText;
 
-                var error = GetErrorMessage(numberOfPeople);
-                if (!string.IsNullOrEmpty(error))
-                    return new ScubaCardResult() { ErrorMessage = error };
+                    var error = GetErrorMessage(numberOfPeople);
+                    if (!string.IsNullOrEmpty(error))
+                        return new ScubaCardResult() { ErrorMessage = error };
 
-                scubaData.NumberOfPeople = numberOfPeople;
-
+                    scubaData.NumberOfPeople = numberOfPeople;
+                    scubaData.CurrentCardIndex = CardIndex + 1;
+                }
                 return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
             }
         }
@@ -100,7 +104,7 @@ namespace ContosoScuba.Bot.CardProviders
         public Day(DateTime date, DateTime firstDayOfMonth)
         {
             this.Date = date;
-            if (date.Date < DateTime.Now || date.Month != firstDayOfMonth.Month) 
+            if (date.Date < DateTime.Now || date.Month != firstDayOfMonth.Month)
                 this.Status = CalendarStatus.Unavailable;
             else
                 this.Status = CalendarStatus.Available;

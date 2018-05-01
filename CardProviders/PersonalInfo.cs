@@ -7,13 +7,8 @@ namespace ContosoScuba.Bot.CardProviders
     public class PersonalInfo : CardProvider
     {
         public override string CardName => "6-PersonalInfo";
-        
-        public override bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
-        {
-            return scubaData.Started
-                && !string.IsNullOrEmpty(scubaData.Date)
-                && scubaData.MealOptions == null;
-        }
+
+        public override int CardIndex => 6;
 
         public override async Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText)
         {
@@ -29,13 +24,17 @@ namespace ContosoScuba.Bot.CardProviders
                 mealOptions.Alergy = value.Value<string>("Allergy");
             }
             else            
-                mealOptions.ProteinPreference = messageText;            
+                mealOptions.ProteinPreference = messageText;
 
-            var error = GetErrorMessage(mealOptions.ProteinPreference);
-            if (!string.IsNullOrEmpty(error))
-                return new ScubaCardResult() { ErrorMessage = error };
+            if (messageText?.ToLower() != "back")
+            {
+                var error = GetErrorMessage(mealOptions.ProteinPreference);
+                if (!string.IsNullOrEmpty(error))
+                    return new ScubaCardResult() { ErrorMessage = error };
 
-            scubaData.MealOptions = mealOptions;
+                scubaData.MealOptions = mealOptions;
+                scubaData.CurrentCardIndex = CardIndex + 1;
+            }
 
             return new ScubaCardResult() { CardText = await GetCardText() };
         }

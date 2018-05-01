@@ -10,7 +10,13 @@ namespace ContosoScuba.Bot.CardProviders
     {
         public abstract string CardName { get; }
 
-        public abstract bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText);
+        public abstract int CardIndex { get; }
+
+        public virtual bool ProvidesCard(UserScubaData scubaData, JObject value, string messageText)
+        {
+            return (scubaData.CurrentCardIndex == CardIndex
+                   || (scubaData.CurrentCardIndex == CardIndex + 1 && messageText?.ToLower() == "back"));
+        }
 
         public abstract Task<ScubaCardResult> GetCardResult(UserScubaData scubaData, JObject value, string messageText);
 
