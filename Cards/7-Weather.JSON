@@ -86,8 +86,9 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "Forecast: **{{longdate}}**",
-                    "size": "large"
+                    "text": "{{longdate}}",
+                    "size": "large",
+                    "weight": "bolder"
                   },
                   {
                     "type": "TextBlock",
