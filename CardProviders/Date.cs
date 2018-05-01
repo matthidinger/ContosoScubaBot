@@ -157,7 +157,7 @@ namespace ContosoScuba.Bot.CardProviders
                     if (rows == 0)
                     {
                         columnSet.Columns[cols].Items.Add(row);
-                        row.Text = "**" + abbreviatedDayNames[cols] + "**";
+                        row.Text = abbreviatedDayNames[cols];
                     }
                     else
                     {
