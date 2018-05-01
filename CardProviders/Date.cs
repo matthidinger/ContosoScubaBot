@@ -158,6 +158,7 @@ namespace ContosoScuba.Bot.CardProviders
                     {
                         columnSet.Columns[cols].Items.Add(row);
                         row.Text = abbreviatedDayNames[cols];
+                        row.Weight = AdaptiveTextWeight.Bolder;
                     }
                     else
                     {
