@@ -9,41 +9,44 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
+        "version": "1.0",
         "body": [
           {
             "type": "ColumnSet",
             "columns": [
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "3",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "ColumnSet",
                     "columns": [
                       {
                         "type": "Column",
-                        "size": "auto",
+                        "width": "3",
                         "items": [
                           {
                             "type": "Image",
-                            "size": "large",
+                            "width": "auto",
                             "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/dolphin-203875_640.jpg"
                           }
                         ]
                       },
                       {
                         "type": "Column",
+                        "width": "3",
+                        "spacing": "medium",
                         "items": [
                           {
                             "type": "TextBlock",
                             "text": "Margie's Travel",
-                            "size": "large",
                             "weight": "bolder"
                           },
                           {
                             "type": "TextBlock",
                             "text": "4.4 stars",
-                            "separation": "none"
+                            "spacing": "none"
                           }
                         ]
                       }
@@ -57,22 +60,22 @@
                   {
                     "type": "TextBlock",
                     "text": "1602 E Avenue Rd.",
-                    "separation": "none"
+                    "spacing": "none"
                   },
                   {
                     "type": "TextBlock",
                     "text": "Gig Harbor, WA 98335",
-                    "separation": "none"
+                    "spacing": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "1",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "Image",
-                    "size": "medium",
                     "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/MargiesTravel2.png"
                   }
                 ]
@@ -97,41 +100,44 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
+        "version": "1.0",
         "body": [
           {
             "type": "ColumnSet",
             "columns": [
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "3",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "ColumnSet",
                     "columns": [
                       {
                         "type": "Column",
-                        "size": "auto",
+                        "width": "3",
                         "items": [
                           {
                             "type": "Image",
-                            "size": "large",
+                            "width": "auto",
                             "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/scuba-diver-1237237_640.jpg"
                           }
                         ]
                       },
                       {
                         "type": "Column",
+                        "width": "3",
+                        "spacing": "medium",
                         "items": [
                           {
                             "type": "TextBlock",
                             "text": "Fabrikam",
-                            "size": "large",
                             "weight": "bolder"
                           },
                           {
                             "type": "TextBlock",
                             "text": "4.1 stars",
-                            "separation": "none"
+                            "spacing": "none"
                           }
                         ]
                       }
@@ -145,22 +151,22 @@
                   {
                     "type": "TextBlock",
                     "text": "217 W Pine St.",
-                    "separation": "none"
+                    "spacing": "none"
                   },
                   {
                     "type": "TextBlock",
                     "text": "Seattle, WA 98126",
-                    "separation": "none"
+                    "spacing": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "1",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "Image",
-                    "size": "medium",
                     "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/FabrikamLogo2.png"
                   }
                 ]
@@ -185,42 +191,44 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
-
+        "version": "1.0",
         "body": [
           {
             "type": "ColumnSet",
             "columns": [
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "3",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "ColumnSet",
                     "columns": [
                       {
                         "type": "Column",
-                        "size": "auto",
+                        "width": "3",
                         "items": [
                           {
                             "type": "Image",
-                            "size": "large",
+                            "width": "auto",
                             "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/loggerhead-turtle-123402_640.jpg"
                           }
                         ]
                       },
                       {
                         "type": "Column",
+                        "width": "3",
+                        "spacing": "medium",
                         "items": [
                           {
                             "type": "TextBlock",
                             "text": "Adventure Works",
-                            "size": "large",
                             "weight": "bolder"
                           },
                           {
                             "type": "TextBlock",
                             "text": "3.2 stars",
-                            "separation": "none"
+                            "spacing": "none"
                           }
                         ]
                       }
@@ -234,22 +242,22 @@
                   {
                     "type": "TextBlock",
                     "text": "510 N Yale Ave.",
-                    "separation": "none"
+                    "spacing": "none"
                   },
                   {
                     "type": "TextBlock",
                     "text": "Seattle, WA 98127",
-                    "separation": "none"
+                    "spacing": "none"
                   }
                 ]
               },
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "1",
+                "spacing": "none",
                 "items": [
                   {
                     "type": "Image",
-                    "size": "medium",
                     "url": "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/AdventureWorksLogo2.png"
                   }
                 ]
@@ -259,7 +267,6 @@
           }
 
         ],
-
         "actions": [
           {
             "type": "Action.Submit",
@@ -275,54 +282,69 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
+        "version": "1.0",
         "body": [
           {
             "type": "ColumnSet",
             "columns": [
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "3",
+                "spacing": "none",
                 "items": [
                   {
-                    "type": "Image",
-                    "size": "large",
-                    "url": "http://adaptivecards.io/content/Relecloud.png"
-                  }
-                ]
-              },
-              {
-                "type": "Column",
-                "items": [
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "width": "3",
+                        "items": [
+                          {
+                            "type": "Image",
+                            "width": "auto",
+                            "url": "http://adaptivecards.io/content/Relecloud.png"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "Column",
+                        "width": "3",
+                        "spacing": "medium",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Relecloud Diving",
+                            "weight": "bolder"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "4.7 stars",
+                            "spacing": "none"
+                          }
+                        ]
+                      }
+                    ]
+                  },
                   {
                     "type": "TextBlock",
-                    "text": "Relecloud Diving",
-                    "size": "large",
+                    "text": "15 miles away",
                     "weight": "bolder"
                   },
                   {
                     "type": "TextBlock",
-                    "text": "4.7 stars",
-                    "separation": "none"
+                    "text": "1210 W Hanford St.",
+                    "spacing": "none"
+                  },
+                  {
+                    "type": "TextBlock",
+                    "text": "Seattle, WA 98105",
+                    "spacing": "none"
                   }
                 ]
               }
             ]
-          },
-          {
-            "type": "TextBlock",
-            "text": "15 miles away",
-            "weight": "bolder"
-          },
-          {
-            "type": "TextBlock",
-            "text": "1210 W Hanford St.",
-            "separation": "none"
-          },
-          {
-            "type": "TextBlock",
-            "text": "Seattle, WA 98105",
-            "separation": "none"
           }
+
         ],
         "actions": [
           {
