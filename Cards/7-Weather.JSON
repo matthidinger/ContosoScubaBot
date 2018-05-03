@@ -1,7 +1,7 @@
 {
   "type": "message",
   "text": "Your meal preferences are recorded, and your trip is confirmed.\n\n{{name}}\n\n{{email}}",
-  "attachmentLayout": "caroursel",
+  "attachmentLayout": "carousel",
   "attachments": [
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
