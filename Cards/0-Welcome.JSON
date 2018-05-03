@@ -14,7 +14,7 @@
             "columns": [
               {
                 "type": "Column",
-                "size": "auto",
+                "width": "auto",
                 "items": [
                   {
                     "type": "Image",
@@ -25,6 +25,7 @@
               },
               {
                 "type": "Column",
+                "width": "auto",
                 "items": [
                   {
                     "type": "TextBlock",
