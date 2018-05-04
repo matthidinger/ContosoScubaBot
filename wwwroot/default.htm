@@ -33,7 +33,8 @@
         }
 
         var uniqueUserId = getUniqueUserId();
-
+        const params = BotChat.queryParams(location.search);
+        var chatWithUserId = params.chatWithId;
 
         window.onload = function () {
             var model = {
@@ -53,7 +54,13 @@
             });
 
             BotChat.App({
-                botConnection: botConnection,
+                botConnection: {
+                    ...botConnection,
+                    postActivity: activity => botConnection.postActivity({
+                        ...activity,
+                        channelData: { "chatwithuserid": chatWithUserId }
+                    })
+                },
                 user: { id: model.userId, name: model.userName },
                 bot: { id: model.botId, name: model.botName },
                 resize: 'window',
