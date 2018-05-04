@@ -29,6 +29,24 @@ namespace ContosoScuba.Bot.CardProviders
                 return new ScubaCardResult() { ErrorMessage = error };
 
             scubaData.PersonalInfo = info;
+            
+
+            // https://adaptivetestfunctions.azurewebsites.net/api/SendScubaEmail?code=4tRDT5xalBkFidaesDGNSg1xVRcU2HPh7Ar7Zsc8vpAXE8DdG9mzHg==
+            // TODO: call this function to create the actionable message
+
+
+            //var myData = new MyDataObject();
+            //myData.EventName = "Publish adaptive card schema";
+            //myData.ProfileImage = "http://.....";
+
+            //var card = AdaptiveCard.FromJson("thetemplate.json", myData);
+
+            //return card.ToJson();
+
+
+            //var card = new AdaptiveCard();
+            //card.Body.Add(new TextBlock() { Text = "sdsds" });
+            //return card.ToJson();
 
             return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
         }
