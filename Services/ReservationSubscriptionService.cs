@@ -47,7 +47,7 @@ namespace ContosoScuba.Bot.Services
             {
                 _recentReservations.AddOrUpdate(reserverReference.User.Id, reserverReference, (key, oldValue) => reserverReference);
                 //todo: this should not be a hard coded url
-                chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
+                chatWithUserIdUrl = "Use this URL to chat with them: https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
             }
             string message = $"New reservation for {userScubaData.PersonalInfo.Name} with {userScubaData.School} {userScubaData.Destination} on {userScubaData.Date} {chatWithUserIdUrl}";
             Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials);
