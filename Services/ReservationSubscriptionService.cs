@@ -8,6 +8,7 @@ using System;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Collections.Generic;
 
 namespace ContosoScuba.Bot.Services
 {
@@ -26,7 +27,15 @@ namespace ContosoScuba.Bot.Services
             _reservationSubscribers.TryRemove(userId, out reference);
         }
 
-        public static void NotifySubscribers(UserScubaData userScubaData, BotAdapter adapter, MicrosoftAppCredentials workingCredentials)
+        public static IEnumerable<string> GetSubscribers()
+        {
+            foreach (var subscriber in _reservationSubscribers.Values)
+            {
+                yield return subscriber.User.Name;
+            }
+        }
+
+        public static async Task NotifySubscribers(UserScubaData userScubaData, BotAdapter adapter, MicrosoftAppCredentials workingCredentials)
         {
             Func<ITurnContext, Task> conversationCallback = async (context) => 
                 {
@@ -41,7 +50,7 @@ namespace ContosoScuba.Bot.Services
 
             foreach (var subscriber in _reservationSubscribers.Values)
             {
-                adapter.ContinueConversation(subscriber.Bot.Id, subscriber, conversationCallback).RunSynchronously();
+                await adapter.ContinueConversation(subscriber.Bot.Id, subscriber, conversationCallback);
             }
         }
     }

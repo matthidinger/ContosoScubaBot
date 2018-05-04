@@ -7,7 +7,7 @@
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
         "type": "AdaptiveCard",
-        "version":  "1.0",
+        "version": "1.0",
         "body": [
           {
             "type": "ColumnSet",
@@ -56,6 +56,13 @@
                 ]
               }
             ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "Book Scuba Trip",
+            "data": "Book Scuba Trip"
           }
         ]
       }

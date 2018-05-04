@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ContosoScuba.Bot.Models;
 using ContosoScuba.Bot.Services;
@@ -81,7 +82,7 @@ namespace ContosoScuba.Bot
                 var userScubaData = context.GetConversationState<UserScubaData>();
                 var credentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
 
-                Task.Factory.StartNew(() => ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials));
+                Task.Factory.StartNew(async () => await ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials));
             }
 
             return GetCardReply(activity, resultInfo.CardText);            
@@ -92,7 +93,11 @@ namespace ContosoScuba.Bot
             IMessageActivity nextMessage = null;
 
 
-            if (text.Contains("wildlife"))
+            if (text.StartsWith("/"))
+            {
+                 nextMessage = GetSlashCommandMessage(context, text, activity);
+            }
+            else if (text.Contains("wildlife"))
             {
                 nextMessage = await GetCard(activity, "Wildlife");
             }
@@ -103,18 +108,7 @@ namespace ContosoScuba.Bot
             else if (text.Contains("danger"))
             {
                 nextMessage = await GetCard(activity, "Danger");
-            }
-            else if (activity.ChannelId == Channels.Msteams && text.Contains("unsubscribe"))
-            {
-                ReservationSubscriptionService.RemoveReservation(activity.From.Id);
-                nextMessage = activity.CreateReply("You are now unsubscribed from all Contoso Dive Finder reservations.");
-            }
-            else if (activity.ChannelId == Channels.Msteams && text.Contains("subscribe"))
-            {
-                var conversationRef = new ConversationReference(activity.Id, activity.From, activity.Recipient, activity.Conversation, activity.ChannelId, activity.ServiceUrl);
-                ReservationSubscriptionService.AddOrUpdateReservation(activity.From.Id, conversationRef);
-                nextMessage = activity.CreateReply("You are now subscribed to all Contoso Dive Finder reservations.");
-            }
+            }            
             else if (text == "hi"
                      || text == "hello"
                      || text == "reset"
@@ -128,6 +122,57 @@ namespace ContosoScuba.Bot
             }
 
             return nextMessage;
+        }
+
+        private IMessageActivity GetSlashCommandMessage(ITurnContext context, string text, Activity activity)
+        {
+            text = text.Replace("/", "");
+            if (activity.ChannelId == Channels.Msteams)
+            {
+                if (text.Contains("simulate"))
+                {
+                    var adapter = context.Adapter;
+                    var userScubaData = new UserScubaData()
+                    {
+                        School = "Fabrikam",
+                        Destination = "Adventure Works",
+                        NumberOfPeople = "6",
+                        Date = DateTime.Now.AddDays(4).ToString(),
+                        MealOptions = new MealOptions()
+                        {
+                            Alergy = "none",
+                            ProteinPreference = "Beef",
+                            Vegan = false
+                        },
+                        PersonalInfo = new PersonalInfo()
+                        {
+                            Email = "customeremail@microsoft.com",
+                            Name = "Customer Name",
+                            Phone = "888.888.7000"
+                        }
+                    };
+                    var credentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
+                    Task.Factory.StartNew(async () => await ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials));
+                    return activity.CreateReply("Simulating reservation and notifying subscribers");
+                }
+                else if (text.Contains("subscribers"))
+                {
+                    var subscribers = ReservationSubscriptionService.GetSubscribers();
+                    return activity.CreateReply($"Subscribers: {string.Join(", ", subscribers)}");
+                }
+                else if (text.Contains("unsubscribe"))
+                {
+                    ReservationSubscriptionService.RemoveReservation(activity.From.Id);
+                    return activity.CreateReply("You are now unsubscribed from all Contoso Dive Finder reservations.");
+                }
+                else if (text.Contains("subscribe"))
+                {
+                    var conversationRef = new ConversationReference(activity.Id, activity.From, activity.Recipient, activity.Conversation, activity.ChannelId, activity.ServiceUrl);
+                    ReservationSubscriptionService.AddOrUpdateReservation(activity.From.Id, conversationRef);
+                    return activity.CreateReply("You are now subscribed to all Contoso Dive Finder reservations.");
+                }
+            }
+            return null;
         }
 
         private async Task<IMessageActivity> GetCard(Activity activity, string cardName)
