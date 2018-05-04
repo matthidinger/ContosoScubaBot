@@ -5,8 +5,11 @@ using ContosoScuba.Bot.Services;
 using Microsoft.Bot;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Core.Extensions;
+using Microsoft.Bot.Builder.Prompts.Choices;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using static Microsoft.Bot.Builder.Prompts.Choices.Channel;
 
 namespace ContosoScuba.Bot
 {
@@ -55,7 +58,7 @@ namespace ContosoScuba.Bot
             if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
             {
                 var reply = activity.CreateReply(resultInfo.ErrorMessage);
-                if (activity.ChannelId == Microsoft.Bot.Builder.Prompts.Choices.Channel.Channels.Cortana)
+                if (activity.ChannelId == Channel.Channels.Cortana)
                 {
                     var backCard = new AdaptiveCards.AdaptiveCard();
                     backCard.Actions.Add(new AdaptiveCards.AdaptiveSubmitAction()
@@ -72,7 +75,16 @@ namespace ContosoScuba.Bot
                 return reply;
             }
 
-            return GetCardReply(activity, resultInfo.CardText);
+            if (resultInfo.NotifySubscribers)
+            {
+                var adapter = context.Adapter;
+                var userScubaData = context.GetConversationState<UserScubaData>();
+                var credentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
+
+                Task.Factory.StartNew(() => ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials));
+            }
+
+            return GetCardReply(activity, resultInfo.CardText);            
         }
 
         private async Task<IMessageActivity> GetMessageFromText(ITurnContext context, Activity activity, string text)
@@ -82,15 +94,26 @@ namespace ContosoScuba.Bot
 
             if (text.Contains("wildlife"))
             {
-                return nextMessage = await GetCard(activity, "Wildlife");
+                nextMessage = await GetCard(activity, "Wildlife");
             }
             else if (text.Contains("receipt"))
             {
-                return nextMessage = await GetCard(activity, "Receipt");
+                nextMessage = await GetCard(activity, "Receipt");
             }
             else if (text.Contains("danger"))
             {
-                return nextMessage = await GetCard(activity, "Danger");
+                nextMessage = await GetCard(activity, "Danger");
+            }
+            else if (activity.ChannelId == Channels.Msteams && text.Contains("unsubscribe"))
+            {
+                ReservationSubscriptionService.RemoveReservation(activity.From.Id);
+                nextMessage = activity.CreateReply("You are now unsubscribed from all Contoso Dive Finder reservations.");
+            }
+            else if (activity.ChannelId == Channels.Msteams && text.Contains("subscribe"))
+            {
+                var conversationRef = new ConversationReference(activity.Id, activity.From, activity.Recipient, activity.Conversation, activity.ChannelId, activity.ServiceUrl);
+                ReservationSubscriptionService.AddOrUpdateReservation(activity.From.Id, conversationRef);
+                nextMessage = activity.CreateReply("You are now subscribed to all Contoso Dive Finder reservations.");
             }
             else if (text == "hi"
                      || text == "hello"
