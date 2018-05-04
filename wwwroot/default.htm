@@ -20,7 +20,7 @@
     -->
     <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
     <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
-    
+
     <script>
 
         function getUniqueUserId() {
@@ -47,20 +47,19 @@
                 "webSocketEnabled": "false"
             };
 
-            var botConnection = new BotChat.DirectLine({
+            var dl = new BotChat.DirectLine({
                 token: model.secret,
                 user: { id: model.userId, name: model.userName },
                 webSocketEnabled: false
             });
 
             BotChat.App({
-                botConnection: {
-                    ...botConnection,
-                    postActivity: activity => botConnection.postActivity({
-                        ...activity,
-                        channelData: { "chatwithuserid": chatWithUserId }
-                    })
-                },
+                botConnection: Object.assign({}, dl, {
+                    postActivity: activity => {
+                        var newActivity = Object.assign({}, activity, { channelData: { "chatwithuserid": chatWithUserId } });
+                        return dl.postActivity(newActivity);
+                    }
+                }),
                 user: { id: model.userId, name: model.userName },
                 bot: { id: model.botId, name: model.botName },
                 resize: 'window',
@@ -68,7 +67,7 @@
                     speechRecognizer: new BotChat.Speech.BrowserSpeechRecognizer(),
                     speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
                 }
-            }, document.getElementById("botchatPane"));            
+            }, document.getElementById("botchatPane"));
         };
     </script>
 
