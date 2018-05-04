@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ContosoScuba.Bot.CardProviders
 {
-    public class Weather : CardProvider
+    public class Confirmation : CardProvider
     {
-        public override string CardName => "7-Weather";
+        public override string CardName => "7-Confirmation";
 
         public override int CardIndex => 7;
         
@@ -30,7 +30,7 @@ namespace ContosoScuba.Bot.CardProviders
 
             scubaData.PersonalInfo = info;
 
-            return new ScubaCardResult() { CardText = await GetCardText(scubaData) };
+            return new ScubaCardResult() { CardText = await GetCardText(scubaData), NotifySubscribers = true };
         }
 
         private string GetValue(JObject value, string valueName)
@@ -46,7 +46,7 @@ namespace ContosoScuba.Bot.CardProviders
         {
             DateTime date = Convert.ToDateTime(scubaData.Date);
 
-            //fake weather card generated here
+            //fake receipt and weather cards generated here
             //in order to create a real weather card, 
             //see https://blog.botframework.com/2017/06/07/Adaptive-Card-Dotnet/
             var replaceInfo = new Dictionary<string, string>();
