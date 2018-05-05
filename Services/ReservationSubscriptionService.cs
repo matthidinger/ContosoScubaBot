@@ -57,10 +57,10 @@ namespace ContosoScuba.Bot.Services
             replaceInfo.Add("{{destination}}", userScubaData.School);
             DateTime date = Convert.ToDateTime(userScubaData.Date);
             replaceInfo.Add("{{longdate}}", date.ToString("dddd, MMMM dd"));
-            replaceInfo.Add("{{number_of_people}}", userScubaData.School);
-            replaceInfo.Add("{{phone}}", userScubaData.School);
-            replaceInfo.Add("{{email}}", userScubaData.School);
-            replaceInfo.Add("{{name}}", userScubaData.School);
+            replaceInfo.Add("{{number_of_people}}", userScubaData.NumberOfPeople);
+            replaceInfo.Add("{{phone}}", userScubaData.PersonalInfo.Phone);
+            replaceInfo.Add("{{email}}", userScubaData.PersonalInfo.Email);
+            replaceInfo.Add("{{name}}", userScubaData.PersonalInfo.Name);
             if(!string.IsNullOrEmpty(chatWithUserIdUrl))
                 replaceInfo.Add("{{url}}", chatWithUserIdUrl);
 
