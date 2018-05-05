@@ -7,6 +7,7 @@ using System;
 using Microsoft.Bot.Connector.Authentication;
 using System.Collections.Generic;
 using static Microsoft.Bot.Builder.Prompts.Choices.Channel;
+using ContosoScuba.Bot.CardProviders;
 
 namespace ContosoScuba.Bot.Services
 {
@@ -48,9 +49,23 @@ namespace ContosoScuba.Bot.Services
                 _recentReservations.AddOrUpdate(reserverReference.User.Id, reserverReference, (key, oldValue) => reserverReference);
                 //todo: this should not be a hard coded url
                 chatWithUserIdUrl = "Use this URL to chat with them: https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
+                //chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
             }
-            string message = $"New reservation for {userScubaData.PersonalInfo.Name} with {userScubaData.School} {userScubaData.Destination} on {userScubaData.Date} {chatWithUserIdUrl}";
-            Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials);
+            string message = $"New reservation for {userScubaData.PersonalInfo.Name} {chatWithUserIdUrl}";
+
+            var replaceInfo = new Dictionary<string, string>();
+            replaceInfo.Add("{{destination}}", userScubaData.School);
+            DateTime date = Convert.ToDateTime(userScubaData.Date);
+            replaceInfo.Add("{{longdate}}", date.ToString("dddd, MMMM dd"));
+            replaceInfo.Add("{{number_of_people}}", userScubaData.School);
+            replaceInfo.Add("{{phone}}", userScubaData.School);
+            replaceInfo.Add("{{email}}", userScubaData.School);
+            replaceInfo.Add("{{name}}", userScubaData.School);
+            if(!string.IsNullOrEmpty(chatWithUserIdUrl))
+                replaceInfo.Add("{{url}}", chatWithUserIdUrl);
+
+            var subscriberCardText = await CardProvider.GetCardText("SubscriberNotification", replaceInfo);
+            Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials, subscriberCardText);
 
             foreach (var subscriber in _reservationSubscribers.Values)
             {
@@ -88,7 +103,7 @@ namespace ContosoScuba.Bot.Services
 
         #endregion Users
 
-        private static Func<ITurnContext, Task> GetConversationCallback(string message, MicrosoftAppCredentials workingCredentials)
+        private static Func<ITurnContext, Task> GetConversationCallback(string text, MicrosoftAppCredentials workingCredentials, string fullMessageText = null)
         {
             Func<ITurnContext, Task> conversationCallback = async (context) =>
             {
@@ -97,8 +112,17 @@ namespace ContosoScuba.Bot.Services
                 contextCredentials.MicrosoftAppId = workingCredentials.MicrosoftAppId;
                 contextCredentials.MicrosoftAppPassword = workingCredentials.MicrosoftAppPassword;
 
-                var notificationMessage = context.Activity.CreateReply(message);
-                await context.SendActivity(notificationMessage);
+                Activity reply = null;
+                if(string.IsNullOrEmpty(fullMessageText))
+                {
+                    reply = context.Activity.CreateReply(text);
+                }
+                else
+                {
+                    reply = ContosoScubaBot.GetCardReply(context.Activity, fullMessageText);
+                    reply.Text = text;
+                }
+                await context.SendActivity(reply);
             };
 
             return conversationCallback;

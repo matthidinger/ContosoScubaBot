@@ -1,0 +1,79 @@
+﻿{
+  "type": "message",
+  "attachments": [
+    {
+      "contentType": "application/vnd.microsoft.card.adaptive",
+      "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+        "type": "AdaptiveCard",
+        "version": "1.0",
+        "backgroundImage": "http://adaptivecards.io/content/AlkiBeach.jpg",
+        "body": [
+          {
+            "type": "Container",
+            "spacing": "none",
+            "items": [
+              {
+                "type": "TextBlock",
+                "text": "{{destination}} - Reservation",
+                "weight": "bolder",
+                "size": "large",
+                "wrap": true,
+                "maxLines": 3
+              },
+              {
+                "type": "TextBlock",
+                "text": "{{longdate}}",
+                "size": "normal",
+                "wrap": true,
+                "maxLines": 3
+              },
+              {
+                "type": "FactSet",
+                "facts": [
+                  {
+                    "title": "Time",
+                    "value": "10:00 AM"
+                  },
+                  {
+                    "title": "Attendees",
+                    "value": "{{number_of_people}} people"
+                  },
+                  {
+                    "title": "Diet",
+                    "value": "2 dietary requests"
+                  },
+                  {
+                    "title": "Phone",
+                    "value": "{{phone}}"
+                  },
+                  {
+                    "title": "Email",
+                    "value": "{{email}}"
+                  },
+                  {
+                    "title": "Name",
+                    "value": "{{name}}"
+                  }
+                ]
+              }
+
+            ]
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.OpenUrl",
+            "title": "Chat With Customer",
+            "url": "{{url}}"
+          },
+          {
+            "type": "Action.Submit",
+            "title": "Accept Reservation",
+            "data": "Accept Reservation"
+          }
+        ]
+      }
+    }
+  ]
+}

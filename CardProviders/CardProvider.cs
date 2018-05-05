@@ -22,16 +22,21 @@ namespace ContosoScuba.Bot.CardProviders
 
         protected async Task<string> GetCardText(Dictionary<string,string> replaceInfo = null)
         {
-            string cardJson = await ScubaCardService.GetCardText(CardName);
+            return await GetCardText(CardName, replaceInfo);
+        }
+
+        public static async Task<string> GetCardText(string cardName, Dictionary<string, string> replaceInfo = null)
+        {
+            string cardJson = await ScubaCardService.GetCardText(cardName);
             if (string.IsNullOrEmpty(cardJson))
                 return string.Empty;
 
-            if (replaceInfo==null)
+            if (replaceInfo == null)
                 return cardJson;
 
-            foreach (var replaceKvp in replaceInfo)            
-                 cardJson = cardJson.Replace(replaceKvp.Key, replaceKvp.Value);
-            
+            foreach (var replaceKvp in replaceInfo)
+                cardJson = cardJson.Replace(replaceKvp.Key, replaceKvp.Value);
+
             return cardJson;
         }
     }

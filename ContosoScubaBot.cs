@@ -205,15 +205,15 @@ namespace ContosoScuba.Bot
             return null;
         }
 
-        private async Task<IMessageActivity> GetCard(Activity activity, string cardName)
+        public static async Task<IMessageActivity> GetCard(Activity activity, string cardName)
         {
             var cardText = await ScubaCardService.GetCardText(cardName);
             return GetCardReply(activity, cardText);
         }
 
-        public static Activity GetCardReply(Activity activity, string cardText)
+        public static Activity GetCardReply(Activity activity, string activityText)
         {
-            var reply = JsonConvert.DeserializeObject<Activity>(cardText);
+            var reply = JsonConvert.DeserializeObject<Activity>(activityText);
             if (reply.Attachments == null)
                 reply.Attachments = new List<Attachment>();
 
