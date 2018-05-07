@@ -91,12 +91,12 @@ namespace ContosoScuba.Bot.Services
             var subscriberCardText = await CardProvider.GetCardText("SubscriberNotification", replaceInfo);
             var conversationCallback = GetConversationCallback(message, workingCredentials, subscriberCardText);
 
+            await SendActionableMessage(userScubaData);
+
             foreach (var subscriber in _reservationSubscribers.Values)
             {
                 await adapter.ContinueConversation(subscriber.Bot.Id, subscriber, conversationCallback);
             }
-
-            await SendActionableMessage(userScubaData);
         }
 
         #endregion Subscribers
