@@ -11,6 +11,8 @@ using System.Net.Http;
 using System.Collections.Generic;
 using static Microsoft.Bot.Builder.Prompts.Choices.Channel;
 using ContosoScuba.Bot.CardProviders;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace ContosoScuba.Bot.Services
 {
@@ -39,10 +41,8 @@ namespace ContosoScuba.Bot.Services
         public static async void SendActionableMessage(UserScubaData userScubaData)
         {
             var client = new HttpClient();
-            //var content = new Body
-            //await client.PostAsync("https://adaptivetestfunctions.azurewebsites.net/api/SendScubaEmail?code=4tRDT5xalBkFidaesDGNSg1xVRcU2HPh7Ar7Zsc8vpAXE8DdG9mzHg==", content);
-            // 
-            // TODO: call this function to create the actionable message
+            var content = new ByteArrayContent(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userScubaData)));
+            await client.PostAsync("https://adaptivetestfunctions.azurewebsites.net/api/SendScubaEmail?code=4tRDT5xalBkFidaesDGNSg1xVRcU2HPh7Ar7Zsc8vpAXE8DdG9mzHg==", content);
 
 
             //var myData = new MyDataObject();
@@ -108,7 +108,7 @@ namespace ContosoScuba.Bot.Services
             if(_recentReservations.TryGetValue(userId, out foundReference))
             {
                 _subscriberToUser.AddOrUpdate(userId, contosoReference, (key, oldValue) => contosoReference);
-                Func<ITurnContext, Task> conversationCallback = GetConversationCallback($"Contoso Message: {message}", workingCredentials);
+                Func<ITurnContext, Task> conversationCallback = GetConversationCallback($"Instructor Message: {message}", workingCredentials);
                 await adapter.ContinueConversation(foundReference.Bot.Id, foundReference, conversationCallback);
             }
         }
