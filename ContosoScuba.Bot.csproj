@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="pakages" />
     <None Include="wwwroot\Assets\1.jpg" />
     <None Include="wwwroot\Assets\2.jpg" />
     <None Include="wwwroot\Assets\3.jpg" />
