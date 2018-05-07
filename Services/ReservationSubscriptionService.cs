@@ -8,6 +8,7 @@ using System;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Net.Http;
 
 namespace ContosoScuba.Bot.Services
 {
@@ -24,6 +25,29 @@ namespace ContosoScuba.Bot.Services
         {
             ConversationReference reference = null;
             _reservationSubscribers.TryRemove(userId, out reference);
+        }
+
+        public static async void SendActionableMessage(UserScubaData userScubaData)
+        {
+            var client = new HttpClient();
+            var content = new Body
+            await client.PostAsync("https://adaptivetestfunctions.azurewebsites.net/api/SendScubaEmail?code=4tRDT5xalBkFidaesDGNSg1xVRcU2HPh7Ar7Zsc8vpAXE8DdG9mzHg==", content);
+            // 
+            // TODO: call this function to create the actionable message
+
+
+            //var myData = new MyDataObject();
+            //myData.EventName = "Publish adaptive card schema";
+            //myData.ProfileImage = "http://.....";
+
+            //var card = AdaptiveCard.FromJson("thetemplate.json", myData);
+
+            //return card.ToJson();
+
+
+            //var card = new AdaptiveCard();
+            //card.Body.Add(new TextBlock() { Text = "sdsds" });
+            //return card.ToJson();
         }
 
         public static void NotifySubscribers(UserScubaData userScubaData, BotAdapter adapter, MicrosoftAppCredentials workingCredentials)
