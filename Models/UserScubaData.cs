@@ -47,6 +47,11 @@ namespace ContosoScuba.Bot.Models
             set { base[nameof(PersonalInfo)] = value; }
         }
 
+        public string ChatWithUserUrl
+        {
+            get { return ContainsKey(nameof(ChatWithUserUrl)) ? base[nameof(ChatWithUserUrl)] as string : string.Empty; }
+            set { base[nameof(ChatWithUserUrl)] = value; }
+        }
     }
 
     [Serializable]

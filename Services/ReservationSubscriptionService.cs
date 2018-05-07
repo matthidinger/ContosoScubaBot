@@ -68,15 +68,14 @@ namespace ContosoScuba.Bot.Services
 
         public static async Task NotifySubscribers(UserScubaData userScubaData, BotAdapter adapter, MicrosoftAppCredentials workingCredentials, ConversationReference reserverReference = null)
         {
-            string chatWithUserIdUrl = string.Empty;
             if (reserverReference != null)
             {
                 _recentReservations.AddOrUpdate(reserverReference.User.Id, reserverReference, (key, oldValue) => reserverReference);
                 //todo: this should not be a hard coded url
-                chatWithUserIdUrl = "Use this URL to chat with them: https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
+                userScubaData.ChatWithUserUrl = "Use this URL to chat with them: https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
                 //chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
             }
-            string message = $"New reservation for {userScubaData.PersonalInfo.Name} {chatWithUserIdUrl}";
+            string message = $"New reservation for {userScubaData.PersonalInfo.Name} {userScubaData.ChatWithUserUrl}";
 
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{destination}}", userScubaData.School);
@@ -86,11 +85,11 @@ namespace ContosoScuba.Bot.Services
             replaceInfo.Add("{{phone}}", userScubaData.PersonalInfo.Phone);
             replaceInfo.Add("{{email}}", userScubaData.PersonalInfo.Email);
             replaceInfo.Add("{{name}}", userScubaData.PersonalInfo.Name);
-            if(!string.IsNullOrEmpty(chatWithUserIdUrl))
-                replaceInfo.Add("{{url}}", chatWithUserIdUrl);
+            if(!string.IsNullOrEmpty(userScubaData.ChatWithUserUrl))
+                replaceInfo.Add("{{url}}", userScubaData.ChatWithUserUrl);
 
             var subscriberCardText = await CardProvider.GetCardText("SubscriberNotification", replaceInfo);
-            Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials, subscriberCardText);
+            var conversationCallback = GetConversationCallback(message, workingCredentials, subscriberCardText);
 
             foreach (var subscriber in _reservationSubscribers.Values)
             {
