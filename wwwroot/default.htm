@@ -20,26 +20,46 @@
     -->
     <link href="https://unpkg.com/botframework-webchat/botchat.css" rel="stylesheet" />
     <script src="https://unpkg.com/botframework-webchat/botchat.js"></script>
-    
+
     <script>
 
+        function getUniqueUserId() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+            return s4() + s4() + s4() + s4();
+        }
+
+        var uniqueUserId = getUniqueUserId();
+        const params = BotChat.queryParams(location.search);
+        var chatWithUserId = params.chatWithId;
 
         window.onload = function () {
             var model = {
-                "userId": "UserId",
+                "userId": uniqueUserId,
                 "userName": "Diver",
                 "botId": "ContosoScuba",
-                "botName": "ContosoScuba",
+                "botName": "Contoso Scuba",
                 "secret": "MPps1zHx--k.cwA.mdc.u5fIXqQpKi9usTUnIBSbXiQgcGLpc_VqzORhdm7s7RQ",
+                //"secret": "PuQ6fU9INxI.cwA.LtY.MikS0-VuPAxlS_0qwxOe3X4FoBIV-M3xlCxf6Cp9YNs",
                 "webSocketEnabled": "false"
             };
 
+            var dl = new BotChat.DirectLine({
+                token: model.secret,
+                user: { id: model.userId, name: model.userName },
+                webSocketEnabled: false
+            });
+
             BotChat.App({
-                directLine: {
-                    secret: model.secret,
-                    token: model.token,
-                    webSocket: false
-                },
+                botConnection: Object.assign({}, dl, {
+                    postActivity: activity => {
+                        var newActivity = Object.assign({}, activity, { channelData: { "chatwithuserid": chatWithUserId } });
+                        return dl.postActivity(newActivity);
+                    }
+                }),
                 user: { id: model.userId, name: model.userName },
                 bot: { id: model.botId, name: model.botName },
                 resize: 'window',
