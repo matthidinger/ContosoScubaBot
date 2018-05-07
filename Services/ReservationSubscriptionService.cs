@@ -72,10 +72,10 @@ namespace ContosoScuba.Bot.Services
             {
                 _recentReservations.AddOrUpdate(reserverReference.User.Id, reserverReference, (key, oldValue) => reserverReference);
                 //todo: this should not be a hard coded url
-                userScubaData.ChatWithUserUrl = "Use this URL to chat with them: https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
+                userScubaData.ChatWithUserUrl = "https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
                 //chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
             }
-            string message = $"New reservation for {userScubaData.PersonalInfo.Name} {userScubaData.ChatWithUserUrl}";
+            string message = $"New reservation for {userScubaData.PersonalInfo.Name}. Use this URL to chat with them: {userScubaData.ChatWithUserUrl}";
 
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{destination}}", userScubaData.School);
