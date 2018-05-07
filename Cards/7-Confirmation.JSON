@@ -9,7 +9,7 @@
         "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
         "type": "AdaptiveCard",
         "version": "1.0",
-        "backgroundImage": "http://adaptivecards.io/content/AlkiBeach.jpg",
+        "backgroundImage": "http://adaptivecards.io/content/Mostly Cloudy-Background.jpg",
         "body": [
           {
             "type": "Container",

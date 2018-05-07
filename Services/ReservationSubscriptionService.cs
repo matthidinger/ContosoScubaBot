@@ -38,7 +38,7 @@ namespace ContosoScuba.Bot.Services
             _reservationSubscribers.TryRemove(userId, out reference);
         }
         
-        public static async void SendActionableMessage(UserScubaData userScubaData)
+        public static async Task SendActionableMessage(UserScubaData userScubaData)
         {
             var client = new HttpClient();
             var content = new ByteArrayContent(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userScubaData)));
@@ -96,6 +96,8 @@ namespace ContosoScuba.Bot.Services
             {
                 await adapter.ContinueConversation(subscriber.Bot.Id, subscriber, conversationCallback);
             }
+
+            await SendActionableMessage(userScubaData);
         }
 
         #endregion Subscribers
