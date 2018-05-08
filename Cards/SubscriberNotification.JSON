@@ -4,73 +4,203 @@
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
-        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
         "type": "AdaptiveCard",
         "version": "1.0",
-        "backgroundImage": "http://adaptivecards.io/content/AlkiBeach.jpg",
         "body": [
           {
             "type": "Container",
-            "spacing": "none",
+            "style": "emphasis",
             "items": [
               {
-                "type": "TextBlock",
-                "text": "{{destination}} - Reservation",
-                "weight": "bolder",
-                "size": "large",
-                "wrap": true,
-                "maxLines": 3
-              },
-              {
-                "type": "TextBlock",
-                "text": "{{longdate}}",
-                "size": "normal",
-                "wrap": true,
-                "maxLines": 3
-              },
-              {
-                "type": "FactSet",
-                "facts": [
+                "type": "ColumnSet",
+                "columns": [
                   {
-                    "title": "Time",
-                    "value": "10:00 AM"
+                    "type": "Column",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "id": "bookingStatus",
+                        "size": "Large",
+                        "text": "**New Booking**"
+                      }
+                    ],
+                    "width": "stretch"
                   },
                   {
-                    "title": "Attendees",
-                    "value": "{{number_of_people}} people"
-                  },
-                  {
-                    "title": "Diet",
-                    "value": "2 dietary requests"
-                  },
-                  {
-                    "title": "Phone",
-                    "value": "{{phone}}"
-                  },
-                  {
-                    "title": "Email",
-                    "value": "{{email}}"
-                  },
-                  {
-                    "title": "Name",
-                    "value": "{{name}}"
+                    "type": "Column",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "horizontalAlignment": "Right",
+                        "size": "Large",
+                        "text": "**Contoso Scuba**"
+                      }
+                    ],
+                    "width": "stretch"
                   }
                 ]
               }
-
             ]
-          }
-        ],
-        "actions": [
-          {
-            "type": "Action.OpenUrl",
-            "title": "Chat With Customer",
-            "url": "{{url}}"
           },
           {
-            "type": "Action.Submit",
-            "title": "Accept Reservation",
-            "data": "Accept Reservation"
+            "type": "ColumnSet",
+            "columns": [
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "Image",
+                    "url": "http://adaptivecards.io/content/AlkiBeach.jpg",
+                    "size": "Large"
+                  }
+                ],
+                "width": "auto"
+              },
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**School:**"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "{{school}}"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**Participants:**"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "{{number_of_people}}"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**Meal options:**"
+                          },
+                          {
+                            "type": "FactSet",
+                            "spacing": "None",
+                            "facts": [
+                              {
+                                "title": "Preference:",
+                                "value": "{{protein_preference}}"
+                              },
+                              {
+                                "title": "Vegan:",
+                                "value": "{{vegan}}"
+                              },
+                              {
+                                "title": "Allergies:",
+                                "value": "{{alergy}}"
+                              }
+                            ]
+                          }
+                        ],
+                        "width": "auto"
+                      },
+                      {
+                        "type": "Column",
+                        "spacing": "Large",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**Destination:**"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "{{destination}}"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**Date:**"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "spacing": "None",
+                            "text": "{{longdate}}"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "color": "Accent",
+                            "text": "**Contact info:**"
+                          },
+                          {
+                            "type": "FactSet",
+                            "spacing": "None",
+                            "facts": [
+                              {
+                                "title": "Name:",
+                                "value": "{{name}}"
+                              },
+                              {
+                                "title": "Email address:",
+                                "value": "{{email}}"
+                              },
+                              {
+                                "title": "Phone number:",
+                                "value": "{{phone}}"
+                              }
+                            ]
+                          }
+                        ],
+                        "width": "stretch"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Container",
+                    "id": "remarks",
+                    "isVisible": false
+                  }
+                ],
+                "width": "stretch"
+              }
+            ]
+          },
+          {
+            "type": "ActionSet",
+            "id": "actions",
+            "actions": [
+              {
+                "type": "Action.ShowCard",
+                "title": "Confirm booking",
+                "card": {
+                  "type": "AdaptiveCard",
+                  "style": "emphasis",
+                  "body": [
+                    {
+                      "type": "Input.Text",
+                      "id": "comment",
+                      "placeholder": "Remarks (optional)",
+                      "isMultiline": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "type": "Action.Submit",
+                      "title": "Confirm",
+                      "data": "{{comment.value}}"
+                    }
+                  ]
+                }
+              }
+            ]
           }
         ]
       }

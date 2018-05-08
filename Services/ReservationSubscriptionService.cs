@@ -75,7 +75,7 @@ namespace ContosoScuba.Bot.Services
                 userScubaData.ChatWithUserUrl = "https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
                 //chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
             }
-            string message = $"New reservation for {userScubaData.PersonalInfo.Name}. Use this URL to chat with them: {userScubaData.ChatWithUserUrl}";
+            string message = $"New scuba booking for {userScubaData.PersonalInfo.Name}";
 
             var replaceInfo = new Dictionary<string, string>();
             replaceInfo.Add("{{destination}}", userScubaData.School);
@@ -85,8 +85,13 @@ namespace ContosoScuba.Bot.Services
             replaceInfo.Add("{{phone}}", userScubaData.PersonalInfo.Phone);
             replaceInfo.Add("{{email}}", userScubaData.PersonalInfo.Email);
             replaceInfo.Add("{{name}}", userScubaData.PersonalInfo.Name);
-            if(!string.IsNullOrEmpty(userScubaData.ChatWithUserUrl))
+            replaceInfo.Add("{{protein_prference}}", userScubaData.MealOptions.ProteinPreference);
+            replaceInfo.Add("{{vegan}}", userScubaData.MealOptions.Vegan ? "Yes" : "No");
+            replaceInfo.Add("{{allergy}}", userScubaData.MealOptions.Alergy);
+
+            if (!string.IsNullOrEmpty(userScubaData.ChatWithUserUrl))
                 replaceInfo.Add("{{url}}", userScubaData.ChatWithUserUrl);
+
 
             var subscriberCardText = await CardProvider.GetCardText("SubscriberNotification", replaceInfo);
             var conversationCallback = GetConversationCallback(message, workingCredentials, subscriberCardText);
