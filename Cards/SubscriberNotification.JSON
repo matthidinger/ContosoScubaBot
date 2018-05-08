@@ -172,34 +172,31 @@
                 "width": "stretch"
               }
             ]
-          },
+          }
+
+        ],
+        "actions": [
           {
-            "type": "ActionSet",
-            "id": "actions",
-            "actions": [
-              {
-                "type": "Action.ShowCard",
-                "title": "Confirm booking",
-                "card": {
-                  "type": "AdaptiveCard",
-                  "version": "1.0",
-                  "body": [
-                    {
-                      "type": "Input.Text",
-                      "id": "comment",
-                      "placeholder": "Remarks (optional)",
-                      "isMultiline": true
-                    }
-                  ],
-                  "actions": [
-                    {
-                      "type": "Action.Submit",
-                      "title": "Confirm"
-                    }
-                  ]
+            "type": "Action.ShowCard",
+            "title": "Confirm booking",
+            "card": {
+              "type": "AdaptiveCard",
+              "version": "1.0",
+              "body": [
+                {
+                  "type": "Input.Text",
+                  "id": "comment",
+                  "placeholder": "Remarks (optional)",
+                  "isMultiline": true
                 }
-              }
-            ]
+              ],
+              "actions": [
+                {
+                  "type": "Action.Submit",
+                  "title": "Confirm"
+                }
+              ]
+            }
           }
         ]
       }
