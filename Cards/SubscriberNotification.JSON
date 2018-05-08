@@ -189,7 +189,11 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "title": "Confirm"
+                  "title": "Confirm booking"
+                },
+                {
+                  "type": "Action.Submit",
+                  "title": "Start chat"
                 }
               ]
             }
