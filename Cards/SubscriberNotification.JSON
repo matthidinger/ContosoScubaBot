@@ -190,13 +190,13 @@
                 {
                   "type": "Action.Submit",
                   "title": "Confirm booking"
-                },
-                {
-                  "type": "Action.Submit",
-                  "title": "Start chat"
                 }
               ]
             }
+          },
+          {
+            "type": "Action.Submit",
+            "title": "Start chat"
           }
         ]
       }
