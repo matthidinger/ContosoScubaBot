@@ -104,7 +104,7 @@
                               },
                               {
                                 "title": "Allergies:",
-                                "value": "{{alergy}}"
+                                "value": "{{allergy}}"
                               }
                             ]
                           }
@@ -182,7 +182,7 @@
                 "title": "Confirm booking",
                 "card": {
                   "type": "AdaptiveCard",
-                  "style": "emphasis",
+                  "version": "1.0",
                   "body": [
                     {
                       "type": "Input.Text",
@@ -194,8 +194,7 @@
                   "actions": [
                     {
                       "type": "Action.Submit",
-                      "title": "Confirm",
-                      "data": "{{comment.value}}"
+                      "title": "Confirm"
                     }
                   ]
                 }

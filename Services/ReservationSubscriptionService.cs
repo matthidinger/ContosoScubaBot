@@ -78,14 +78,14 @@ namespace ContosoScuba.Bot.Services
             string message = $"New scuba booking for {userScubaData.PersonalInfo.Name}";
 
             var replaceInfo = new Dictionary<string, string>();
-            replaceInfo.Add("{{destination}}", userScubaData.School);
-            DateTime date = Convert.ToDateTime(userScubaData.Date);
-            replaceInfo.Add("{{longdate}}", date.ToString("dddd, MMMM dd"));
+            replaceInfo.Add("{{destination}}", userScubaData.Destination);
+            replaceInfo.Add("{{school}}", userScubaData.School);
+            replaceInfo.Add("{{longdate}}", Convert.ToDateTime(userScubaData.Date).ToString("dddd, MMMM dd"));
             replaceInfo.Add("{{number_of_people}}", userScubaData.NumberOfPeople);
             replaceInfo.Add("{{phone}}", userScubaData.PersonalInfo.Phone);
             replaceInfo.Add("{{email}}", userScubaData.PersonalInfo.Email);
             replaceInfo.Add("{{name}}", userScubaData.PersonalInfo.Name);
-            replaceInfo.Add("{{protein_prference}}", userScubaData.MealOptions.ProteinPreference);
+            replaceInfo.Add("{{protein_preference}}", userScubaData.MealOptions.ProteinPreference);
             replaceInfo.Add("{{vegan}}", userScubaData.MealOptions.Vegan ? "Yes" : "No");
             replaceInfo.Add("{{allergy}}", userScubaData.MealOptions.Alergy);
 
