@@ -4,6 +4,7 @@
     {
       "contentType": "application/vnd.microsoft.card.adaptive",
       "content": {
+        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
         "type": "AdaptiveCard",
         "version": "1.0",
         "body": [
@@ -162,11 +163,6 @@
                         "width": "stretch"
                       }
                     ]
-                  },
-                  {
-                    "type": "Container",
-                    "id": "remarks",
-                    "isVisible": false
                   }
                 ],
                 "width": "stretch"
@@ -174,30 +170,6 @@
             ]
           }
 
-        ],
-        "actions": [
-          {
-            "type": "Action.ShowCard",
-            "title": "Confirm booking",
-            "card": {
-              "type": "AdaptiveCard",
-              "version": "1.0",
-              "body": [
-                {
-                  "type": "Input.Text",
-                  "id": "comment",
-                  "placeholder": "Remarks (optional)",
-                  "isMultiline": true
-                }
-              ],
-              "actions": [
-                {
-                  "type": "Action.Submit",
-                  "title": "Confirm"
-                }
-              ]
-            }
-          }
         ]
       }
     }
