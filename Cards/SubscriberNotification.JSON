@@ -195,8 +195,9 @@
             }
           },
           {
-            "type": "Action.Submit",
-            "title": "Start chat"
+            "type": "Action.OpenUrl",
+            "title": "Start chat",
+            "url": "{{url}}"
           }
         ]
       }
