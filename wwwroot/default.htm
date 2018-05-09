@@ -53,13 +53,18 @@
                 webSocketEnabled: false
             });
 
-            BotChat.App({
-                botConnection: Object.assign({}, dl, {
+            var newDl = dl;
+            if (chatWithUserId) {
+                newDl = Object.assign({}, dl, {
                     postActivity: activity => {
                         var newActivity = Object.assign({}, activity, { channelData: { "chatwithuserid": chatWithUserId } });
                         return dl.postActivity(newActivity);
                     }
-                }),
+                });
+            }
+
+            BotChat.App({
+                botConnection: newDl,
                 user: { id: model.userId, name: model.userName },
                 bot: { id: model.botId, name: model.botName },
                 resize: 'window',
@@ -68,6 +73,16 @@
                     speechSynthesizer: new BotChat.Speech.BrowserSpeechSynthesizer()
                 }
             }, document.getElementById("botchatPane"));
+
+            var welcomeRequestEventName = "WelcomeRequest";
+            if (chatWithUserId) {
+                welcomeRequestEventName = "proxyWelcomeRequest";
+            };
+            newDl.postActivity({
+                from: { id: model.userId, name: model.userName },
+                type: 'event',
+                name: welcomeRequestEventName
+            }).subscribe();
         };
     </script>
 
