@@ -22,9 +22,8 @@ namespace ContosoScuba.Bot.Services
         //all who have subscribed to receive notifications when a customer reserves a scuba getaway(key: subscriber userId, conversationRefernce: subscriber)
         private static ConcurrentDictionary<string, ConversationReference> _reservationSubscribers = new ConcurrentDictionary<string, ConversationReference>();
 
-        //all who have made a scuba reservation (key: customer userId, conversationRefernce: customer webchat)
+        //all who have made a scuba reservation (key: customer userId, conversationRefernce: customer webchat
         private static ConcurrentDictionary<string, Tuple<ConversationReference,UserScubaData>> _recentReservations = new ConcurrentDictionary<string, Tuple<ConversationReference, UserScubaData>>();
-        
         //subscribers who have begun chatting with a user via proxy of webchat messages (key: customer userId, conversationRefernce: subscriber webchat)
         private static ConcurrentDictionary<string, ConversationReference> _subscriberToUser = new ConcurrentDictionary<string, ConversationReference>();
        
@@ -111,7 +110,7 @@ namespace ContosoScuba.Bot.Services
         #endregion Subscribers
 
         #region Users
-
+          
         public static string GetUserName(string userId)
         {
             Tuple<ConversationReference, UserScubaData> foundReference;
