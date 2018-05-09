@@ -103,7 +103,7 @@ namespace ContosoScuba.Bot
                     var proxyMessage = new ProxyMessage()
                     {
                         //todo: hard coded instructor image url
-                        ImageUrl = "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+                        ImageUrl = "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/scubabackground.jpeg",
                         Name = context.Activity.From.Name,
                         Text = context.Activity.Text,
                         Title = "Instructor Message"
@@ -122,7 +122,7 @@ namespace ContosoScuba.Bot
                 var proxyMessage = new ProxyMessage()
                 {
                     //todo: hard coded instructor image url
-                    ImageUrl = "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/scubabackground.jpeg",
+                    ImageUrl = "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
                     Name = context.Activity.From.Name, //todo: use customer's name
                     Text = context.Activity.Text,
                     Title = "Customer Message"
