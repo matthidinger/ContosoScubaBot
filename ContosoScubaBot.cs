@@ -48,7 +48,7 @@ namespace ContosoScuba.Bot
                     await context.SendActivity(nextMessage);
                 }
             }
-            else if (context.Activity.Type == ActivityTypes.ConversationUpdate)
+            else if (context.Activity.Type == ActivityTypes.ConversationUpdate && context.Activity.ChannelId != Channels.Directline)
             {
                 IConversationUpdateActivity iConversationUpdated = context.Activity as IConversationUpdateActivity;
                 if (iConversationUpdated != null)
@@ -61,6 +61,26 @@ namespace ContosoScuba.Bot
                             var reply = await context.Activity.GetReplyFromCardAsync("0-Welcome");
                             await context.SendActivity(reply);
                         }
+                    }
+                }
+            }
+            else if (context.Activity.Type == ActivityTypes.Event && context.Activity.Name == "WelcomeRequest")
+            {
+                var reply = await context.Activity.GetReplyFromCardAsync("0-Welcome");
+                await context.SendActivity(reply);
+            }
+            else if (context.Activity.Type == ActivityTypes.Event && context.Activity.Name == "proxyWelcomeRequest")
+            {
+                var channelData = context.Activity.ChannelData as JObject;
+                if (channelData != null)
+                {
+                    //messages with a "chatwithuserid" in channel data are from a Contoso Scuba instructor, chatting a person who has made a new reservation
+                    JToken userIdToken = null;
+                    if (channelData.TryGetValue("chatwithuserid", out userIdToken))
+                    {
+                        var userName = ReservationSubscriptionService.GetUserName(userIdToken.ToString());
+                        var reply = context.Activity.CreateReply($"You are now messaging: {userName} ");
+                        await context.SendActivity(reply);
                     }
                 }
             }
@@ -182,6 +202,7 @@ namespace ContosoScuba.Bot
                 //clear conversation data, since the user has decided to restart
                 var userScubaState = context.GetConversationState<UserScubaData>();
                 userScubaState.Clear();
+                ReservationSubscriptionService.RemoveUserConnectionToSubscriber(activity.From.Id);
                 nextMessage = await activity.GetReplyFromCardAsync("0-Welcome");
             }
 

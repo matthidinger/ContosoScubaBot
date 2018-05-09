@@ -23,7 +23,7 @@ namespace ContosoScuba.Bot.Services
         private static ConcurrentDictionary<string, ConversationReference> _reservationSubscribers = new ConcurrentDictionary<string, ConversationReference>();
 
         //all who have made a scuba reservation (key: customer userId, conversationRefernce: customer webchat)
-        private static ConcurrentDictionary<string, ConversationReference> _recentReservations = new ConcurrentDictionary<string, ConversationReference>();
+        private static ConcurrentDictionary<string, Tuple<ConversationReference,UserScubaData>> _recentReservations = new ConcurrentDictionary<string, Tuple<ConversationReference, UserScubaData>>();
         
         //subscribers who have begun chatting with a user via proxy of webchat messages (key: customer userId, conversationRefernce: subscriber webchat)
         private static ConcurrentDictionary<string, ConversationReference> _subscriberToUser = new ConcurrentDictionary<string, ConversationReference>();
@@ -73,7 +73,8 @@ namespace ContosoScuba.Bot.Services
         {
             if (reserverReference != null)
             {
-                _recentReservations.AddOrUpdate(reserverReference.User.Id, reserverReference, (key, oldValue) => reserverReference);
+                var scubaReservation = new Tuple<ConversationReference, UserScubaData>(reserverReference, userScubaData);
+                _recentReservations.AddOrUpdate(reserverReference.User.Id, scubaReservation, (key, oldValue) => scubaReservation);
                 //todo: this should not be a hard coded url
                 userScubaData.ChatWithUserUrl = "https://contososcubademo.azurewebsites.net?chatWithId=" + reserverReference.User.Id;
                 //chatWithUserIdUrl = "Use this URL to chat with them: http://localhost:3979?chatWithId=" + reserverReference.User.Id;
@@ -111,19 +112,36 @@ namespace ContosoScuba.Bot.Services
 
         #region Users
 
+        public static string GetUserName(string userId)
+        {
+            Tuple<ConversationReference, UserScubaData> foundReference;
+            if (_recentReservations.TryGetValue(userId, out foundReference))
+            {
+                return foundReference.Item2.PersonalInfo.Name;
+            }
+
+            return string.Empty;
+        }
+
         public static bool UserIsMessagingSubscriber(string userId)
         {
             return _subscriberToUser.ContainsKey(userId);
         }
 
+        public static void RemoveUserConnectionToSubscriber(string userId)
+        {
+            ConversationReference reference = null;
+            _subscriberToUser.TryRemove(userId, out reference);
+        }
+
         public static async Task ForwardToReservationUser(string userId, IMessageActivity message, BotAdapter adapter, MicrosoftAppCredentials workingCredentials, ConversationReference contosoReference)
         {
-            ConversationReference foundReference = null;
-            if(_recentReservations.TryGetValue(userId, out foundReference))
+            Tuple<ConversationReference, UserScubaData> foundReference;
+            if (_recentReservations.TryGetValue(userId, out foundReference))
             {
                 _subscriberToUser.AddOrUpdate(userId, contosoReference, (key, oldValue) => contosoReference);
                 Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials);
-                await adapter.ContinueConversation(foundReference.Bot.Id, foundReference, conversationCallback);
+                await adapter.ContinueConversation(foundReference.Item1.Bot.Id, foundReference.Item1, conversationCallback);
             }
         }
 
