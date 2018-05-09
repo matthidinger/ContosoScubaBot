@@ -12,16 +12,15 @@
     <PackageReference Include="Microsoft.Bot.Builder.Core.Extensions" Version="4.0.0-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.0.0-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.0.0-preview" />
+    <PackageReference Include="Razorback" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="pakages" />
     <None Include="wwwroot\Assets\1.jpg" />
     <None Include="wwwroot\Assets\2.jpg" />
     <None Include="wwwroot\Assets\3.jpg" />
     <None Include="wwwroot\Assets\4.jpg" />
     <None Include="wwwroot\Assets\5.jpg" />
-    <None Include="wwwroot\Assets\6.jpg" />
     <None Include="wwwroot\Assets\AdventureWorksLogo2.png" />
     <None Include="wwwroot\Assets\bares.png" />
     <None Include="wwwroot\Assets\chicken.jpg" />
