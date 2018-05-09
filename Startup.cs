@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Razorback;
 
 namespace ContosoScuba.Bot
 {
@@ -32,6 +33,16 @@ namespace ContosoScuba.Bot
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+
+            services.Configure<Microsoft.AspNetCore.Mvc.Razor.RazorViewEngineOptions>(o =>
+            {
+                o.ViewLocationFormats.Clear();
+                o.ViewLocationFormats.Add("/CardViews/{0}" + Microsoft.AspNetCore.Mvc.Razor.RazorViewEngine.ViewExtension);
+            });
+
+            services.AddScoped<IRazorbackTemplateEngine, RazorbackTemplateEngine>();
+
             services.AddBot<ContosoScubaBot>(options =>
             {
                 options.CredentialProvider = new ConfigurationCredentialProvider(Configuration);

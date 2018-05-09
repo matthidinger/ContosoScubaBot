@@ -5,23 +5,26 @@ using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using System;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Extensions.Configuration;
-using System.IO;
 using System.Net.Http;
 using System.Collections.Generic;
-using static Microsoft.Bot.Builder.Prompts.Choices.Channel;
 using ContosoScuba.Bot.CardProviders;
 using System.Text;
 using Newtonsoft.Json;
 
 namespace ContosoScuba.Bot.Services
 {
+    //This static class is a mockup message routing service when ms teams members can subscribe to 
+    //be notified when a scuba booking reservation is made by a customer.  Subscribers receive a message
+    //that contains a button enabling them to chat with the customer from the bot's webchat.  From that point
+    //messages are proxied back and forth between the subscriber and the customer.
     public static class ReservationSubscriptionService
     {
         //all who have subscribed to receive notifications when a customer reserves a scuba getaway(key: subscriber userId, conversationRefernce: subscriber)
         private static ConcurrentDictionary<string, ConversationReference> _reservationSubscribers = new ConcurrentDictionary<string, ConversationReference>();
+
         //all who have made a scuba reservation (key: customer userId, conversationRefernce: customer webchat)
         private static ConcurrentDictionary<string, ConversationReference> _recentReservations = new ConcurrentDictionary<string, ConversationReference>();
+        
         //subscribers who have begun chatting with a user via proxy of webchat messages (key: customer userId, conversationRefernce: subscriber webchat)
         private static ConcurrentDictionary<string, ConversationReference> _subscriberToUser = new ConcurrentDictionary<string, ConversationReference>();
        
@@ -108,23 +111,28 @@ namespace ContosoScuba.Bot.Services
 
         #region Users
 
-        public static async Task ForwardToReservationUser(string userId, string message, BotAdapter adapter, MicrosoftAppCredentials workingCredentials, ConversationReference contosoReference)
+        public static bool UserIsMessagingSubscriber(string userId)
+        {
+            return _subscriberToUser.ContainsKey(userId);
+        }
+
+        public static async Task ForwardToReservationUser(string userId, IMessageActivity message, BotAdapter adapter, MicrosoftAppCredentials workingCredentials, ConversationReference contosoReference)
         {
             ConversationReference foundReference = null;
             if(_recentReservations.TryGetValue(userId, out foundReference))
             {
                 _subscriberToUser.AddOrUpdate(userId, contosoReference, (key, oldValue) => contosoReference);
-                Func<ITurnContext, Task> conversationCallback = GetConversationCallback($"Instructor Message: {message}", workingCredentials);
+                Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials);
                 await adapter.ContinueConversation(foundReference.Bot.Id, foundReference, conversationCallback);
             }
         }
 
-        public static async Task<bool> ForwardedToSubscriber(string userId, string message, BotAdapter adapter, MicrosoftAppCredentials workingCredentials)
+        public static async Task<bool> ForwardedToSubscriber(string userId, IMessageActivity message, BotAdapter adapter, MicrosoftAppCredentials workingCredentials)
         {
             ConversationReference foundReference = null;
             if (_subscriberToUser.TryGetValue(userId, out foundReference))
             {
-                Func<ITurnContext, Task> conversationCallback = GetConversationCallback($"Customer Message: {message}", workingCredentials);
+                Func<ITurnContext, Task> conversationCallback = GetConversationCallback(message, workingCredentials);
                 await adapter.ContinueConversation(foundReference.Bot.Id, foundReference, conversationCallback);
                 return true;
             }
@@ -134,29 +142,47 @@ namespace ContosoScuba.Bot.Services
 
         #endregion Users
 
-        private static Func<ITurnContext, Task> GetConversationCallback(string text, MicrosoftAppCredentials workingCredentials, string fullMessageText = null)
+        private static Func<ITurnContext, Task> GetConversationCallback(IMessageActivity message, MicrosoftAppCredentials workingCredentials)
         {
             Func<ITurnContext, Task> conversationCallback = async (context) =>
             {
-                //TODO: bug in connector credentials (password is blank, and appid is bot id depending on channel that sent the message)
-                var contextCredentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
-                contextCredentials.MicrosoftAppId = workingCredentials.MicrosoftAppId;
-                contextCredentials.MicrosoftAppPassword = workingCredentials.MicrosoftAppPassword;
+                FixContextCredentials(context, workingCredentials);
 
-                Activity reply = null;
-                if(string.IsNullOrEmpty(fullMessageText))
+                context.Activity.SetReplyFields(message);
+
+                await context.SendActivity(message);
+            };
+
+            return conversationCallback;
+        }
+        private static Func<ITurnContext, Task> GetConversationCallback(string text, MicrosoftAppCredentials workingCredentials, string fullMessageText = null)
+        {
+            Func<ITurnContext, Task> conversationCallback = async (context) =>
+            {               
+                FixContextCredentials(context, workingCredentials);
+
+                 Activity reply = null;
+                if (string.IsNullOrEmpty(fullMessageText))
                 {
                     reply = context.Activity.CreateReply(text);
                 }
                 else
                 {
-                    reply = ContosoScubaBot.GetCardReply(context.Activity, fullMessageText);
+                    reply = context.Activity.GetReplyFromText(fullMessageText);
                     reply.Text = text;
                 }
                 await context.SendActivity(reply);
             };
 
             return conversationCallback;
+        }
+
+        private static void FixContextCredentials(ITurnContext context, MicrosoftAppCredentials workingCredentials)
+        {
+            //TODO: bug in connector credentials (password is blank, and appid is bot id depending on channel that sent the message)
+            var contextCredentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
+            contextCredentials.MicrosoftAppId = workingCredentials.MicrosoftAppId;
+            contextCredentials.MicrosoftAppPassword = workingCredentials.MicrosoftAppPassword;
         }
     }
 }

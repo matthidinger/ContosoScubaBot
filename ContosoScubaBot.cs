@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using ContosoScuba.Bot.Models;
 using ContosoScuba.Bot.Services;
 using Microsoft.Bot;
@@ -11,18 +12,25 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Razorback;
 using static Microsoft.Bot.Builder.Prompts.Choices.Channel;
 
 namespace ContosoScuba.Bot
 {
     public class ContosoScubaBot : IBot
     {
+        private readonly IRazorbackTemplateEngine _razorback;
+        public ContosoScubaBot(IRazorbackTemplateEngine razorback)
+        {
+            _razorback = razorback;
+        }
+
         public async Task OnTurn(ITurnContext context)
         {
             if (context.Activity.Type == ActivityTypes.Message)
             {
                 //if the message is proxied between users, then do not treat it as a normal reservation message
-                if (! await ChatProxied(context))
+                if (!await ChatProxied(context))
                 {
                     //scuba bot allows entering text, or interacting with the card
                     string text = string.IsNullOrEmpty(context.Activity.Text) ? string.Empty : context.Activity.Text.ToLower();
@@ -50,8 +58,7 @@ namespace ContosoScuba.Bot
                         // if the bot is added, then show welcome message
                         if (member.Id == iConversationUpdated.Recipient.Id)
                         {
-                            var cardText = await ScubaCardService.GetCardText("0-Welcome");
-                            var reply = GetCardReply(context.Activity, cardText);
+                            var reply = await context.Activity.GetReplyFromCardAsync("0-Welcome");
                             await context.SendActivity(reply);
                         }
                     }
@@ -66,19 +73,46 @@ namespace ContosoScuba.Bot
             var channelData = context.Activity.ChannelData as JObject;
             if (channelData != null)
             {
-                //messages with a "chatwithuserid" in channel data are from a Contoso Scuba employee, chatting a person who has made a new reservation
+                //messages with a "chatwithuserid" in channel data are from a Contoso Scuba instructor, chatting a person who has made a new reservation
                 JToken userIdToken = null;
                 if (channelData.TryGetValue("chatwithuserid", out userIdToken))
                 {
-                    var userId = userIdToken.ToString();                    
+                    var userId = userIdToken.ToString();
                     var conversationRef = new ConversationReference(context.Activity.Id, context.Activity.From, context.Activity.Recipient, context.Activity.Conversation, context.Activity.ChannelId, context.Activity.ServiceUrl);
-                    await ReservationSubscriptionService.ForwardToReservationUser(userId, context.Activity.Text, context.Adapter, credentials, conversationRef);
+
+                    var proxyMessage = new ProxyMessage()
+                    {
+                        //todo: hard coded instructor image url
+                        ImageUrl = "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+                        Name = context.Activity.From.Name,
+                        Text = context.Activity.Text,
+                        Title = "Instructor Message"
+                    };
+
+                    var message = await GetMessageFromRazorback<ProxyMessage>(context, "ProxyMessageView", proxyMessage);
+
+                    await ReservationSubscriptionService.ForwardToReservationUser(userId, message, context.Adapter, credentials, conversationRef);
 
                     return true;
                 }
             }
 
-            return await ReservationSubscriptionService.ForwardedToSubscriber(context.Activity.From.Id, context.Activity.Text, context.Adapter, credentials);
+            if (ReservationSubscriptionService.UserIsMessagingSubscriber(context.Activity.From.Id))
+            {
+                var proxyMessage = new ProxyMessage()
+                {
+                    //todo: hard coded instructor image url
+                    ImageUrl = "https://raw.githubusercontent.com/matthidinger/ContosoScubaBot/master/wwwroot/Assets/scubabackground.jpeg",
+                    Name = context.Activity.From.Name, //todo: use customer's name
+                    Text = context.Activity.Text,
+                    Title = "Customer Message"
+                };
+
+                var message = await GetMessageFromRazorback<ProxyMessage>(context, "ProxyMessageView", proxyMessage);
+
+                return await ReservationSubscriptionService.ForwardedToSubscriber(context.Activity.From.Id, message, context.Adapter, credentials);
+            }
+            return false;
         }
 
         private async Task<IMessageActivity> GetNextScubaMessage(ITurnContext context, Activity activity)
@@ -87,6 +121,7 @@ namespace ContosoScuba.Bot
             if (!string.IsNullOrEmpty(resultInfo.ErrorMessage))
             {
                 var reply = activity.CreateReply(resultInfo.ErrorMessage);
+                //cortana's turned based nature requires a 'back' button when validation fails
                 if (activity.ChannelId == Channel.Channels.Cortana)
                 {
                     var backCard = new AdaptiveCards.AdaptiveCard();
@@ -115,13 +150,12 @@ namespace ContosoScuba.Bot
                 Task.Factory.StartNew(async () => await ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials, conversationRef));
             }
 
-            return GetCardReply(activity, resultInfo.CardText);
+            return activity.GetReplyFromText(resultInfo.CardText);
         }
 
         private async Task<IMessageActivity> GetMessageFromText(ITurnContext context, Activity activity, string text)
         {
             IMessageActivity nextMessage = null;
-
 
             if (text.StartsWith("/"))
             {
@@ -129,15 +163,15 @@ namespace ContosoScuba.Bot
             }
             else if (text.Contains("wildlife"))
             {
-                nextMessage = await GetCard(activity, "Wildlife");
+                nextMessage = await GetSampleMessage<WildlifeData>(context, "WildlifeView");
             }
             else if (text.Contains("receipt"))
             {
-                nextMessage = await GetCard(activity, "Receipt");
+                nextMessage = await activity.GetReplyFromCardAsync("Receipt");
             }
             else if (text.Contains("danger"))
             {
-                nextMessage = await GetCard(activity, "Danger");
+                nextMessage = await activity.GetReplyFromCardAsync("Danger");
             }
             else if (text == "hi"
                      || text == "hello"
@@ -148,7 +182,7 @@ namespace ContosoScuba.Bot
                 //clear conversation data, since the user has decided to restart
                 var userScubaState = context.GetConversationState<UserScubaData>();
                 userScubaState.Clear();
-                nextMessage = await GetCard(activity, "0-Welcome");
+                nextMessage = await activity.GetReplyFromCardAsync("0-Welcome");
             }
 
             return nextMessage;
@@ -162,25 +196,7 @@ namespace ContosoScuba.Bot
                 if (text.Contains("simulate"))
                 {
                     var adapter = context.Adapter;
-                    var userScubaData = new UserScubaData()
-                    {
-                        School = "Fabrikam",
-                        Destination = "Adventure Works",
-                        NumberOfPeople = "6",
-                        Date = DateTime.Now.AddDays(4).ToString(),
-                        MealOptions = new MealOptions()
-                        {
-                            Alergy = "none",
-                            ProteinPreference = "Beef",
-                            Vegan = false
-                        },
-                        PersonalInfo = new PersonalInfo()
-                        {
-                            Email = "customeremail@microsoft.com",
-                            Name = "Customer Name",
-                            Phone = "888.888.7000"
-                        }
-                    };
+                    var userScubaData = SampleData.GetData<UserScubaData>();
                     var credentials = ((MicrosoftAppCredentials)context.Services.Get<Microsoft.Bot.Connector.IConnectorClient>("Microsoft.Bot.Connector.IConnectorClient").Credentials);
                     Task.Factory.StartNew(async () => await ReservationSubscriptionService.NotifySubscribers(userScubaData, adapter, credentials));
                     return activity.CreateReply("Simulating reservation and notifying subscribers");
@@ -205,30 +221,26 @@ namespace ContosoScuba.Bot
             return null;
         }
 
-        public static async Task<IMessageActivity> GetCard(Activity activity, string cardName)
+        async Task<IMessageActivity> GetSampleMessage<T>(ITurnContext context, string viewName)
+            where T : class
         {
-            var cardText = await ScubaCardService.GetCardText(cardName);
-            return GetCardReply(activity, cardText);
+            var data = SampleData.GetData<T>();
+            return await GetMessageFromRazorback<T>(context, viewName, data);
         }
 
-        public static Activity GetCardReply(Activity activity, string activityText)
+        async Task<IMessageActivity> GetMessageFromRazorback<T>(ITurnContext context, string viewName, T data)
+            where T : class
         {
-            var reply = JsonConvert.DeserializeObject<Activity>(activityText);
-            if (reply.Attachments == null)
-                reply.Attachments = new List<Attachment>();
+            var card = await this._razorback.BindXmlToObject<T, AdaptiveCard>(viewName, data);
 
-            var tempReply = activity.CreateReply("");
-            reply.ChannelId = tempReply.ChannelId;
-            reply.Timestamp = tempReply.Timestamp;
-            reply.From = tempReply.From;
-            reply.Conversation = tempReply.Conversation;
-            reply.Recipient = tempReply.Recipient;
-            reply.Id = tempReply.Id;
-            reply.ReplyToId = tempReply.ReplyToId;
-            if (reply.Type == null)
-                reply.Type = ActivityTypes.Message;
+            var message = context.Activity.CreateReply();
+            message.Attachments.Add(new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card
+            });
 
-            return reply;
+            return message;
         }
     }
 }
