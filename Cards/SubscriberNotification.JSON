@@ -150,11 +150,11 @@
                                 "value": "{{name}}"
                               },
                               {
-                                "title": "Email address:",
+                                "title": "Email:",
                                 "value": "{{email}}"
                               },
                               {
-                                "title": "Phone number:",
+                                "title": "Phone:",
                                 "value": "{{phone}}"
                               }
                             ]
