@@ -19,7 +19,7 @@
                   {
                     "type": "Image",
                     "size": "medium",
-                    "url": "http://contososcuba.azurewebsites.net/assets/Contoso_logo.jpg"
+                    "url": "http://contososcubademo.azurewebsites.net/assets/Contoso_logo.jpg"
                   }
                 ]
               },
