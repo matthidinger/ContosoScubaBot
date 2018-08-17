@@ -44,6 +44,8 @@ namespace ContosoScuba.Bot.Services
         {
             var client = new HttpClient();
             var content = new ByteArrayContent(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(userScubaData)));
+
+            // TODO: Send actionable message and push notification
             await client.PostAsync("https://adaptivetestfunctions.azurewebsites.net/api/SendScubaEmail?code=4tRDT5xalBkFidaesDGNSg1xVRcU2HPh7Ar7Zsc8vpAXE8DdG9mzHg==", content);
 
 

@@ -47,7 +47,7 @@ namespace ContosoScuba.Bot.Services
             wildlifeData.Introduction = "You will be surprised how much amazingness you may see underwater.";
             wildlifeData.Instructions = "Click on each image to *dive deep*!";
             //todo: hard code sample image path
-            string imageUrl = "http://contososcubabot.azurewebsites.net/assets/{0}.jpg";
+            string imageUrl = "http://contososcubademo.azurewebsites.net/assets/{0}.jpg";
             wildlifeData.Images.Add(new ViewImage() { ImageUrl = string.Format(imageUrl, "1"), OpenUrl = "https://www.bing.com/images/search?q=ocean+life" });
             wildlifeData.Images.Add(new ViewImage() { ImageUrl = string.Format(imageUrl, "2"), OpenUrl = "https://www.bing.com/images/search?q=ocean+life" });
             wildlifeData.Images.Add(new ViewImage() { ImageUrl = string.Format(imageUrl, "3"), OpenUrl = "https://www.bing.com/images/search?q=ocean+life" });
