@@ -3,10 +3,8 @@
  
 <Card xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <Version Major="1" Minor="0" />
-    <Container>
-        <TextBlock Size="Default" Weight="Bolder" Wrap="true">@Model.Introduction</TextBlock>
-        <TextBlock Size="Default">@Model.Instructions</TextBlock>
-    </Container>
+    <TextBlock Size="Default" Weight="Bolder" Wrap="true">@Model.Introduction</TextBlock>
+    <TextBlock Size="Default">@Model.Instructions</TextBlock>
 
     <ImageSet ImageSize="Medium">
         @foreach (var image in Model.Images)
