@@ -134,7 +134,7 @@ namespace ContosoScuba.Bot.CardProviders
 
         public AdaptiveCard ToCard()
         {
-            AdaptiveCard json = new AdaptiveCard();
+            AdaptiveCard json = new AdaptiveCard("1.0");
             var monthContainer = new AdaptiveContainer();
             monthContainer.Style = AdaptiveContainerStyle.Default;
             monthContainer.Items.Add(new AdaptiveTextBlock()

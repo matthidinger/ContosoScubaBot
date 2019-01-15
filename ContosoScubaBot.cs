@@ -144,7 +144,7 @@ namespace ContosoScuba.Bot
                 //cortana's turned based nature requires a 'back' button when validation fails
                 if (activity.ChannelId == Channel.Channels.Cortana)
                 {
-                    var backCard = new AdaptiveCards.AdaptiveCard();
+                    var backCard = new AdaptiveCard("1.0");
                     backCard.Actions.Add(new AdaptiveCards.AdaptiveSubmitAction()
                     {
                         Data = "Back",
